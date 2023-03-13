@@ -1,0 +1,4 @@
+.category-button {
+    -unity-background-image-tint-color: rgba(190, 49, 49, 255);
+    background-color: rgba(36, 149, 25, 255);
+}
