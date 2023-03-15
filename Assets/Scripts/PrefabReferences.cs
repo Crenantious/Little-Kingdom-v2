@@ -1,9 +1,8 @@
-using LittleKingdom.Tiles;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace LittleKingdom
 {
+	//This class is loaded before the default load time, so references are ensured to be set up before being called.
 	public class PrefabReferences : MonoBehaviour
 	{
 		private static PrefabReferences instance;

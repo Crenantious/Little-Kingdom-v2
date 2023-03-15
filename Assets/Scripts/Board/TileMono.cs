@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace LittleKingdom
+namespace LittleKingdom.Board
 {
 	public class TileMono : MonoBehaviour
 	{
