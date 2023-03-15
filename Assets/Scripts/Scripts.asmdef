@@ -1,6 +1,6 @@
 {
     "name": "Scripts",
-    "rootNamespace": "",
+    "rootNamespace": "LittleKingdom",
     "references": [
         "GUID:9e6def8b145cd444d866fd7a2c26b96a"
     ],
