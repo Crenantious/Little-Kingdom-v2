@@ -1,33 +1,31 @@
-using System.Collections.Generic;
+using LittleKingdom.Factories;
 using UnityEngine;
 
 namespace LittleKingdom.Board
 {
 	public class BoardMono : MonoBehaviour
 	{
-		private Board board;
+        private readonly Board board = new();
+
+        //TODO: move these into settings when it is set up, so this class does not need to be a MonoBehaviour.
+        [SerializeField] private int width;
+        [SerializeField] private int height;
+
 		private TileMono[,] tiles;
-		private int width;
-		private int height;
 		private float tileWidth;
 		private float tileHeight;
 		
-		public void Initialise(Board board)
+		private void Awake()
         {
-			this.board = board;
             MeshRenderer meshRenderer = PrefabReferences.Tile.GetComponent<MeshRenderer>();
             tileWidth = meshRenderer.bounds.size.x;
             tileHeight = meshRenderer.bounds.size.z;
+            tiles = new TileMono[width, height];
         }
 
 	    private void Start()
         {
-            //board.Create();
-
-            width = board.Tiles.GetLength(0);
-            height = board.Tiles.GetLength(1);
-            tiles = new TileMono[width, height];
-
+            board.Create(width, height, References.TilesInfo.Tiles);
             CreateMonoTiles();
         }
 

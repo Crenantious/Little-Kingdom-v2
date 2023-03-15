@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace LittleKingdom.Tiles
+namespace LittleKingdom.Board
 {
     [Serializable]
     public class TileInfo
@@ -24,5 +24,12 @@ namespace LittleKingdom.Tiles
         /// The percent of the board that should be filled with type of tile this class is for.
         /// </summary>
         public float PercentOfBoard => percentOfBoard;
+
+        public TileInfo(Texture texture, string resourceName, float percentOfBoard)
+        {
+            this.texture = texture;
+            this.resourceName = resourceName;
+            this.percentOfBoard = percentOfBoard;
+        }
     }
 }
