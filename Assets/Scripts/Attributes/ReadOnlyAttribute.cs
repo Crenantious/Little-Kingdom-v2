@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace LittleKingdom.Editor.Attributes
+namespace LittleKingdom.Attributes
 {
     public class ReadOnlyAttribute : PropertyAttribute
     {

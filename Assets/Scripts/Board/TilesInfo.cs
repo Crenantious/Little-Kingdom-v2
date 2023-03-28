@@ -1,4 +1,4 @@
-using LittleKingdom.Editor.Attributes;
+using LittleKingdom.Attributes;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;

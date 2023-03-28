@@ -1,4 +1,4 @@
-using LittleKingdom.Editor.Attributes;
+using LittleKingdom.Attributes;
 using UnityEditor;
 using UnityEngine;
 
