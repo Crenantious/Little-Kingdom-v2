@@ -1,16 +1,13 @@
+using System;
 using UnityEngine;
 
 namespace LittleKingdom.Events
 {
-    [System.Serializable]
-    public record EventData
-    {
-        [SerializeField] private int aas;
-    }
+    [Serializable]
+    public record EventData { }
 
-    [System.Serializable]
-    public class EventDatah
-    {
-        
+    [Serializable]
+    public record DrawerTestingEventData(string DR) : EventData {
+        [field: SerializeField] public string DR { get; private set; } = DR;
     }
 }

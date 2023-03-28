@@ -6,7 +6,7 @@ namespace LittleKingdom.Constraints
 {
     public class EventConstrainth : IConstraint
     {
-        [SerializeField, AllowDerived] private EventData requirement;
+        [SerializeReference, AllowDerived] private EventData requirement;
 
         public EventConstrainth(EventData requirement) =>
             this.requirement = requirement;

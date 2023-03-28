@@ -296,11 +296,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   constraints:
+    constraints: []
     constraint1:
       rid: -2
     constraint2:
       rid: 5661972023226925300
-    testingint: 11
   constraint11:
     rid: 5661972023226925282
   references:
@@ -667,11 +667,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   constraints:
+    constraints: []
     constraint1:
-      rid: 5661972023226925170
+      rid: 5661972049828511749
     constraint2:
-      rid: -2
-    testingint: 11
+      rid: 5661972049828511744
   constraint11:
     rid: 5661972023226925167
   references:
@@ -684,11 +684,20 @@ MonoBehaviour:
       data:
         haha: 98
         bb: 98
-    - rid: 5661972023226925170
-      type: {class: EventConstrainth, ns: LittleKingdom.Constraints, asm: Scripts}
+    - rid: 5661972049828511744
+      type: {class: TestConstraint2, ns: LittleKingdom.Constraints, asm: Scripts}
+      data:
+        haha: 0
+        aa: 0
+        constraint2:
+          rid: -2
+        requirement:
+          rid: -2
+    - rid: 5661972049828511749
+      type: {class: EventConstraint`1, ns: LittleKingdom.Constraints, asm: Scripts}
       data:
         requirement:
-          aas: 0
+          rid: -2
 --- !u!114 &2060329302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -702,16 +711,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   constraints:
+    constraints: []
     constraint1:
       rid: 5661972023226925162
     constraint2:
       rid: 5661972023226925281
-    testingint: 11
   constraint11:
     rid: 5661972023226925159
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 5661972023226925159
       type: {class: TestConstraint1, ns: LittleKingdom.Constraints, asm: Scripts}
       data:
@@ -721,12 +732,16 @@ MonoBehaviour:
       type: {class: EventConstrainth, ns: LittleKingdom.Constraints, asm: Scripts}
       data:
         requirement:
-          aas: 0
+          rid: -2
     - rid: 5661972023226925281
       type: {class: TestConstraint2, ns: LittleKingdom.Constraints, asm: Scripts}
       data:
         haha: 0
         aa: 0
+        constraint2:
+          rid: -2
+        requirement:
+          rid: -2
 --- !u!1 &2138677391
 GameObject:
   m_ObjectHideFlags: 0

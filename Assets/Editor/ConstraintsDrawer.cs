@@ -9,7 +9,7 @@ using System.Runtime.Serialization;
 namespace Editor
 {
     [CustomPropertyDrawer(typeof(AllowDerivedAttribute))]
-    public class ConstraintsDrawer : PropertyDrawer
+    public class DerivedClassDrawer : PropertyDrawer
     {
         private static readonly string missingAttributeTooltip = $"Fields with the {nameof(AllowDerivedAttribute)} " +
                 $"must also contain the {nameof(SerializeReference)}Attribute.";
@@ -45,9 +45,13 @@ namespace Editor
 
         private void Initialise()
         {
+            Type fieldType = fieldInfo.FieldType.IsArray ?
+                fieldInfo.FieldType.GetElementType() :
+                fieldInfo.FieldType;
+
             derivedTypes = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(a => a.GetTypes())
-                .Where(t => fieldInfo.FieldType.IsAssignableFrom(t) &&
+                .Where(t => fieldType.IsAssignableFrom(t) &&
                             t.ContainsGenericParameters is false &&
                             t.IsInterface is false);
 
@@ -137,6 +141,13 @@ namespace Editor
 
             property.managedReferenceValue = FormatterServices.GetUninitializedObject(typeToChangeTo);
             property.serializedObject.ApplyModifiedProperties();
+
+            //TODO: JR - implement a feature that allows objects with generic parameters to be created.
+            //Would likely have to be recursive as those generics could take generics.
+            //Probably have a pop-up window appear to select the wanted type, then another if that type has a generic, and so on.
+
+            //Type constructedGenericClass = typeToChangeTo.MakeGenericType(typeof(LittleKingdom.Events.Event));
+            //property.managedReferenceValue = Activator.CreateInstance(constructedGenericClass);
         }
     }
 }
