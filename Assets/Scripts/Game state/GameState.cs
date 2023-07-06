@@ -1,13 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace LittleKingdom.GameState
+namespace LittleKingdom.GameStates
 {
-    public class GameState
+    public enum GameState
     {
-        public void Load()
-        {
-
-        }
+        TestOne,
+        TestTwo
     }
 }

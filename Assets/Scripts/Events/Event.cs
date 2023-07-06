@@ -5,7 +5,7 @@ using System.Linq;
 namespace LittleKingdom.Events
 {
     public abstract class Event<EventDataType> : IEvent
-        where EventDataType : EventData
+        where EventDataType : EventDataBase
     {
         private readonly List<(Callback callback, IConstraint[] constraints)> subscribers = new();
 

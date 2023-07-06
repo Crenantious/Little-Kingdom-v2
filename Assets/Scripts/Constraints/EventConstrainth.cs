@@ -4,14 +4,14 @@ using LittleKingdom.Attributes;
 
 namespace LittleKingdom.Constraints
 {
-    public class EventConstrainth : IConstraint
+    public class EventConstrainth : Constraint
     {
-        [SerializeReference, AllowDerived] private EventData requirement;
+        [SerializeReference, AllowDerived] private EventDataBase requirement;
 
-        public EventConstrainth(EventData requirement) =>
+        public EventConstrainth(EventDataBase requirement) =>
             this.requirement = requirement;
 
-        public bool Validate() =>
+        public override bool Validate() =>
             true;
     }
 }

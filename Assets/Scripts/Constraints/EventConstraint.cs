@@ -4,15 +4,15 @@ using LittleKingdom.Attributes;
 
 namespace LittleKingdom.Constraints
 {
-    public class EventConstraint<EventType> : IConstraint
+    public class EventConstraint<EventType, Testa, Testb> : Constraint
         where EventType : IEvent
     {
-        [SerializeReference, AllowDerived] private EventData requirement;
+        [SerializeReference, AllowDerived] private EventDataBase requirement;
 
-        public EventConstraint(EventData requirement) =>
+        public EventConstraint(EventDataBase requirement) =>
             this.requirement = requirement;
 
-        public bool Validate() =>
+        public override bool Validate() =>
             RecentEventData.Get<EventType>() == requirement;
     }
 }
