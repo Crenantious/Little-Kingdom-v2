@@ -4,10 +4,10 @@ using LittleKingdom.Attributes;
 
 namespace LittleKingdom.Constraints
 {
-    public class EventConstraint<EventType, Testa, Testb> : Constraint
+    public class EventConstraint<EventType> : Constraint
         where EventType : IEvent
     {
-        [SerializeReference, AllowDerived] private EventDataBase requirement;
+        private EventDataBase requirement;
 
         public EventConstraint(EventDataBase requirement) =>
             this.requirement = requirement;
