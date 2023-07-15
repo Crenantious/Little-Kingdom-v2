@@ -9,7 +9,7 @@ namespace LittleKingdom
     [CustomEditor(typeof(LoaderProfiles))]
     public class LoaderProfilesEditor : UnityEditor.Editor
     {
-        private readonly string configPath = "Assets/Scripts/Loading/Configs/{0}.asset";
+        private readonly string profileAssetPath = "Assets/Scripts/Loading/Profiles";
 
         private VisualElement inspector;
 
@@ -33,7 +33,7 @@ namespace LittleKingdom
         private void ConfigureCreateProfileButton()
         {
             Button createProfileButton = inspector.Query<Button>("CreateProfile").First();
-            createProfileButton.clicked += CreateProfile;
+            createProfileButton.clicked += OnCreateProfileButton;
         }
 
         private void AddProfilePropertyField()
@@ -41,11 +41,21 @@ namespace LittleKingdom
             inspector.Add(new PropertyField(serializedObject.FindProperty("current")));
         }
 
-        private void CreateProfile()
+        private void OnCreateProfileButton()
+        {
+            string name = AskForProfileName();
+            if (string.IsNullOrEmpty(name))
+                return;
+            CreateProfile(name);
+        }
+
+        private string AskForProfileName() =>
+            EditorUtility.SaveFilePanelInProject("Profile name", "Loader profile", "asset", "Enter a profile name", profileAssetPath);
+
+        private void CreateProfile(string path)
         {
             LoaderProfile profile = CreateInstance<LoaderProfile>();
-            profile.name = "placeholder";
-            AssetDatabase.CreateAsset(profile, string.Format(configPath, profile.name));
+            AssetDatabase.CreateAsset(profile, path);
             AssetDatabase.SaveAssets();
         }
     }

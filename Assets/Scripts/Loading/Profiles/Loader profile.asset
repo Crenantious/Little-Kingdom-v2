@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 433e7a04a3e3c4e4ab6ddb62168c105e, type: 3}
-  m_Name: ttt
+  m_Name: Loader profile
   m_EditorClassIdentifier: 
   configTypesAndInstances: []
