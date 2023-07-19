@@ -1,10 +1,12 @@
 using UnityEngine;
 using UnityEditor;
+using LittleKingdom.Attributes;
 
 namespace LittleKingdom
 {
-    [CustomPropertyDrawer(typeof(ScriptableObject), true)]
-    public class ScriptableObjectDrawer : PropertyDrawer
+    //TODO : JR - when a list's foldout is inactive, the elements do not get hidden.
+    [CustomPropertyDrawer(typeof(DisplayDrawerAttribute), true)]
+    public class DisplayDrawerAttributeDrawer : PropertyDrawer
     {
         private UnityEditor.Editor editor = null;
 
@@ -19,10 +21,8 @@ namespace LittleKingdom
             DrawWithNullObject(position, property, label);
         }
 
-        private void DrawWithNullObject(Rect position, SerializedProperty property, GUIContent label)
-        {
+        private void DrawWithNullObject(Rect position, SerializedProperty property, GUIContent label) =>
             EditorGUI.PropertyField(position, property, label, true);
-        }
 
         private void DrawWithNotNullObject(Rect position, SerializedProperty property, GUIContent label)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace LittleKingdom.Loading
@@ -7,16 +8,18 @@ namespace LittleKingdom.Loading
     [Serializable]
     public class LoaderProfile : ScriptableObject
     {
-        private readonly Dictionary<Type, LoaderConfig> typeToConfig = new();
+        public List<LoaderConfigTypeAndInstance> configs = new();
 
-        [SerializeField] private List<LoaderConfigTypeAndInstance> configTypesAndInstances = new();
+        private Dictionary<Type, LoaderConfig> typeToConfig = new();
 
         private void Awake()
         {
-            foreach (LoaderConfigTypeAndInstance configTypeAndInstance in configTypesAndInstances)
+#if !UNITY_EDITOR
+            foreach (LoaderConfigTypeAndInstance configTypeAndInstance in configs)
             {
-                typeToConfig.Add(configTypeAndInstance.Type, configTypeAndInstance.Config);
+                typeToConfig.Add(configTypeAndInstance.ConfigType, configTypeAndInstance.config);
             }
+#endif
         }
 
         public TConfig GetConfig<TConfig>() where TConfig : LoaderConfig =>
@@ -25,24 +28,12 @@ namespace LittleKingdom.Loading
         public LoaderConfig GetConfig(Type TLoader) =>
             typeToConfig[TLoader];
 
+        public void OnBeforeSerialize()
+        {
+            // typeToConfigs does not change so nothing needs to be done here.
+        }
 
-        //public void OnBeforeSerialize()
-        //{
-        //    for (int i = 0; i < loaderAndConfigs.Count; i++)
-        //    {
-        //        loaderTypeToConfig.Add(loaderAndConfigs[i], configs[i]);
-        //    }
-        //}
-
-        //public void OnAfterDeserialize()
-        //{
-        //    // typeToConfigs does not change so nothing needs to be done here.
-        //}
-
-        //public void AddConfig<TLoader>(LoaderConfig config) where TLoader : ILoader
-        //{
-        //    loaderAndConfigs.Add(typeof(TLoader));
-        //    configs.Add(config);
-        //}
+        public void OnAfterDeserialize() =>
+            typeToConfig = configs.ToDictionary(c => c.ConfigType, c => c.config);
     }
 }

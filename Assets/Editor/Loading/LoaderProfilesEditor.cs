@@ -21,11 +21,7 @@ namespace LittleKingdom
             visualTree.CloneTree(inspector);
 
             ConfigureCreateProfileButton();
-
-            if (serializedObject.FindProperty("current") != default)
-            {
-                AddProfilePropertyField();
-            }
+            AddProfilePropertyField();
 
             return inspector;
         }
@@ -36,10 +32,8 @@ namespace LittleKingdom
             createProfileButton.clicked += OnCreateProfileButton;
         }
 
-        private void AddProfilePropertyField()
-        {
+        private void AddProfilePropertyField() =>
             inspector.Add(new PropertyField(serializedObject.FindProperty("current")));
-        }
 
         private void OnCreateProfileButton()
         {
@@ -55,6 +49,7 @@ namespace LittleKingdom
         private void CreateProfile(string path)
         {
             LoaderProfile profile = CreateInstance<LoaderProfile>();
+            profile.configs.Add(new() { ConfigType = typeof(AssetDatabase) });
             AssetDatabase.CreateAsset(profile, path);
             AssetDatabase.SaveAssets();
         }
