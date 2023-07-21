@@ -1,50 +1,45 @@
+using System;
 using UnityEngine;
 using UnityEditor;
 using LittleKingdom.Loading;
-using System;
 
 namespace LittleKingdom
 {
     [CustomPropertyDrawer(typeof(LoaderConfigTypeAndInstance), true)]
     public class LoaderConfigTypeAndInstanceDrawer : PropertyDrawer
     {
-        private const string configTypeAssemblyQualifiedName = "LittleKingdom.Loading.{0}, Scripts";
-
-        private bool isInitialised = false;
+        private SerializedProperty property;
         private SerializedProperty configProperty;
-        private SerializedProperty configTypeNameProperty;
-
-        private void Initialise(SerializedProperty property)
-        {
-            configProperty = property.FindPropertyRelative("config");
-            configTypeNameProperty = property.FindPropertyRelative("configTypeName");
-            isInitialised = true;
-        }
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             if (property.boxedValue is null)
                 return;
 
-            if (isInitialised is false)
-                Initialise(property);
-
-            DrawAndUpdateConfig(position, property);
+            this.property = property;
+            DrawAndUpdateConfig(position);
         }
 
-        private void DrawAndUpdateConfig(Rect position, SerializedProperty property)
+        private void DrawAndUpdateConfig(Rect position)
+        {
+            UpdateProperties();
+            configProperty.objectReferenceValue = DrawConfigField(position);
+            SaveProperties();
+        }
+
+        private void UpdateProperties()
         {
             property.serializedObject.Update();
-            configProperty.objectReferenceValue = DrawConfigField(position, property);
-            property.serializedObject.ApplyModifiedProperties();
+            configProperty = property.FindPropertyRelative("config");
         }
 
-        private LoaderConfig DrawConfigField(Rect position, SerializedProperty property) =>
+        private void SaveProperties() =>
+            property.serializedObject.ApplyModifiedProperties();
+
+        private LoaderConfig DrawConfigField(Rect position) =>
             (LoaderConfig)EditorGUI.ObjectField(position, configProperty.objectReferenceValue, GetConfigType(), true);
 
         private Type GetConfigType() =>
-            Type.GetType(
-                configTypeAssemblyQualifiedName.FormatConst(
-                    configTypeNameProperty.stringValue));
+            ((LoaderConfigTypeAndInstance)property.boxedValue).ConfigType;
     }
 }

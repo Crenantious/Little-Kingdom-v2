@@ -7,20 +7,27 @@ namespace LittleKingdom.Loading
     public class LoaderConfigTypeAndInstance : ISerializationCallbackReceiver
     {
         private const string nullTypeName = "null";
+        private const string configTypeAssemblyQualifiedName = "LittleKingdom.Loading.{0}, Scripts";
 
         [SerializeField] public string configTypeName = nullTypeName;
         [SerializeField] public LoaderConfig config;
 
         public Type ConfigType { get; set; } = null;
 
-        public void OnBeforeSerialize() =>
-            configTypeName = ConfigType is null ?
-                nullTypeName :
-                ConfigType.Name;
+        public LoaderConfigTypeAndInstance(Type configType, LoaderConfig config = null)
+        {
+            ConfigType = configType;
+            configTypeName = configType.Name;
+            this.config = config;
+        }
 
-        public void OnAfterDeserialize() =>
+        public void OnBeforeSerialize() { }
+
+        public void OnAfterDeserialize()
+        {
             ConfigType = configTypeName is nullTypeName ?
                 null :
-                Type.GetType(configTypeName);
+                Type.GetType(configTypeAssemblyQualifiedName.FormatConst(configTypeName));
+        }
     }
 }
