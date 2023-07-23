@@ -7,7 +7,7 @@ namespace LittleKingdom.Loading
     [Serializable]
     public class Loader : MonoBehaviour
     {
-        public virtual List<Loader> Dependencies { get; }
+        public virtual List<Loader> Dependencies { get; protected set; } = new();
         public virtual void Load() { }
         public virtual void Unload() { }
     }

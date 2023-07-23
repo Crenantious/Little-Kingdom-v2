@@ -9,11 +9,13 @@ namespace LittleKingdom
     public class BoardLoader : Loader<BoardLC>
     {
         private BoardMono board;
+        [SerializeField] private GameSetupLoader gameSetupLoader;
 
-        public override List<Loader> Dependencies { get; } = new();
-
-        private void Awake() =>
+        private void Awake()
+        {
+            Dependencies.Add(gameSetupLoader);
             board = GetComponent<BoardMono>();
+        }
 
         public override void Load(BoardLC config) =>
             board.Create();
