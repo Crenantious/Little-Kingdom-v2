@@ -52,11 +52,12 @@ namespace LittleKingdom
         private void OnCreateProfileButton()
         {
             string name = AskForProfileName();
+            if (string.IsNullOrEmpty(name))
+                return;
             CreateProfile(name);
         }
 
         private string AskForProfileName() =>
-            // name cannot not be null/empty.
             EditorUtility.SaveFilePanelInProject("Profile name", "Loader profile", "asset", "Enter a profile name", profileAssetPath);
 
         private void CreateProfile(string path)

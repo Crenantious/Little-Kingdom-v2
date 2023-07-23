@@ -18,19 +18,23 @@ namespace LittleKingdom
             DrawWithNullObject(position, property, label);
         }
 
-        private void DrawWithNullObject(Rect position, SerializedProperty property, GUIContent label) =>
-            EditorGUI.PropertyField(position, property, label, true);
-
         private void DrawWithNotNullObject(Rect position, SerializedProperty property, GUIContent label)
         {
             property.isExpanded = EditorGUI.Foldout(position, property.isExpanded, GUIContent.none);
             EditorGUI.indentLevel++;
             EditorGUI.PropertyField(position, property, label, true);
 
+            // If the object is unassigned, the reference will be updated after creating the property field so the check must be done here.
+            if (!property.objectReferenceValue)
+                return;
+
             if (property.isExpanded)
                 UnityEditor.Editor.CreateEditor(property.objectReferenceValue).OnInspectorGUI();
 
             EditorGUI.indentLevel--;
         }
+
+        private void DrawWithNullObject(Rect position, SerializedProperty property, GUIContent label) =>
+            EditorGUI.PropertyField(position, property, label, true);
     }
 }

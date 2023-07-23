@@ -1,11 +1,10 @@
 {
-    "name": "Scripts",
-    "rootNamespace": "LittleKingdom",
-    "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:2cce741b8863c3d49a2e8529d8b9fae8"
+    "name": "Testloaderprofiles",
+    "rootNamespace": "",
+    "references": [],
+    "includePlatforms": [
+        "Editor"
     ],
-    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
