@@ -4,24 +4,21 @@ using UnityEngine;
 
 namespace LittleKingdom.Loading
 {
-    public interface ILoader
+    [Serializable]
+    public abstract class Loader : MonoBehaviour
     {
-        public List<ILoader> Dependencies { get; }
-        public void Load();
-        public void Unload();
+        public abstract List<Loader> Dependencies { get; }
+        public abstract void Load();
+        public abstract void Unload();
     }
 
-    public abstract class Loader<TConfig> : ILoader
+    [Serializable]
+    public abstract class Loader<TConfig> : Loader
         where TConfig : LoaderConfig
     {
-        [SerializeField] private List<ILoader> dependencies;
-        public List<ILoader> Dependencies => dependencies;
-
-        public void Load() =>
+        public override void Load() =>
             Load(LoaderProfiles.Current.GetConfig<TConfig>());
 
         public abstract void Load(TConfig config);
-
-        public abstract void Unload();
     }
 }

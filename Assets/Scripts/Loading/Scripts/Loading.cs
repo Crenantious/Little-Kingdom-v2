@@ -4,9 +4,9 @@ namespace LittleKingdom.Loading
 {
     public class Loading
     {
-        private static readonly HashSet<ILoader> loaded = new();
+        private static readonly HashSet<Loader> loaded = new();
 
-        public static void Load(ILoader loader)
+        public static void Load(Loader loader)
         {
             if (loaded.Contains(loader))
                 return;
@@ -17,9 +17,9 @@ namespace LittleKingdom.Loading
             loaded.Add(loader);
         }
 
-        private static void LoadDependencies(ILoader loader)
+        private static void LoadDependencies(Loader loader)
         {
-            foreach (ILoader dependency in loader.Dependencies)
+            foreach (Loader dependency in loader.Dependencies)
             {
                 Load(dependency);
             }
