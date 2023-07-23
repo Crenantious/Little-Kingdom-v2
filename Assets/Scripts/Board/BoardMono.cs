@@ -23,7 +23,7 @@ namespace LittleKingdom.Board
             tiles = new TileMono[width, height];
         }
 
-	    private void Start()
+	    public void Create()
         {
             board.Create(width, height, References.TilesInfo.Tiles);
             CreateMonoTiles();

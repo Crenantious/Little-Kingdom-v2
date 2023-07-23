@@ -5,11 +5,11 @@ using UnityEngine;
 namespace LittleKingdom.Loading
 {
     [Serializable]
-    public abstract class Loader : MonoBehaviour
+    public class Loader : MonoBehaviour
     {
-        public abstract List<Loader> Dependencies { get; }
-        public abstract void Load();
-        public abstract void Unload();
+        public virtual List<Loader> Dependencies { get; }
+        public virtual void Load() { }
+        public virtual void Unload() { }
     }
 
     [Serializable]
