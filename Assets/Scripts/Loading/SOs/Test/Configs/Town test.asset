@@ -9,6 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9251925d1b8e70419c9d6762a40e221, type: 3}
-  m_Name: Board LC
+  m_Script: {fileID: 11500000, guid: 352f4a40f61556043bbfa11eacd141de, type: 3}
+  m_Name: Town test
   m_EditorClassIdentifier: 
+  <AutoPlace>k__BackingField: 0
