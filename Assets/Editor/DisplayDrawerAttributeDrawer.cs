@@ -1,12 +1,15 @@
 using UnityEngine;
 using UnityEditor;
 using LittleKingdom.Attributes;
+using System;
 
 namespace LittleKingdom
 {
     [CustomPropertyDrawer(typeof(DisplayDrawerAttribute), true)]
     public class DisplayDrawerAttributeDrawer : PropertyDrawer
     {
+        public static event Action<UnityEngine.Object> OnPropertyObjectChange;
+
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             if (property.objectReferenceValue)
@@ -22,7 +25,11 @@ namespace LittleKingdom
         {
             property.isExpanded = EditorGUI.Foldout(position, property.isExpanded, GUIContent.none);
             EditorGUI.indentLevel++;
+
+            var previousObjectValue = property.objectReferenceValue;
             EditorGUI.PropertyField(position, property, label, true);
+            if (previousObjectValue != property.objectReferenceValue)
+                OnPropertyObjectChange?.Invoke(property.objectReferenceValue);
 
             // If the object is unassigned, the reference will be updated after creating the property field so the check must be done here.
             if (!property.objectReferenceValue)

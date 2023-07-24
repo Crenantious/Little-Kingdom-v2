@@ -14,10 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   configs:
   - configTypeName: BoardLC
-    config: {fileID: 0}
+    config: {fileID: 11400000, guid: 16e239a7f58319745b94d89a0d4380a8, type: 2}
   - configTypeName: GameSetupLC
     config: {fileID: 0}
   - configTypeName: TownLC
-    config: {fileID: 0}
-  - configTypeName: TownLCee
     config: {fileID: 0}

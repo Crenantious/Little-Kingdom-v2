@@ -9,7 +9,9 @@ using UnityEditor.UIElements;
 using LittleKingdom.Loading;
 
 namespace LittleKingdom
+
 {
+    // TODO: JR - add a button to update all profile configs.
     [CustomEditor(typeof(LoaderProfiles))]
     public class LoaderProfilesEditor : UnityEditor.Editor
     {
@@ -28,7 +30,8 @@ namespace LittleKingdom
                 .Where(t => baseType.IsAssignableFrom(t) && t != baseType)
                 .OrderBy(t => t.Name);
 
-            UpdateProfileConfigs(GetProfileFromSerializedObject());
+            DisplayDrawerAttributeDrawer.OnPropertyObjectChange += o => UpdateProfileConfigs();
+            UpdateProfileConfigs();
         }
 
         public override VisualElement CreateInspectorGUI()
@@ -51,10 +54,9 @@ namespace LittleKingdom
         private void AddProfilePropertyField()
         {
             SerializedProperty currentProfileProperty = GetCurrentProfileProperty();
-            var a = new PropertyField(currentProfileProperty);
-            a.BindProperty(currentProfileProperty);
-            a.RegisterValueChangeCallback(c => UpdateProfileConfigs(GetProfileFromProperty(c.changedProperty)));
-            inspector.Add(a);
+            PropertyField profileField = new(currentProfileProperty);
+            profileField.BindProperty(currentProfileProperty);
+            inspector.Add(profileField);
         }
 
         private void OnCreateProfileButton()
@@ -76,7 +78,13 @@ namespace LittleKingdom
             AssetDatabase.SaveAssets();
         }
 
-        // TODO: JR - update all profiles on domain reload.
+        private void UpdateProfileConfigs()
+        {
+            LoaderProfile profile = GetProfileFromSerializedObject();
+            if (profile)
+                UpdateProfileConfigs(profile);
+        }
+
         private void UpdateProfileConfigs(LoaderProfile profile)
         {
             List<LoaderConfigTypeAndInstance> configs = new();
@@ -84,7 +92,7 @@ namespace LittleKingdom
             foreach (Type configType in configTypes)
                 configs.Add(new(configType, profile.GetConfig(configType)));
 
-            profile.configs = configs;
+            profile.SetConfigs(configs);
         }
 
         private LoaderProfile GetProfileFromSerializedObject() =>

@@ -6,23 +6,12 @@ using UnityEngine;
 namespace LittleKingdom.Loading
 {
     [Serializable]
-    public class LoaderProfile : ScriptableObject
+    public class LoaderProfile : ScriptableObject, ISerializationCallbackReceiver
     {
-        // TODO: JR - make this private and have it populated from the LoaderProfilesEditor via reflection.
+        // TODO: JR - make this populated from the LoaderProfilesEditor via reflection.
         // If so, should probably add config categories such that only certain ones need to be loaded at a time.
-        public List<LoaderConfigTypeAndInstance> configs = new();
-
+        [SerializeField] private List<LoaderConfigTypeAndInstance> configs = new();
         private Dictionary<Type, LoaderConfig> typeToConfig = new();
-
-        private void Awake()
-        {
-#if !UNITY_EDITOR
-            foreach (LoaderConfigTypeAndInstance configTypeAndInstance in configs)
-            {
-                typeToConfig.Add(configTypeAndInstance.ConfigType, configTypeAndInstance.config);
-            }
-#endif
-        }
 
         public TConfig GetConfig<TConfig>() where TConfig : LoaderConfig =>
             (TConfig)GetConfig(typeof(TConfig));
@@ -36,6 +25,15 @@ namespace LittleKingdom.Loading
         public void OnBeforeSerialize() { }
 
         public void OnAfterDeserialize() =>
+            UpdateConfigDict();
+
+        public void SetConfigs(List<LoaderConfigTypeAndInstance> configs)
+        {
+            this.configs = configs;
+            UpdateConfigDict();
+        }
+
+        private void UpdateConfigDict() =>
             typeToConfig = configs.ToDictionary(c => c.ConfigType, c => c.config);
     }
 }
