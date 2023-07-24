@@ -16,6 +16,6 @@ MonoBehaviour:
   - configTypeName: BoardLC
     config: {fileID: 11400000, guid: 16e239a7f58319745b94d89a0d4380a8, type: 2}
   - configTypeName: GameSetupLC
-    config: {fileID: 0}
+    config: {fileID: 11400000, guid: 5f69aeb06bb89f64684c918a2e925071, type: 2}
   - configTypeName: TownLC
-    config: {fileID: 0}
+    config: {fileID: 11400000, guid: 227273fadff0fae44a104df7b18062c7, type: 2}
