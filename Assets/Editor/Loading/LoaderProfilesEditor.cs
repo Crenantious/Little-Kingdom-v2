@@ -25,8 +25,10 @@ namespace LittleKingdom
             Type baseType = typeof(LoaderConfig);
             configTypes = Assembly.GetAssembly(baseType)
                 .GetTypes()
-                .Where(t => baseType.IsAssignableFrom(t))
+                .Where(t => baseType.IsAssignableFrom(t) && t != baseType)
                 .OrderBy(t => t.Name);
+
+            UpdateProfileConfigs(GetProfileFromSerializedObject());
         }
 
         public override VisualElement CreateInspectorGUI()
@@ -46,8 +48,14 @@ namespace LittleKingdom
             createProfileButton.clicked += OnCreateProfileButton;
         }
 
-        private void AddProfilePropertyField() =>
-            inspector.Add(new PropertyField(serializedObject.FindProperty("current")));
+        private void AddProfilePropertyField()
+        {
+            SerializedProperty currentProfileProperty = GetCurrentProfileProperty();
+            var a = new PropertyField(currentProfileProperty);
+            a.BindProperty(currentProfileProperty);
+            a.RegisterValueChangeCallback(c => UpdateProfileConfigs(GetProfileFromProperty(c.changedProperty)));
+            inspector.Add(a);
+        }
 
         private void OnCreateProfileButton()
         {
@@ -63,21 +71,29 @@ namespace LittleKingdom
         private void CreateProfile(string path)
         {
             LoaderProfile profile = CreateInstance<LoaderProfile>();
-            UpdateConfigs(profile);
+            UpdateProfileConfigs(profile);
             AssetDatabase.CreateAsset(profile, path);
             AssetDatabase.SaveAssets();
         }
 
-        // TODO: JR - update for all profiles on domain reload.
-        private void UpdateConfigs(LoaderProfile profile)
+        // TODO: JR - update all profiles on domain reload.
+        private void UpdateProfileConfigs(LoaderProfile profile)
         {
             List<LoaderConfigTypeAndInstance> configs = new();
 
             foreach (Type configType in configTypes)
-            {
                 configs.Add(new(configType, profile.GetConfig(configType)));
-                profile.configs = configs;
-            }
+
+            profile.configs = configs;
         }
+
+        private LoaderProfile GetProfileFromSerializedObject() =>
+            GetProfileFromProperty(GetCurrentProfileProperty());
+
+        private SerializedProperty GetCurrentProfileProperty() =>
+            serializedObject.FindProperty("current");
+
+        private LoaderProfile GetProfileFromProperty(SerializedProperty property) =>
+            property.objectReferenceValue as LoaderProfile;
     }
 }
