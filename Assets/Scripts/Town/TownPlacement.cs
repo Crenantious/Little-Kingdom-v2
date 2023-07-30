@@ -7,27 +7,31 @@ using Zenject;
 
 namespace LittleKingdom
 {
-    public class TownPlacement : MonoBehaviour
+    public class TownPlacement : IUpdatable
     {
-        private const float ManualUpdatDelay = 0.5f;
+        private const float ManualUpdateDelay = 0.5f;
 
-        private InGameInput inGameInput;
+        private readonly InGameInput inGameInput;
+        private readonly MonoSimulator monoSimulator;
 
-        [Inject]
-        private void Construct(InGameInput inGameInput) =>
+        private Town town;
+
+        public TownPlacement(InGameInput inGameInput, MonoSimulator monoSimulator)
+        {
             this.inGameInput = inGameInput;
+            this.monoSimulator = monoSimulator;
+        }
 
         public void PlaceManually(Town town)
         {
-            StartCoroutine(PlaceManuallyCoroutine(town));
+            this.town = town;
+            monoSimulator.RegisterForUpdate(this, ManualUpdateDelay);
         }
 
-        private IEnumerator PlaceManuallyCoroutine(Town town)
+        public void Update()
         {
-            // TODO: JR - make an infinite loop until the users clicks.
             Tile originTile = GetTownOriginTile();
             MoveTownToTile(town, originTile);
-            yield return new WaitForSeconds(ManualUpdatDelay);
         }
 
         public void PlaceAutomatically(Town town)

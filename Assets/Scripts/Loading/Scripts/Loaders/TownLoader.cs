@@ -1,13 +1,18 @@
 using LittleKingdom.Loading;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Zenject;
 
 namespace LittleKingdom
 {
     public class TownLoader : Loader<TownLC>
     {
         [SerializeField] private BoardLoader boardLoader;
+        private TownPlacement townPlacement;
+
+        [Inject]
+        public void Construct(TownPlacement townPlacement) =>
+            this.townPlacement = townPlacement;
 
         private void Awake() =>
             Dependencies.Add(boardLoader);
@@ -17,9 +22,9 @@ namespace LittleKingdom
             foreach (Player player in TurnManager.Players)
             {
                 if (config.AutoPlace)
-                    TownPlacement.PlaceAutomatically(player.Town);
+                    townPlacement.PlaceAutomatically(player.Town);
                 else
-                    TownPlacement.PlaceManually(player.Town);
+                    townPlacement.PlaceManually(player.Town);
             }
         }
 
