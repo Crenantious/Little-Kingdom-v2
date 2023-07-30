@@ -14,11 +14,13 @@ namespace LittleKingdom
 
         public override void Load(TownLC config)
         {
-            if (config.AutoPlace)
-                throw new NotImplementedException();
-
-            foreach(Player player in TurnManager.Players)
-                TownPlacement.BeginPlacement(player.Town);
+            foreach (Player player in TurnManager.Players)
+            {
+                if (config.AutoPlace)
+                    TownPlacement.PlaceAutomatically(player.Town);
+                else
+                    TownPlacement.PlaceManually(player.Town);
+            }
         }
 
         public override void Unload()
