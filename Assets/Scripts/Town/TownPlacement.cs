@@ -8,7 +8,7 @@ namespace LittleKingdom
 {
     public class TownPlacement : IUpdatable
     {
-        private const float ManualUpdateDelay = 0.5f;
+        private const float ManualUpdateDelay = 0.05f;
 
         private readonly InputUtility inputUtility;
         private readonly InGameInput inGameInput;
@@ -26,6 +26,9 @@ namespace LittleKingdom
             this.board = board;
         }
 
+        /// <summary>
+        /// Place the town based on where the user specifies.
+        /// </summary>
         public void PlaceManually(Town town)
         {
             if (isPlacing)
@@ -40,24 +43,31 @@ namespace LittleKingdom
             monoSimulator.RegisterForUpdate(this, ManualUpdateDelay);
         }
 
+        /// <summary>
+        /// Place the town based on an algorithm.
+        /// </summary>
+        public void PlaceAutomatically(Town town)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc/>
         public void Update()
         {
             TileMono originTile = GetTownOriginTile();
             MoveTownToTile(town, originTile);
         }
 
-        public void PlaceAutomatically(Town town)
-        {
-            throw new NotImplementedException();
-        }
-
         private TileMono GetTownOriginTile()
         {
+            // TODO: JR - put this in a standardised place.
             inGameInput.Enable();
-            if (inputUtility.RaycastFromPointer(inGameInput.GetPointerPosition(), out RaycastHit hit) is false)
-                return board.Tiles.GetNearestElement(new Vector2());
 
-            return board.Tiles.GetNearestElement(hit.point);
+            // If true, the position is increased by half a tile since the grid expects the pivot point of the tiles to be the bottom left.
+            Vector2 position = inputUtility.RaycastFromPointer(inGameInput.GetPointerPosition(), out RaycastHit hit) ?
+                new Vector2(hit.point.x + board.TileWidth / 2, hit.point.z + board.TileHeight / 2) :
+                new Vector2();
+            return board.Tiles.GetNearestElement(position);
         }
 
         private void MoveTownToTile(Town town, TileMono origin)

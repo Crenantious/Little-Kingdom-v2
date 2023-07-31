@@ -20,7 +20,6 @@ namespace LittleKingdom.Tests
             grid.SetAll(GetElement);
         }
 
-
         [Test]
         public void SetAllWorks_Correctly()
         {
@@ -32,7 +31,6 @@ namespace LittleKingdom.Tests
                 }
             }
         }
-
 
         [Test]
 

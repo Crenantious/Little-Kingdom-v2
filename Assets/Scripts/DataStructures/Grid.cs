@@ -19,6 +19,10 @@ namespace LittleKingdom.DataStructures
             grid = new TElement[width, height];
         }
 
+        /// <summary>
+        /// Sets all elements based on <paramref name="callback"/>.
+        /// </summary>
+        /// <param name="callback">Params: column index, row index.<br/>Returns: the element to set at that position.</param>
         public void SetAll(Func<int, int, TElement> callback)
         {
             for (int i = 0; i < Width; i++)
@@ -36,18 +40,27 @@ namespace LittleKingdom.DataStructures
             elementPosition[element] = (column, row);
         }
 
+        /// <summary>
+        /// Locates the first element matching <paramref name="element"/> and sets it to <see langword="default"/>.
+        /// </summary>
         public void Clear(TElement element)
         {
             grid[elementPosition[element].column, elementPosition[element].row] = default;
             elementPosition.Remove(element);
         }
 
+        /// <summary>
+        /// Calls <see cref="Clear(TElement)"/> if <paramref name="element"/> exists.
+        /// </summary>
         public void TryClear(TElement element)
         {
             if (elementPosition.ContainsKey(element))
                 Clear(element);
         }
 
+        /// <summary>
+        /// Sets the element at the given position to <see langword="default"/>.
+        /// </summary>
         public void ClearAt(int column, int row)
         {
             grid[column, row] = default;

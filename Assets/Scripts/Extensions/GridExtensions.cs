@@ -5,10 +5,14 @@ namespace LittleKingdom.Extensions
 {
     public static class GridUtility
     {
-        public static TElement GetNearestElement<TElement>(this SizedGrid<TElement> grid,  Vector2 position)
+        /// <summary>
+        /// Treats <paramref name="grid"/> as a physical grid with each element placed next to each other separated by their size.<br/>
+        /// Gets the element that is closest to <paramref name="position"/>, this can be out of bound of the grid.
+        /// </summary>
+        public static TElement GetNearestElement<TElement>(this SizedGrid<TElement> grid, Vector2 position)
         {
             Vector2 normalisedPosition = GetNormalisedPosition(grid, position);
-            return GetElementFromPoint(grid, normalisedPosition);
+            return GetElementFromPosition(grid, normalisedPosition);
         }
 
         private static Vector2 GetNormalisedPosition<TElement>(SizedGrid<TElement> grid, Vector2 position)
@@ -18,7 +22,7 @@ namespace LittleKingdom.Extensions
             return new(x, y);
         }
 
-        private static TElement GetElementFromPoint<TElement>(SizedGrid<TElement> grid, Vector2 position)
+        private static TElement GetElementFromPosition<TElement>(SizedGrid<TElement> grid, Vector2 position)
         {
             int tileColumn = (int)Mathf.Clamp(position.x, 0, grid.Width - 1);
             int tileRow = (int)Mathf.Clamp(position.y, 0, grid.Height - 1);
