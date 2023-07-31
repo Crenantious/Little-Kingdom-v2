@@ -1,9 +1,8 @@
 using LittleKingdom.Board;
+using LittleKingdom.Extensions;
 using LittleKingdom.Input;
 using System;
-using System.Collections;
 using UnityEngine;
-using Zenject;
 
 namespace LittleKingdom
 {
@@ -11,26 +10,39 @@ namespace LittleKingdom
     {
         private const float ManualUpdateDelay = 0.5f;
 
+        private readonly InputUtility inputUtility;
         private readonly InGameInput inGameInput;
         private readonly MonoSimulator monoSimulator;
+        private readonly BoardMono board;
 
         private Town town;
+        private bool isPlacing;
 
-        public TownPlacement(InGameInput inGameInput, MonoSimulator monoSimulator)
+        public TownPlacement(InputUtility inputUtility, InGameInput inGameInput, MonoSimulator monoSimulator, BoardMono board)
         {
             this.inGameInput = inGameInput;
             this.monoSimulator = monoSimulator;
+            this.inputUtility = inputUtility;
+            this.board = board;
         }
 
         public void PlaceManually(Town town)
         {
+            if (isPlacing)
+            {
+                // TODO: JR - log properly.
+                Debug.Log("Already placing a town.");
+                return;
+            }
+
+            isPlacing = true;
             this.town = town;
             monoSimulator.RegisterForUpdate(this, ManualUpdateDelay);
         }
 
         public void Update()
         {
-            Tile originTile = GetTownOriginTile();
+            TileMono originTile = GetTownOriginTile();
             MoveTownToTile(town, originTile);
         }
 
@@ -39,14 +51,20 @@ namespace LittleKingdom
             throw new NotImplementedException();
         }
 
-        private Tile GetTownOriginTile()
+        private TileMono GetTownOriginTile()
         {
-            throw new NotImplementedException();
+            inGameInput.Enable();
+            if (inputUtility.RaycastFromPointer(inGameInput.GetPointerPosition(), out RaycastHit hit) is false)
+                return board.Tiles.GetNearestElement(new Vector2());
+
+            return board.Tiles.GetNearestElement(hit.point);
         }
 
-        private void MoveTownToTile(Town town, Tile origin)
+        private void MoveTownToTile(Town town, TileMono origin)
         {
-            throw new NotImplementedException();
+            float xOffset = (town.Width) * board.TileWidth;
+            float zOffset = (town.Height) * board.TileHeight;
+            town.transform.position = origin.transform.position + new Vector3(xOffset, 0, zOffset);
         }
     }
 }

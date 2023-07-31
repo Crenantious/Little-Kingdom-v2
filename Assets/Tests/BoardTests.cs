@@ -64,8 +64,8 @@ public class BoardTests
     {
         foreach (TileInfo tileInfo in tileInfos)
         {
-            float expectedTileAmount = board.Tiles.Length * tileInfo.PercentOfBoard / 100;
-            int actualTileAmount = board.Tiles.Cast<Tile>().Count(t => t.ResourceName == tileInfo.ResourceName);
+            float expectedTileAmount = board.Tiles.Width * board.Tiles.Height * tileInfo.PercentOfBoard / 100;
+            int actualTileAmount = board.Tiles.GetEnumerable().Count(t => t.ResourceName == tileInfo.ResourceName);
 
             Assert.IsTrue(Mathf.FloorToInt(expectedTileAmount) == actualTileAmount ||
                           Mathf.CeilToInt(expectedTileAmount) == actualTileAmount);

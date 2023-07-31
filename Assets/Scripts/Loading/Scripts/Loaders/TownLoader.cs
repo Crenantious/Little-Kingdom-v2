@@ -19,6 +19,7 @@ namespace LittleKingdom
 
         public override void Load(TownLC config)
         {
+            //TODO: JR - place one town after another.
             foreach (Player player in TurnManager.Players)
             {
                 if (config.AutoPlace)

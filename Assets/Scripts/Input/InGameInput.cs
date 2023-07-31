@@ -8,7 +8,6 @@ namespace LittleKingdom.Input
     {
         private InGameActions actions;
 
-        [Inject]
         public InGameInput(Inputs inputs) =>
             actions = inputs.InGame;
 

@@ -7,6 +7,7 @@ namespace LittleKingdom
     {
         private readonly List<UpdatableInfo> updatables = new();
         private readonly Dictionary<IUpdatable, int> updateableInfoIndex = new();
+
         public void RegisterForUpdate(IUpdatable updatable, float delayInSeconds = 0)
         {
             UpdatableInfo info = new(updatable, delayInSeconds);

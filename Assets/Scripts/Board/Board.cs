@@ -1,4 +1,5 @@
 using Assets.Scripts.Exceptions;
+using LittleKingdom.DataStructures;
 using LittleKingdom.Factories;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ namespace LittleKingdom.Board
 {
     public class Board
     {
-        public Tile[,] Tiles { get; private set; }
+        public Grid<Tile> Tiles { get; private set; }
 
         private readonly Random random = new();
         private readonly Dictionary<string, int> remainingResourceTiles = new();
@@ -19,7 +20,7 @@ namespace LittleKingdom.Board
         public void Create(int widthInTiles, int heightInTiles, IEnumerable<TileInfo> tileInfos)
         {
             totalTiles = widthInTiles * heightInTiles;
-            Tiles = new Tile[widthInTiles, heightInTiles];
+            Tiles = new(widthInTiles, heightInTiles);
 
             InitialiseRemainingResources(tileInfos);
             CreateTiles();
@@ -42,12 +43,12 @@ namespace LittleKingdom.Board
 
         private void CreateTiles()
         {
-            for (int i = 0; i < Tiles.GetLength(0); i++)
+            for (int i = 0; i < Tiles.Width; i++)
             {
-                for (int j = 0; j < Tiles.GetLength(1); j++)
+                for (int j = 0; j < Tiles.Height; j++)
                 {
                     string resourceName = GetRandomResource();
-                    Tiles[i, j] = TileFactory.Create(resourceName);
+                    Tiles.Set(i, j, TileFactory.Create(resourceName));
                 }
             }
         }
