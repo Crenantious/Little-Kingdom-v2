@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Graphics/UI/UI%20toolkit/Dialogue%20box/Dialogue%20box.uss?fileID=7433441132597879392&amp;guid=027644896127dea4ab9595af59ecd085&amp;type=3#Dialogue box" />
+    <ui:VisualElement name="RootContainer" style="align-items: center; justify-content: center; width: 100%; height: 100%;">
+        <ui:VisualElement name="RootContainer" style="width: 350px; height: 200px; align-items: center; justify-content: flex-start; background-image: url(&apos;project://database/Assets/Graphics/Textures/Plane%20panel.png?fileID=2800000&amp;guid=24beccb69fd852c4e89d1ed6dfc3b1db&amp;type=3#Plane panel&apos;); -unity-background-image-tint-color: rgb(56, 56, 56);">
+            <ui:VisualElement name="OptionsContainer" style="align-items: center; justify-content: space-around; flex-direction: row; position: absolute; top: 70%; left: 0; right: 0;">
+                <ui:Button tabindex="-1" text="Test option" display-tooltip-when-elided="true" name="TestOption" class="option" style="align-items: center; left: auto; position: relative; right: auto; top: auto; display: none;" />
+            </ui:VisualElement>
+            <ui:Label tabindex="-1" text="Title" display-tooltip-when-elided="true" name="Title" class="title" style="align-items: center; justify-content: center; -unity-text-align: middle-center; white-space: normal; left: 0; right: 100%; width: 100%; height: 50px; font-size: 24px; display: flex; top: 5%;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,6 +1,7 @@
 using LittleKingdom.Board;
 using LittleKingdom.Extensions;
 using LittleKingdom.Input;
+using LittleKingdom.UI;
 using System;
 using UnityEngine;
 
@@ -14,16 +15,20 @@ namespace LittleKingdom
         private readonly InGameInput inGameInput;
         private readonly MonoSimulator monoSimulator;
         private readonly BoardMono board;
+        private readonly DialogBox dialogBox;
 
         private Town town;
         private bool isPlacing;
+        private bool isConfirmingPlacement;
 
-        public TownPlacement(InputUtility inputUtility, InGameInput inGameInput, MonoSimulator monoSimulator, BoardMono board)
+        public TownPlacement(InputUtility inputUtility, InGameInput inGameInput, MonoSimulator monoSimulator,
+            BoardMono board, DialogBox dialogBox)
         {
+            this.inputUtility = inputUtility;
             this.inGameInput = inGameInput;
             this.monoSimulator = monoSimulator;
-            this.inputUtility = inputUtility;
             this.board = board;
+            this.dialogBox = dialogBox;
         }
 
         /// <summary>
@@ -41,6 +46,7 @@ namespace LittleKingdom
             isPlacing = true;
             this.town = town;
             monoSimulator.RegisterForUpdate(this, ManualUpdateDelay);
+            inGameInput.PointerTap += ConfirmPlacement;
         }
 
         /// <summary>
@@ -54,15 +60,15 @@ namespace LittleKingdom
         /// <inheritdoc/>
         public void Update()
         {
+            if (isConfirmingPlacement)
+                return;
+
             TileMono originTile = GetTownOriginTile();
             MoveTownToTile(town, originTile);
         }
 
         private TileMono GetTownOriginTile()
         {
-            // TODO: JR - put this in a standardised place.
-            inGameInput.Enable();
-
             Vector2 position = GetWorldspacePointerPosition();
             return GetTileFromPointerPosition(position);
         }
@@ -76,8 +82,13 @@ namespace LittleKingdom
         private TileMono GetTileFromPointerPosition(Vector2 position)
         {
             (int column, int row) = board.Tiles.GetNearestIndex(position);
-            column = (int)Mathf.Clamp(column, 0, board.Tiles.Width - 1 - MathF.Ceiling((float)town.Width / 2));
-            row = (int)Mathf.Clamp(row, MathF.Ceiling((float)town.Height / 2), board.Tiles.Height - 1);
+
+            float maxColumnIndex = (board.Tiles.Width - 1) - MathF.Ceiling((float)town.Width / 2);
+            float minRowIndex = MathF.Ceiling((float)town.Height / 2);
+
+            column = (int)Mathf.Clamp(column, 0, maxColumnIndex);
+            row = (int)Mathf.Clamp(row, minRowIndex, board.Tiles.Height - 1);
+
             return board.Tiles.Get(column, row);
         }
 
@@ -86,6 +97,22 @@ namespace LittleKingdom
             float xOffset = MathF.Ceiling((float)town.Width / 2) * (board.TileWidth / 2);
             float zOffset = -MathF.Ceiling((float)town.Height / 2) * (board.TileHeight / 2);
             town.transform.position = origin.transform.position + new Vector3(xOffset, 0, zOffset);
+        }
+
+        private void ConfirmPlacement()
+        {
+            isConfirmingPlacement = true;
+            dialogBox.Open("Place town here?", ("Yes", OnPlacementConfirmed), ("No", OnPlacementRejected));
+        }
+
+        private void OnPlacementConfirmed(string option)
+        {
+            isConfirmingPlacement = false;
+        }
+
+        private void OnPlacementRejected(string option)
+        {
+            isConfirmingPlacement = false;
         }
     }
 }

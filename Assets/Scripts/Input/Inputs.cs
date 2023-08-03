@@ -17,10 +17,10 @@ using UnityEngine.InputSystem.Utilities;
 
 namespace LittleKingdom.Input
 {
-    public partial class Inputs : IInputActionCollection2, IDisposable
+    public partial class @Inputs : IInputActionCollection2, IDisposable
     {
         public InputActionAsset asset { get; }
-        public Inputs()
+        public @Inputs()
         {
             asset = InputActionAsset.FromJson(@"{
     ""name"": ""Input actions"",
@@ -808,6 +808,15 @@ namespace LittleKingdom.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PointerTap"",
+                    ""type"": ""Button"",
+                    ""id"": ""02c674aa-81b1-4fcd-b4d9-a4cb95f249de"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -819,6 +828,28 @@ namespace LittleKingdom.Input
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Point"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c6589c84-909b-41f0-b892-fb402dc5ba95"",
+                    ""path"": ""<Mouse>/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""PointerTap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""daefe5eb-465d-49b3-84f3-5b9b020829f5"",
+                    ""path"": ""<Touchscreen>/Press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Touch"",
+                    ""action"": ""PointerTap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -908,6 +939,7 @@ namespace LittleKingdom.Input
             // InGame
             m_InGame = asset.FindActionMap("InGame", throwIfNotFound: true);
             m_InGame_Point = m_InGame.FindAction("Point", throwIfNotFound: true);
+            m_InGame_PointerTap = m_InGame.FindAction("PointerTap", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -972,8 +1004,8 @@ namespace LittleKingdom.Input
         private readonly InputAction m_Player_Fire;
         public struct PlayerActions
         {
-            private Inputs m_Wrapper;
-            public PlayerActions(Inputs wrapper) { m_Wrapper = wrapper; }
+            private @Inputs m_Wrapper;
+            public PlayerActions(@Inputs wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @Look => m_Wrapper.m_Player_Look;
             public InputAction @Fire => m_Wrapper.m_Player_Fire;
@@ -1028,8 +1060,8 @@ namespace LittleKingdom.Input
         private readonly InputAction m_UI_TrackedDeviceOrientation;
         public struct UIActions
         {
-            private Inputs m_Wrapper;
-            public UIActions(Inputs wrapper) { m_Wrapper = wrapper; }
+            private @Inputs m_Wrapper;
+            public UIActions(@Inputs wrapper) { m_Wrapper = wrapper; }
             public InputAction @Navigate => m_Wrapper.m_UI_Navigate;
             public InputAction @Submit => m_Wrapper.m_UI_Submit;
             public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
@@ -1122,11 +1154,13 @@ namespace LittleKingdom.Input
         private readonly InputActionMap m_InGame;
         private IInGameActions m_InGameActionsCallbackInterface;
         private readonly InputAction m_InGame_Point;
+        private readonly InputAction m_InGame_PointerTap;
         public struct InGameActions
         {
-            private Inputs m_Wrapper;
-            public InGameActions(Inputs wrapper) { m_Wrapper = wrapper; }
+            private @Inputs m_Wrapper;
+            public InGameActions(@Inputs wrapper) { m_Wrapper = wrapper; }
             public InputAction @Point => m_Wrapper.m_InGame_Point;
+            public InputAction @PointerTap => m_Wrapper.m_InGame_PointerTap;
             public InputActionMap Get() { return m_Wrapper.m_InGame; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1139,6 +1173,9 @@ namespace LittleKingdom.Input
                     @Point.started -= m_Wrapper.m_InGameActionsCallbackInterface.OnPoint;
                     @Point.performed -= m_Wrapper.m_InGameActionsCallbackInterface.OnPoint;
                     @Point.canceled -= m_Wrapper.m_InGameActionsCallbackInterface.OnPoint;
+                    @PointerTap.started -= m_Wrapper.m_InGameActionsCallbackInterface.OnPointerTap;
+                    @PointerTap.performed -= m_Wrapper.m_InGameActionsCallbackInterface.OnPointerTap;
+                    @PointerTap.canceled -= m_Wrapper.m_InGameActionsCallbackInterface.OnPointerTap;
                 }
                 m_Wrapper.m_InGameActionsCallbackInterface = instance;
                 if (instance != null)
@@ -1146,6 +1183,9 @@ namespace LittleKingdom.Input
                     @Point.started += instance.OnPoint;
                     @Point.performed += instance.OnPoint;
                     @Point.canceled += instance.OnPoint;
+                    @PointerTap.started += instance.OnPointerTap;
+                    @PointerTap.performed += instance.OnPointerTap;
+                    @PointerTap.canceled += instance.OnPointerTap;
                 }
             }
         }
@@ -1217,6 +1257,7 @@ namespace LittleKingdom.Input
         public interface IInGameActions
         {
             void OnPoint(InputAction.CallbackContext context);
+            void OnPointerTap(InputAction.CallbackContext context);
         }
     }
 }
