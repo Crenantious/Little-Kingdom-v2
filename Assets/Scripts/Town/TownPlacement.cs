@@ -1,4 +1,5 @@
 using LittleKingdom.Board;
+using LittleKingdom.Events;
 using LittleKingdom.Extensions;
 using LittleKingdom.Input;
 using LittleKingdom.UI;
@@ -16,19 +17,21 @@ namespace LittleKingdom
         private readonly MonoSimulator monoSimulator;
         private readonly BoardMono board;
         private readonly DialogBox dialogBox;
+        private readonly TownPlacedEvent townPlacedEvent;
 
         private Town town;
         private bool isPlacing;
         private bool isConfirmingPlacement;
 
         public TownPlacement(InputUtility inputUtility, InGameInput inGameInput, MonoSimulator monoSimulator,
-            BoardMono board, DialogBox dialogBox)
+            BoardMono board, DialogBox dialogBox, TownPlacedEvent townPlacedEvent)
         {
             this.inputUtility = inputUtility;
             this.inGameInput = inGameInput;
             this.monoSimulator = monoSimulator;
             this.board = board;
             this.dialogBox = dialogBox;
+            this.townPlacedEvent = townPlacedEvent;
         }
 
         /// <summary>
@@ -97,6 +100,7 @@ namespace LittleKingdom
             float xOffset = MathF.Ceiling((float)town.Width / 2) * (board.TileWidth / 2);
             float zOffset = -MathF.Ceiling((float)town.Height / 2) * (board.TileHeight / 2);
             town.transform.position = origin.transform.position + new Vector3(xOffset, 0, zOffset);
+            town.OriginTile = origin;
         }
 
         private void ConfirmPlacement()
@@ -108,6 +112,21 @@ namespace LittleKingdom
         private void OnPlacementConfirmed(string option)
         {
             isConfirmingPlacement = false;
+            SetTileValues();
+            townPlacedEvent.Invoke(new TownPlacedEvent.EventData(town));
+        }
+
+        private void SetTileValues()
+        {
+            for (int column = town.OriginTile.Column; column < town.OriginTile.Column + town.Width - 1; column++)
+            {
+                for (int row = town.OriginTile.Row; row < town.OriginTile.Row + town.Height - 1; row++)
+                {
+                    Tile tile = board.Tiles.Get(column, row).Tile;
+                    tile.Town = town;
+                    town.Tiles.Set(column, row, tile);
+                }
+            }
         }
 
         private void OnPlacementRejected(string option)
