@@ -4,17 +4,13 @@ using UnityEngine;
 
 namespace LittleKingdom
 {
-    public class Town : MonoBehaviour
+    public class Town : MonoBehaviour, ITown
     {
-        /// <summary>
-        /// The 2D width (board dimensions) of the town in tiles.
-        /// </summary>
-        [field: SerializeField] public int Width { get; private set; }
+        /// <inheritdoc/>
+        [field: SerializeField] public int Width { get; protected set; }
 
-        /// <summary>
-        /// The 2D height (board dimensions) of the town in tiles.
-        /// </summary>
-        [field: SerializeField] public int Height { get; private set; }
+        /// <inheritdoc/>
+        [field: SerializeField] public int Height { get; protected set; }
 
         /// <summary>
         /// The top-left tile that town occupies.

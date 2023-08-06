@@ -8,9 +8,11 @@ using UnityEngine;
 
 namespace LittleKingdom
 {
-    public class TownPlacement : IUpdatable
+    public class TownPlacement : IUpdatable, ITownPlacement
     {
         private const float ManualUpdateDelay = 0.05f;
+
+        #region DI
 
         private readonly InputUtility inputUtility;
         private readonly InGameInput inGameInput;
@@ -18,13 +20,18 @@ namespace LittleKingdom
         private readonly BoardMono board;
         private readonly DialogBox dialogBox;
         private readonly TownPlacedEvent townPlacedEvent;
+        private readonly TileEntityAssignment tileEntityAssignment;
+
+        #endregion
+
+        private readonly Vector2 defaultPointerWorldPosition = new();
 
         private Town town;
         private bool isPlacing;
         private bool isConfirmingPlacement;
 
         public TownPlacement(InputUtility inputUtility, InGameInput inGameInput, MonoSimulator monoSimulator,
-            BoardMono board, DialogBox dialogBox, TownPlacedEvent townPlacedEvent)
+            BoardMono board, DialogBox dialogBox, TownPlacedEvent townPlacedEvent, TileEntityAssignment tileEntityAssignment)
         {
             this.inputUtility = inputUtility;
             this.inGameInput = inGameInput;
@@ -32,12 +39,13 @@ namespace LittleKingdom
             this.board = board;
             this.dialogBox = dialogBox;
             this.townPlacedEvent = townPlacedEvent;
+            this.tileEntityAssignment = tileEntityAssignment;
         }
 
         /// <summary>
         /// Place the town based on where the user specifies.
         /// </summary>
-        public void PlaceManually(Town town)
+        public void Place(Town town)
         {
             if (isPlacing)
             {
@@ -70,30 +78,14 @@ namespace LittleKingdom
             MoveTownToTile(town, originTile);
         }
 
-        private TileMono GetTownOriginTile()
-        {
-            Vector2 position = GetWorldspacePointerPosition();
-            return GetTileFromPointerPosition(position);
-        }
+        private TileMono GetTownOriginTile() =>
+            board.GetTownOriginFromPointerPosition(town, GetWorldspacePointerPosition());
 
         private Vector2 GetWorldspacePointerPosition() =>
             // If true, the position is increased by half a tile since the grid expects the pivot point of the tiles to be the bottom left.
             inputUtility.RaycastFromPointer(inGameInput.GetPointerPosition(), out RaycastHit hit) ?
                 new Vector2(hit.point.x + board.TileWidth / 2, hit.point.z + board.TileHeight / 2) :
-                new Vector2();
-
-        private TileMono GetTileFromPointerPosition(Vector2 position)
-        {
-            (int column, int row) = board.Tiles.GetNearestIndex(position);
-
-            float maxColumnIndex = (board.Tiles.Width - 1) - MathF.Ceiling((float)town.Width / 2);
-            float minRowIndex = MathF.Ceiling((float)town.Height / 2);
-
-            column = (int)Mathf.Clamp(column, 0, maxColumnIndex);
-            row = (int)Mathf.Clamp(row, minRowIndex, board.Tiles.Height - 1);
-
-            return board.Tiles.Get(column, row);
-        }
+                defaultPointerWorldPosition;
 
         private void MoveTownToTile(Town town, TileMono origin)
         {
@@ -112,21 +104,8 @@ namespace LittleKingdom
         private void OnPlacementConfirmed(string option)
         {
             isConfirmingPlacement = false;
-            SetTileValues();
+            tileEntityAssignment.AssignTown(town);
             townPlacedEvent.Invoke(new TownPlacedEvent.EventData(town));
-        }
-
-        private void SetTileValues()
-        {
-            for (int column = town.OriginTile.Column; column < town.OriginTile.Column + town.Width - 1; column++)
-            {
-                for (int row = town.OriginTile.Row; row < town.OriginTile.Row + town.Height - 1; row++)
-                {
-                    Tile tile = board.Tiles.Get(column, row).Tile;
-                    tile.Town = town;
-                    town.Tiles.Set(column, row, tile);
-                }
-            }
         }
 
         private void OnPlacementRejected(string option)

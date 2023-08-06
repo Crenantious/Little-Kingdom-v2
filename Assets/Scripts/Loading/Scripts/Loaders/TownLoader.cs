@@ -25,7 +25,7 @@ namespace LittleKingdom
                 if (config.AutoPlace)
                     townPlacement.PlaceAutomatically(player.Town);
                 else
-                    townPlacement.PlaceManually(player.Town);
+                    townPlacement.Place(player.Town);
             }
         }
 

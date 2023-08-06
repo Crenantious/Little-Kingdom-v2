@@ -11,7 +11,7 @@ namespace LittleKingdom.Board
         /// <summary>
         /// The town the occupies this tile.
         /// </summary>
-        public Town Town { get; set; }
+        public ITown Town { get; set; }
 
         public Tile(string resourceName)
         {
