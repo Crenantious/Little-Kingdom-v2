@@ -99,7 +99,7 @@ namespace LittleKingdom
             GetProfileFromProperty(GetCurrentProfileProperty());
 
         private SerializedProperty GetCurrentProfileProperty() =>
-            serializedObject.FindProperty("current");
+            serializedObject.FindProperty("Current");
 
         private LoaderProfile GetProfileFromProperty(SerializedProperty property) =>
             property.objectReferenceValue as LoaderProfile;

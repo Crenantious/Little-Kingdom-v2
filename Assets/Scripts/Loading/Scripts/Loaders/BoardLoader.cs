@@ -1,24 +1,24 @@
 using LittleKingdom.Board;
 using LittleKingdom.Loading;
-using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace LittleKingdom
 {
-    [RequireComponent(typeof(BoardMono))]
     public class BoardLoader : Loader<BoardLC>
     {
-        private BoardMono board;
         [SerializeField] private GameSetupLoader gameSetupLoader;
 
-        private void Awake()
-        {
-            Dependencies.Add(gameSetupLoader);
-            board = GetComponent<BoardMono>();
-        }
+        private BoardGeneration boardGeneration;
+
+        [Inject]
+        public void Construct(BoardGeneration boardGeneration) =>
+            this.boardGeneration = boardGeneration;
+
+        private void Awake() => Dependencies.Add(gameSetupLoader);
 
         public override void Load(BoardLC config) =>
-            board.Create();
+            boardGeneration.Generate(config.WidthInTiles, config.HeightInTiles, config.TileInfo);
 
         public override void Unload()
         {

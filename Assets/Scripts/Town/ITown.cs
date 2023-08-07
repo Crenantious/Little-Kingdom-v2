@@ -18,7 +18,7 @@ namespace LittleKingdom
         /// <summary>
         /// The top-left tile that town occupies.
         /// </summary>
-        public TileMono OriginTile { get; set; }
+        public Tile OriginTile { get; set; }
 
         /// <summary>
         /// The tiles that the town occupies.

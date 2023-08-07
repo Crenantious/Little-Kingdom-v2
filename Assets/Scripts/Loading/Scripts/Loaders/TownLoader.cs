@@ -2,6 +2,7 @@ using LittleKingdom.Loading;
 using UnityEngine;
 using System;
 using Zenject;
+using LittleKingdom.Factories;
 
 namespace LittleKingdom
 {
@@ -9,23 +10,22 @@ namespace LittleKingdom
     {
         [SerializeField] private BoardLoader boardLoader;
         private TownPlacement townPlacement;
+        private TownPlacementFactory townPlacementFactory;
 
         [Inject]
-        public void Construct(TownPlacement townPlacement) =>
-            this.townPlacement = townPlacement;
+        public void Construct(TownPlacementFactory townPlacementFactory) =>
+            this.townPlacementFactory = townPlacementFactory;
 
         private void Awake() =>
             Dependencies.Add(boardLoader);
 
         public override void Load(TownLC config)
         {
+            townPlacement = townPlacementFactory.Create();
             //TODO: JR - place one town after another.
             foreach (Player player in TurnManager.Players)
             {
-                if (config.AutoPlace)
-                    townPlacement.PlaceAutomatically(player.Town);
-                else
-                    townPlacement.Place(player.Town);
+                townPlacement.Place(player.Town);
             }
         }
 

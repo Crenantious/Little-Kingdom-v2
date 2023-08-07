@@ -9,8 +9,8 @@ namespace LittleKingdom.DataStructures
         private readonly TElement[,] grid;
         private readonly Dictionary<TElement, (int column, int row)> elementPosition = new();
 
-        public float Width { get; }
-        public float Height { get; }
+        public int Width { get; }
+        public int Height { get; }
 
         public Grid(int width, int height)
         {

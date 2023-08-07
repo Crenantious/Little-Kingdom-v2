@@ -8,14 +8,9 @@ using Assets.Scripts.Exceptions;
 
 public class BoardTests
 {
-    private Board board;
     private readonly List<TileInfo> tileInfos = new();
 
-    [SetUp]
-    public void Setup()
-    {
-        board = new Board();
-    }
+    private IBoard board;
 
     [Test]
     //The fractional component of tile amounts are less than 0.5.
@@ -50,6 +45,7 @@ public class BoardTests
 
     private void CreateBoard(int width, int height, params float[] percentagesOnBoard)
     {
+        BoardGeneration boardGeneration = new();
         List<TileInfo> tileInfos = new();
 
         for (int i = 0; i < percentagesOnBoard.Length; i++)
@@ -57,7 +53,7 @@ public class BoardTests
             tileInfos.Add(new TileInfo(null, $"Resource {i}", percentagesOnBoard[i]));
         }
 
-        board.Create(width, height, tileInfos);
+        board = boardGeneration.Generate(width, height, tileInfos);
     }
 
     private void AssertTilePercentages()

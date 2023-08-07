@@ -2,10 +2,9 @@ namespace LittleKingdom.Board
 {
     public class TileEntityAssignment
     {
-        // TODO: refactor such that BoardMono does not exist; Iboard will, for the sake of testing.
-        private readonly Board board;
+        private readonly IBoard board;
 
-        public TileEntityAssignment(Board board)
+        public TileEntityAssignment(IBoard board)
         {
             this.board = board;
         }

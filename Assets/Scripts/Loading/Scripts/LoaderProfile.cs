@@ -13,13 +13,14 @@ namespace LittleKingdom.Loading
         [SerializeField] private List<LoaderConfigTypeAndInstance> configs = new();
         private Dictionary<Type, LoaderConfig> typeToConfig = new();
 
-        public TConfig GetConfig<TConfig>() where TConfig : LoaderConfig =>
-            (TConfig)GetConfig(typeof(TConfig));
-
         public LoaderConfig GetConfig(Type TConfig) =>
             typeToConfig.ContainsKey(TConfig) ?
             typeToConfig[TConfig] :
             (LoaderConfig)CreateInstance(TConfig.Name);
+
+        public TConfig GetConfig<TConfig>()
+            where TConfig : LoaderConfig =>
+            (TConfig)GetConfig(typeof(TConfig));
 
         // typeToConfigs does not change so nothing needs to be done here.
         public void OnBeforeSerialize() { }

@@ -5,20 +5,11 @@ using UnityEngine;
 namespace LittleKingdom.Loading
 {
     [Serializable]
+    // TODO: JR - convert to an interface
     public class Loader : MonoBehaviour
     {
         public virtual List<Loader> Dependencies { get; protected set; } = new();
         public virtual void Load() { }
         public virtual void Unload() { }
-    }
-
-    [Serializable]
-    public abstract class Loader<TConfig> : Loader
-        where TConfig : LoaderConfig
-    {
-        public override void Load() =>
-            Load(LoaderProfiles.Current.GetConfig<TConfig>());
-
-        public abstract void Load(TConfig config);
     }
 }
