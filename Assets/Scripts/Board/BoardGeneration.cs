@@ -1,7 +1,6 @@
 using Assets.Scripts.Exceptions;
 using LittleKingdom.DataStructures;
 using LittleKingdom.Factories;
-using LittleKingdom.Loading;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,11 +10,15 @@ namespace LittleKingdom.Board
     public class BoardGeneration
     {
         private readonly Dictionary<TileInfo, int> remainingResourceTiles = new();
+        private readonly TileFactory tileFactory;
 
         private SizedGrid<Tile> tiles;
         private float carryOverTiles = 0;
         private int totalTiles;
         private int remainingResourceTilesCount;
+
+        public BoardGeneration(TileFactory tileFactory) =>
+           this.tileFactory = tileFactory;
 
         public IBoard Generate(int widthInTiles, int heightInTiles, IEnumerable<TileInfo> tileInfos)
         {
@@ -37,6 +40,8 @@ namespace LittleKingdom.Board
                 remainingResourceTiles[tileInfo] = GetTileAmount(tileInfo.PercentOfBoard);
             }
 
+            remainingResourceTilesCount = remainingResourceTiles.Count;
+
             if (totalPercent != 100)
             {
                 throw new InvalidAmountOfTilesException($"Was given a total tile coverage of {totalPercent}%, it must be exactly 100%.");
@@ -49,7 +54,7 @@ namespace LittleKingdom.Board
             {
                 for (int j = 0; j < tiles.Height; j++)
                 {
-                    tiles.Set(i, j, TileFactory.Create(GetRandomResource()));
+                    tiles.Set(i, j, tileFactory.Create(GetRandomResource()));
                     tiles.Get(i, j).transform.position = new(Tile.Width * i, 0, Tile.Height * j);
                 }
             }

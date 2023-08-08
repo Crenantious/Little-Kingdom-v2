@@ -12,3 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9251925d1b8e70419c9d6762a40e221, type: 3}
   m_Name: Board test
   m_EditorClassIdentifier: 
+  <WidthInTiles>k__BackingField: 8
+  <HeightInTiles>k__BackingField: 8
+  totalTilePercent: 100
+  tileInfo:
+  - texture: {fileID: 2800000, guid: 613462496fe651244b09e4e580a76089, type: 3}
+    resourceName: Wood
+    percentOfBoard: 25
+  - texture: {fileID: 2800000, guid: 5a410ff4501900c459e19e8571a8e16d, type: 3}
+    resourceName: Stone
+    percentOfBoard: 25
+  - texture: {fileID: 2800000, guid: ef31a604121d5cb4fa5c50b74c48f398, type: 3}
+    resourceName: Brick
+    percentOfBoard: 20
+  - texture: {fileID: 2800000, guid: fea33f95a757d664b9d6197a64503a0a, type: 3}
+    resourceName: Glass
+    percentOfBoard: 15
+  - texture: {fileID: 2800000, guid: 0e3e1cd579eeb9c43aaecab1fb2727aa, type: 3}
+    resourceName: Metal
+    percentOfBoard: 15

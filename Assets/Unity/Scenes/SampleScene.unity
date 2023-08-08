@@ -172,6 +172,7 @@ MonoBehaviour:
   dialogBox: {fileID: 1314893675}
   monoSimulator: {fileID: 636607797}
   loaderProfiles: {fileID: 887071030}
+  tilePrefab: {fileID: 258248469826108430, guid: a466df6f3fec767429364bcadb5de80d, type: 3}
 --- !u!114 &236274290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -610,7 +611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 155199f0afde19c4cbe3b6f9c7147762, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boardLoader: {fileID: 0}
+  boardLoader: {fileID: 1114899000}
 --- !u!4 &1114898998
 Transform:
   m_ObjectHideFlags: 0

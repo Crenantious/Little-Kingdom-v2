@@ -17,6 +17,7 @@ namespace LittleKingdom
         [SerializeField] private DialogBox dialogBox;
         [SerializeField] private MonoSimulator monoSimulator;
         [SerializeField] private LoaderProfiles loaderProfiles;
+        [SerializeField] private Tile tilePrefab;
 
         public override void InstallBindings()
         {
@@ -37,6 +38,7 @@ namespace LittleKingdom
             Container.BindInstance(loaderProfiles.Current).AsSingle();
 
             Container.BindFactory<TownPlacement, TownPlacementFactory>();
+            Container.BindFactory<TileInfo, Tile, TileFactory>().FromFactory<CustomTileFactory>();
 
             BindLoaderConfigs();
         }

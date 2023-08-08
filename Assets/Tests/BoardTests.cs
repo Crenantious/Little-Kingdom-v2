@@ -5,9 +5,11 @@ using UnityEngine;
 using System.Linq;
 using System;
 using Assets.Scripts.Exceptions;
+using Zenject;
 
 public class BoardTests
 {
+    [Inject] private readonly BoardGeneration boardGeneration;
     private readonly List<TileInfo> tileInfos = new();
 
     private IBoard board;
@@ -45,7 +47,6 @@ public class BoardTests
 
     private void CreateBoard(int width, int height, params float[] percentagesOnBoard)
     {
-        BoardGeneration boardGeneration = new();
         List<TileInfo> tileInfos = new();
 
         for (int i = 0; i < percentagesOnBoard.Length; i++)
