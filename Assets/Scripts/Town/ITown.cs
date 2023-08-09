@@ -18,11 +18,11 @@ namespace LittleKingdom
         /// <summary>
         /// The top-left tile that town occupies.
         /// </summary>
-        public Tile OriginTile { get; set; }
+        public ITile OriginTile { get; set; }
 
         /// <summary>
         /// The tiles that the town occupies.
         /// </summary>
-        public Grid<Tile> Tiles { get; set; }
+        public Grid<ITile> Tiles { get; set; }
     }
 }

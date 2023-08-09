@@ -66,24 +66,24 @@ namespace LittleKingdom
             if (isConfirmingPlacement)
                 return;
 
-            Tile originTile = GetTownOriginTile();
+            ITile originTile = GetTownOriginTile();
             MoveTownToTile(town, originTile);
         }
 
-        private Tile GetTownOriginTile() =>
+        private ITile GetTownOriginTile() =>
             board.GetTownOriginFromPointerPosition(town, GetWorldspacePointerPosition());
 
         private Vector2 GetWorldspacePointerPosition() =>
             // If true, the position is increased by half a tile since the grid expects the pivot point of the tiles to be the bottom left.
             inputUtility.RaycastFromPointer(inGameInput.GetPointerPosition(), out RaycastHit hit) ?
-                new Vector2(hit.point.x + Tile.Width / 2, hit.point.z + Tile.Height / 2) :
+                new Vector2(hit.point.x + References.TileWidth / 2, hit.point.z + References.TileHeight / 2) :
                 defaultPointerWorldPosition;
 
-        private void MoveTownToTile(Town town, Tile origin)
+        private void MoveTownToTile(Town town, ITile origin)
         {
-            float xOffset = MathF.Ceiling((float)town.Width / 2) * (Tile.Width / 2);
-            float zOffset = -MathF.Ceiling((float)town.Height / 2) * (Tile.Height / 2);
-            town.transform.position = origin.transform.position + new Vector3(xOffset, 0, zOffset);
+            float xOffset = MathF.Ceiling((float)town.Width / 2) * (References.TileWidth / 2);
+            float zOffset = -MathF.Ceiling((float)town.Height / 2) * (References.TileHeight / 2);
+            town.transform.position = new Vector3(origin.XPosition + xOffset, 0, origin.YPosition + zOffset);
             town.OriginTile = origin;
         }
 

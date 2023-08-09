@@ -1,20 +1,18 @@
 using LittleKingdom.Board;
-using UnityEngine;
 using Zenject;
 
 namespace LittleKingdom.Factories
 {
-    public class CustomTileFactory : IFactory<TileInfo, Tile>
+    public class CustomTileFactory : IFactory<TileInfo, ITile>
     {
         private readonly DiContainer container;
 
         public CustomTileFactory(DiContainer container) => this.container = container;
 
-        public Tile Create(TileInfo tileInfo)
+        public ITile Create(TileInfo tileInfo)
         {
-            Tile tile = container.InstantiatePrefabForComponent<Tile>(PrefabReferences.Tile);
-            tile.Initialise(tileInfo.ResourceType);
-            tile.GetComponent<Renderer>().material.mainTexture = tileInfo.Texture;
+            Tile tile = new();
+            container.Inject(tile);
             return tile;
         }
     }

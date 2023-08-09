@@ -6,7 +6,7 @@ namespace LittleKingdom.Extensions
 {
     public static class BoardExtensions
     {
-        public static Tile GetTownOriginFromPointerPosition(this IBoard board, ITown town, Vector2 position)
+        public static ITile GetTownOriginFromPointerPosition(this IBoard board, ITown town, Vector2 position)
         {
             (int column, int row) = board.Tiles.GetNearestIndex(position);
 

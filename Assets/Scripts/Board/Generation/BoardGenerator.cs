@@ -7,23 +7,23 @@ using UnityEngine;
 
 namespace LittleKingdom.Board
 {
-    public class BoardGeneration
+    public class BoardGenerator : IBoardGenerator
     {
         private readonly Dictionary<TileInfo, int> remainingResourceTiles = new();
         private readonly TileFactory tileFactory;
 
-        private SizedGrid<Tile> tiles;
+        private SizedGrid<ITile> tiles;
         private float carryOverTiles = 0;
         private int totalTiles;
         private int remainingResourceTilesCount;
 
-        public BoardGeneration(TileFactory tileFactory) =>
+        public BoardGenerator(TileFactory tileFactory) =>
            this.tileFactory = tileFactory;
 
         public IBoard Generate(int widthInTiles, int heightInTiles, IEnumerable<TileInfo> tileInfos)
         {
             totalTiles = widthInTiles * heightInTiles;
-            tiles = new(widthInTiles, heightInTiles, Tile.Width, Tile.Height);
+            tiles = new(widthInTiles, heightInTiles, References.TileWidth, References.TileHeight);
 
             InitialiseRemainingResources(tileInfos);
             CreateTiles();
@@ -55,7 +55,6 @@ namespace LittleKingdom.Board
                 for (int j = 0; j < tiles.Height; j++)
                 {
                     tiles.Set(i, j, tileFactory.Create(GetRandomResource()));
-                    tiles.Get(i, j).transform.position = new(Tile.Width * i, 0, Tile.Height * j);
                 }
             }
         }

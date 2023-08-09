@@ -96,3 +96,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4623696162176840812d163cdc39145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <MeshRenderer>k__BackingField: {fileID: 3853544304295994021}

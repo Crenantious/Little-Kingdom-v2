@@ -18,7 +18,7 @@ namespace LittleKingdom.Board
             {
                 for (int row = town.OriginTile.Row; row < town.OriginTile.Row + town.Height - 1; row++)
                 {
-                    Tile tile = board.Tiles.Get(column, row);
+                    ITile tile = board.Tiles.Get(column, row);
                     tile.Town = town;
                     town.Tiles.Set(column, row, tile);
                 }

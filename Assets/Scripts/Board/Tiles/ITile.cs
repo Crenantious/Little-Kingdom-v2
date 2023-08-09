@@ -1,8 +1,9 @@
+using UnityEngine;
+
 namespace LittleKingdom.Board
 {
     public interface ITile
     {
-        // TODO: JR - make this a flag enum.
         /// <summary>
         /// The resource that this tile produces.
         /// </summary>
@@ -18,13 +19,31 @@ namespace LittleKingdom.Board
         /// </summary>
         public int Row { get; set; }
 
-#nullable enable
+        /// <summary>
+        /// The x position relative to the board.
+        /// </summary>
+        public float XPosition { get; set; }
 
+        /// <summary>
+        /// The y position relative to the board.
+        /// </summary>
+        public float YPosition { get; set; }
+
+#nullable enable
         /// <summary>
         /// The town that occupies this tile.
         /// </summary>
         public ITown? Town { get; set; }
-
 #nullable disable
+
+        /// <summary>
+        /// Only to be called from a factory.
+        /// </summary>
+        public void Initialise(ResourceType resourceType);
+
+        /// <summary>
+        /// Sets <see cref="XPosition"/> and <see cref="YPosition"/>. Use this if both are needed to be set.
+        /// </summary>
+        public void SetPos(Vector2 position);
     }
 }

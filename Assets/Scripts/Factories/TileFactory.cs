@@ -3,7 +3,7 @@ using Zenject;
 
 namespace LittleKingdom.Factories
 {
-    public class TileFactory : PlaceholderFactory<TileInfo, Tile>
+    public class TileFactory : PlaceholderFactory<TileInfo, ITile>
     {
 
     }

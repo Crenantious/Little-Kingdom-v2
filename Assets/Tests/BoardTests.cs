@@ -10,7 +10,7 @@ using LittleKingdom.Factories;
 
 public class BoardTests : ZenjectUnitTestFixture
 {
-    [Inject] private readonly BoardGeneration boardGeneration;
+    [Inject] private readonly BoardGenerator boardGenerator;
     private readonly List<TileInfo> tileInfos = new();
 
     private IEnumerable<ResourceType> resourceTypes;
@@ -19,12 +19,12 @@ public class BoardTests : ZenjectUnitTestFixture
     [SetUp]
     public void CommonInstall()
     {
-        Container.BindFactory<TileInfo, Tile, TileFactory>().FromFactory<CustomTileFactory>();
-        Container.Bind<BoardGeneration>().AsSingle();
+        Container.Bind<ITile>().To<TileMono>().AsSingle();
+        Container.BindFactory<TileInfo, ITile, TileFactory>().FromFactory<CustomTileFactory>();
+        Container.Bind<BoardGenerator>().AsSingle();
         Container.Inject(this);
         resourceTypes = Enum.GetValues(typeof(ResourceType)).Cast<ResourceType>();
     }
-
 
     [Test]
     //The fractional component of tile amounts are less than 0.5.
@@ -66,7 +66,7 @@ public class BoardTests : ZenjectUnitTestFixture
             tileInfos.Add(new TileInfo(null, resourceTypes.ElementAt(i), percentagesOnBoard[i]));
         }
 
-        board = boardGeneration.Generate(width, height, tileInfos);
+        board = boardGenerator.Generate(width, height, tileInfos);
     }
 
     private void AssertTilePercentages()

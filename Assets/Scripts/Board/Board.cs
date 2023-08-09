@@ -4,8 +4,8 @@ namespace LittleKingdom.Board
 {
     public class Board : IBoard
     {
-        public SizedGrid<Tile> Tiles { get; private set; }
+        public SizedGrid<ITile> Tiles { get; private set; }
 
-        public Board(SizedGrid<Tile> tiles) => Tiles = tiles;
+        public Board(SizedGrid<ITile> tiles) => Tiles = tiles;
     }
 }

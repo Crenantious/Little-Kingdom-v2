@@ -9,16 +9,16 @@ namespace LittleKingdom
     {
         [SerializeField] private GameSetupLoader gameSetupLoader;
 
-        private BoardGeneration boardGeneration;
+        private IBoardGenerator boardGenerator;
 
         [Inject]
-        public void Construct(BoardGeneration boardGeneration) =>
-            this.boardGeneration = boardGeneration;
+        public void Construct(IBoardGenerator boardGenerator) =>
+            this.boardGenerator = boardGenerator;
 
         private void Awake() => Dependencies.Add(gameSetupLoader);
 
         public override void Load(BoardLC config) =>
-            boardGeneration.Generate(config.WidthInTiles, config.HeightInTiles, config.TileInfo);
+            boardGenerator.Generate(config.WidthInTiles, config.HeightInTiles, config.TileInfo);
 
         public override void Unload()
         {
