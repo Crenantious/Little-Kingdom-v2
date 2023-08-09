@@ -6,13 +6,25 @@ using System.Linq;
 using System;
 using Assets.Scripts.Exceptions;
 using Zenject;
+using LittleKingdom.Factories;
 
-public class BoardTests
+public class BoardTests : ZenjectUnitTestFixture
 {
     [Inject] private readonly BoardGeneration boardGeneration;
     private readonly List<TileInfo> tileInfos = new();
 
+    private IEnumerable<ResourceType> resourceTypes;
     private IBoard board;
+
+    [SetUp]
+    public void CommonInstall()
+    {
+        Container.BindFactory<TileInfo, Tile, TileFactory>().FromFactory<CustomTileFactory>();
+        Container.Bind<BoardGeneration>().AsSingle();
+        Container.Inject(this);
+        resourceTypes = Enum.GetValues(typeof(ResourceType)).Cast<ResourceType>();
+    }
+
 
     [Test]
     //The fractional component of tile amounts are less than 0.5.
@@ -51,7 +63,7 @@ public class BoardTests
 
         for (int i = 0; i < percentagesOnBoard.Length; i++)
         {
-            tileInfos.Add(new TileInfo(null, $"Resource {i}", percentagesOnBoard[i]));
+            tileInfos.Add(new TileInfo(null, resourceTypes.ElementAt(i), percentagesOnBoard[i]));
         }
 
         board = boardGeneration.Generate(width, height, tileInfos);
@@ -62,7 +74,7 @@ public class BoardTests
         foreach (TileInfo tileInfo in tileInfos)
         {
             float expectedTileAmount = board.Tiles.Width * board.Tiles.Height * tileInfo.PercentOfBoard / 100;
-            int actualTileAmount = board.Tiles.GetEnumerable().Count(t => t.ResourceName == tileInfo.ResourceName);
+            int actualTileAmount = board.Tiles.GetEnumerable().Count(t => t.ResourceType == tileInfo.ResourceType);
 
             Assert.IsTrue(Mathf.FloorToInt(expectedTileAmount) == actualTileAmount ||
                           Mathf.CeilToInt(expectedTileAmount) == actualTileAmount);

@@ -7,7 +7,7 @@ namespace LittleKingdom.Board
     public class TileInfo
     {
         [SerializeField] private Texture texture;
-        [SerializeField] private string resourceName;
+        [SerializeField] private ResourceType resourceType;
         [SerializeField] private float percentOfBoard;
 
         /// <summary>
@@ -18,17 +18,17 @@ namespace LittleKingdom.Board
         /// <summary>
         /// The name of the resource the tile produces.
         /// </summary>
-        public string ResourceName => resourceName;
+        public ResourceType ResourceType => resourceType;
 
         /// <summary>
         /// The percent of the board that should be filled with type of tile this class is for.
         /// </summary>
         public float PercentOfBoard => percentOfBoard;
 
-        public TileInfo(Texture texture, string resourceName, float percentOfBoard)
+        public TileInfo(Texture texture, ResourceType resourceType, float percentOfBoard)
         {
             this.texture = texture;
-            this.resourceName = resourceName;
+            this.resourceType = resourceType;
             this.percentOfBoard = percentOfBoard;
         }
     }

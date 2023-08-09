@@ -6,7 +6,7 @@ namespace LittleKingdom.Board
         /// <summary>
         /// The resource that this tile produces.
         /// </summary>
-        public string ResourceName { get; }
+        public ResourceType ResourceType { get; }
 
         /// <summary>
         /// The index of the column on the board that this tile is located.

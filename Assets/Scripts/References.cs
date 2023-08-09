@@ -10,12 +10,6 @@ namespace LittleKingdom
 	{
 		private static References instance;
 
-		/// <summary>
-		/// Gets the resource tile information for creating the game board.
-		/// </summary>
-		public static TilesInfo TilesInfo => instance.tilesInfo;
-		[SerializeField] private TilesInfo tilesInfo;
-
 		public static int DefaultLayer => instance.defaultLayer;
 		[SerializeField] private int defaultLayer;
 

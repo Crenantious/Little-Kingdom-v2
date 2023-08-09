@@ -13,6 +13,7 @@ namespace LittleKingdom.Factories
         public Tile Create(TileInfo tileInfo)
         {
             Tile tile = container.InstantiatePrefabForComponent<Tile>(PrefabReferences.Tile);
+            tile.Initialise(tileInfo.ResourceType);
             tile.GetComponent<Renderer>().material.mainTexture = tileInfo.Texture;
             return tile;
         }
