@@ -11,9 +11,6 @@ namespace LittleKingdom
 {
     public class Installer : MonoInstaller
     {
-        public static IBoard Board { get; set; }
-
-        [SerializeField] private new Camera camera;
         [SerializeField] private DialogBox dialogBox;
         [SerializeField] private MonoSimulator monoSimulator;
         [SerializeField] private LoaderProfiles loaderProfiles;
@@ -27,15 +24,14 @@ namespace LittleKingdom
             Container.Bind<UIInput>().AsSingle();
             Container.Bind<InGameInput>().AsSingle();
             Container.Bind<InputUtility>().AsSingle();
-            Container.Bind<TownPlacement>().AsSingle();
+            Container.Bind<ManualTownPlacement>().AsSingle();
             Container.Bind<BoardGenerator>().AsSingle();
             Container.Bind<TownPlacedEvent>().AsSingle();
             Container.Bind<TileEntityAssignment>().AsSingle();
+            Container.Bind<TownPlacementUtilities>().AsSingle();
 
-            Container.Bind<IBoard>().FromMethod(x => Board).AsSingle();
             Container.Bind<IBoardGenerator>().To<BoardGeneratorMono>().AsSingle();
 
-            Container.BindInstance(camera).AsSingle();
             Container.BindInstance(dialogBox).AsSingle();
             Container.BindInstance(monoSimulator).AsSingle();
             Container.BindInstance(loaderProfiles).AsSingle();
@@ -43,8 +39,8 @@ namespace LittleKingdom
 
             Container.BindInstance(tilePrefab).AsSingle();
 
-            Container.BindFactory<TownPlacement, TownPlacementFactory>();
-            Container.BindFactory<TileInfo, ITile, TileFactory>().FromFactory<CustomTileMonoFactory>();
+            Container.BindFactory<ManualTownPlacement, TownPlacementFactory>();
+            Container.BindFactory<ITileInfo, ITile, TileFactory>().FromFactory<CustomTileMonoFactory>();
 
             BindLoaderConfigs();
         }

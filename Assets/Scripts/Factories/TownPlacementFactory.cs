@@ -2,7 +2,8 @@ using Zenject;
 
 namespace LittleKingdom.Factories
 {
-    public class TownPlacementFactory : PlaceholderFactory<TownPlacement>
+    // TODO: JR - return ITownPlacement and create seperate factories for each implementation.
+    public class TownPlacementFactory : PlaceholderFactory<ManualTownPlacement>
     {
 
     }

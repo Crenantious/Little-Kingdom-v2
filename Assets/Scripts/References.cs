@@ -6,7 +6,6 @@ namespace LittleKingdom
 {
     //This class is loaded before the default load time, so references are ensured to be set up before being called.
     //This should only be placed on one GameObject.
-    // TODO: JR - dissolve into a Zenject installer.
     public class References : MonoBehaviour
     {
         private static References instance;
@@ -17,8 +16,13 @@ namespace LittleKingdom
         public static int IgnoreRaycastLayer => instance.ignoreRaycastLayer;
         [SerializeField] private int ignoreRaycastLayer;
 
+        public static Camera ActiveCamera => instance.activeCamera;
+        [SerializeField] private Camera activeCamera;
+
         public static float TileWidth { get; private set; }
         public static float TileHeight { get; private set; }
+
+        public static IBoard Board { get; set; }
 
         [Inject]
         public void Construct(TileMono tile)

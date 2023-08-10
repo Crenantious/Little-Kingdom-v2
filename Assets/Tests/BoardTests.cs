@@ -20,7 +20,7 @@ public class BoardTests : ZenjectUnitTestFixture
     public void CommonInstall()
     {
         Container.Bind<ITile>().To<TileMono>().AsSingle();
-        Container.BindFactory<TileInfo, ITile, TileFactory>().FromFactory<CustomTileFactory>();
+        Container.BindFactory<ITileInfo, ITile, TileFactory>().FromFactory<CustomTileFactory>();
         Container.Bind<BoardGenerator>().AsSingle();
         Container.Inject(this);
         resourceTypes = Enum.GetValues(typeof(ResourceType)).Cast<ResourceType>();

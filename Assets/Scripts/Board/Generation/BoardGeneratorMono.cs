@@ -10,7 +10,7 @@ namespace LittleKingdom.Board
         public BoardGeneratorMono(BoardGenerator boardGenerator) =>
             this.boardGenerator = boardGenerator;
 
-        public IBoard Generate(int widthInTiles, int heightInTiles, IEnumerable<TileInfo> tileInfos)
+        public IBoard Generate(int widthInTiles, int heightInTiles, IEnumerable<ITileInfo> tileInfos)
         {
             IBoard board = boardGenerator.Generate(widthInTiles, heightInTiles, tileInfos);
             PositionTiles(board.Tiles);

@@ -4,6 +4,6 @@ namespace LittleKingdom.Board
 {
     public interface IBoardGenerator
     {
-        public IBoard Generate(int widthInTiles, int heightInTiles, IEnumerable<TileInfo> tileInfos);
+        public IBoard Generate(int widthInTiles, int heightInTiles, IEnumerable<ITileInfo> tileInfos);
     }
 }

@@ -9,7 +9,7 @@ namespace LittleKingdom
     public class TownLoader : Loader<TownLC>
     {
         [SerializeField] private BoardLoader boardLoader;
-        private TownPlacement townPlacement;
+        private ITownPlacement townPlacement;
         private TownPlacementFactory townPlacementFactory;
 
         [Inject]
@@ -25,7 +25,7 @@ namespace LittleKingdom
             //TODO: JR - place one town after another.
             foreach (Player player in TurnManager.Players)
             {
-                townPlacement.Place(player.Town);
+                townPlacement.BeginPlacement(player.Town);
             }
         }
 

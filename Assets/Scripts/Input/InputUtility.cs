@@ -6,10 +6,6 @@ namespace LittleKingdom.Input
     public class InputUtility
     {
         private readonly Dictionary<GameObject, int> clickThroughObjectsPreviousLayer = new();
-        private readonly Camera camera;
-
-        public InputUtility(Camera camera) =>
-            this.camera = camera;
 
         /// <summary>
         /// Caches the current layer then sets the layer to ignore raycasts.
@@ -35,7 +31,7 @@ namespace LittleKingdom.Input
 
         public bool RaycastFromPointer(Vector2 position, out RaycastHit hit)
         {
-            Ray ray = camera.ScreenPointToRay(position);
+            Ray ray = References.ActiveCamera.ScreenPointToRay(position);
             return Physics.Raycast(ray, out hit, 100);
         }
     }

@@ -3,8 +3,10 @@ namespace LittleKingdom
     public interface ITownPlacement
     {
         /// <summary>
-        /// Position the town on the board and assign the containing tiles.
+        /// Perform pre-placement logic such as getting user input or calculating placement position.
         /// </summary>
-        public void Place(Town town);
+        public void BeginPlacement(Town town);
+
+        public void FinalisePlacement();
     }
 }
