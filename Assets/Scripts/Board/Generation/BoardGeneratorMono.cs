@@ -6,9 +6,13 @@ namespace LittleKingdom.Board
     public class BoardGeneratorMono : IBoardGenerator
     {
         private readonly BoardGenerator boardGenerator;
+        private readonly IReferences references;
 
-        public BoardGeneratorMono(BoardGenerator boardGenerator) =>
+        public BoardGeneratorMono(BoardGenerator boardGenerator, IReferences references)
+        {
             this.boardGenerator = boardGenerator;
+            this.references = references;
+        }
 
         public IBoard Generate(int widthInTiles, int heightInTiles, IEnumerable<ITileInfo> tileInfos)
         {
@@ -23,7 +27,7 @@ namespace LittleKingdom.Board
             {
                 for (int j = 0; j < tiles.Height; j++)
                 {
-                    tiles.Get(i, j).SetPos(new(References.TileWidth * i, References.TileHeight * j));
+                    tiles.Get(i, j).SetPos(new(references.TileWidth * i, references.TileHeight * j));
                 }
             }
         }

@@ -14,6 +14,7 @@ namespace LittleKingdom
         [SerializeField] private DialogBox dialogBox;
         [SerializeField] private MonoSimulator monoSimulator;
         [SerializeField] private LoaderProfiles loaderProfiles;
+        [SerializeField] private References references;
 
         // Prefabs
         [SerializeField] private TileMono tilePrefab;
@@ -36,6 +37,7 @@ namespace LittleKingdom
             Container.BindInstance(monoSimulator).AsSingle();
             Container.BindInstance(loaderProfiles).AsSingle();
             Container.BindInstance(loaderProfiles.Current).AsSingle();
+            Container.BindInstance<IReferences>(references).AsSingle();
 
             Container.BindInstance(tilePrefab).AsSingle();
 

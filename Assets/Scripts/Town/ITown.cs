@@ -26,6 +26,16 @@ namespace LittleKingdom
         /// </summary>
         public Grid<ITile> Tiles { get; set; }
 
-        public void SetPosition(Vector3 position);
+        /// <summary>
+        /// The x position relative to the board.
+        /// </summary>
+        public float XPosition { get; }
+
+        /// <summary>
+        /// The y position relative to the board.
+        /// </summary>
+        public float YPosition { get; }
+
+        public void SetPosition(Vector2 position);
     }
 }

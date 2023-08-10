@@ -11,24 +11,28 @@ namespace LittleKingdom.Board
     {
         private readonly Dictionary<ITileInfo, int> remainingResourceTiles = new();
         private readonly TileFactory tileFactory;
+        private readonly IReferences references;
 
         private SizedGrid<ITile> tiles;
         private float carryOverTiles = 0;
         private int totalTiles;
         private int remainingResourceTilesCount;
 
-        public BoardGenerator(TileFactory tileFactory) =>
-           this.tileFactory = tileFactory;
+        public BoardGenerator(TileFactory tileFactory, IReferences references)
+        {
+            this.tileFactory = tileFactory;
+            this.references = references;
+        }
 
         public IBoard Generate(int widthInTiles, int heightInTiles, IEnumerable<ITileInfo> tileInfos)
         {
             totalTiles = widthInTiles * heightInTiles;
-            tiles = new(widthInTiles, heightInTiles, References.TileWidth, References.TileHeight);
+            tiles = new(widthInTiles, heightInTiles, references.TileWidth, references.TileHeight);
 
             InitialiseRemainingResources(tileInfos);
             CreateTiles();
 
-            return References.Board = new Board(tiles);
+            return references.Board = new Board(tiles);
         }
 
         private void InitialiseRemainingResources(IEnumerable<ITileInfo> tileInfos)
