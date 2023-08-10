@@ -26,12 +26,11 @@ namespace LittleKingdom
             Container.Bind<InGameInput>().AsSingle();
             Container.Bind<InputUtility>().AsSingle();
             Container.Bind<ManualTownPlacement>().AsSingle();
-            Container.Bind<BoardGenerator>().AsSingle();
             Container.Bind<TownPlacedEvent>().AsSingle();
             Container.Bind<TileEntityAssignment>().AsSingle();
             Container.Bind<TownPlacementUtilities>().AsSingle();
 
-            Container.Bind<IBoardGenerator>().To<BoardGeneratorMono>().AsSingle();
+            Container.Bind<IBoardGenerator>().To<BoardGenerator>().AsSingle();
 
             Container.BindInstance(dialogBox).AsSingle();
             Container.BindInstance(monoSimulator).AsSingle();

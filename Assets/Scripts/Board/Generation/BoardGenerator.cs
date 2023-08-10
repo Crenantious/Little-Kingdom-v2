@@ -62,6 +62,7 @@ namespace LittleKingdom.Board
                     tile.Column = i;
                     tile.Row = j;
                     tiles.Set(i, j, tile);
+                    tiles.Get(i, j).SetPos(new(references.TileWidth * i, references.TileHeight * j));
                 }
             }
         }
