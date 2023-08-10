@@ -27,7 +27,7 @@ namespace LittleKingdom
         public void MoveTownToTile(ITown town, ITile origin)
         {
             float xOffset = -references.TileWidth / 2 + (float)town.Width / 2 * references.TileWidth;
-            float yOffset = -references.TileHeight / 2 + (float)town.Height / 2 * references.TileHeight;
+            float yOffset = references.TileHeight / 2 - (float)town.Height / 2 * references.TileHeight;
             town.SetPosition(new Vector2(origin.XPosition + xOffset, origin.YPosition + yOffset));
         }
 

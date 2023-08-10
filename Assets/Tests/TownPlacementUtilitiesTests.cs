@@ -100,10 +100,10 @@ namespace TownTests
 
         [Test]
         [TestCase(0, 0, 1, 1, 0, 0)]
-        [TestCase(0, 0, 2, 3, 1.5f, 3)]
-        [TestCase(4, 0, 2, 3, 1.5f, 3)]
-        [TestCase(4, 4, 4, 4, 4.5f, 4.5f)]
-        [TestCase(0, 4, 1, 0, 0, -1.5f)]
+        [TestCase(0, 0, 2, 3, 1.5f, -3)]
+        [TestCase(4, 0, 2, 3, 1.5f, -3)]
+        [TestCase(4, 4, 4, 4, 4.5f, -4.5f)]
+        [TestCase(0, 4, 1, 0, 0, 1.5f)]
         public void TownPositioning(int selectedTileColumn, int selectedTileRow, int townWidth, int townHeight,
             float expectedXPositionOffset, float expectedYPositionOffset)
         {

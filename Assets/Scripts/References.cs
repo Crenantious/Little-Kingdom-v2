@@ -21,7 +21,7 @@ namespace LittleKingdom
         public void Construct(TileMono tile)
         {
             TileWidth = tile.MeshRenderer.bounds.size.x;
-            TileHeight = tile.MeshRenderer.bounds.size.x;
+            TileHeight = tile.MeshRenderer.bounds.size.z;
         }
     }
 }
