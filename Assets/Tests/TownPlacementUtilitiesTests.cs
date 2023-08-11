@@ -5,6 +5,7 @@ using LittleKingdom.Factories;
 using LittleKingdom.Input;
 using Moq;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -34,10 +35,10 @@ namespace TownTests
             references.Setup(r => r.TileWidth).Returns(TileWidth);
             references.Setup(r => r.TileHeight).Returns(TileHeight);
 
-            Container.Bind<BoardGenerator>().AsSingle();
+            Container.Bind<Inputs>().AsSingle();
             Container.Bind<InGameInput>().AsSingle();
             Container.Bind<InputUtility>().AsSingle();
-            Container.Bind<Inputs>().AsSingle();
+            Container.Bind<BoardGenerator>().AsSingle();
             Container.Bind<TileEntityAssignment>().AsSingle();
             Container.Bind<TownPlacementUtilities>().AsSingle();
             Container.BindInstance(references.Object).AsSingle();
@@ -66,11 +67,11 @@ namespace TownTests
         }
 
         [Test]
-        [TestCase(0, 0)]
-        [TestCase(3, 0)]
-        [TestCase(3, 3)]
-        [TestCase(0, 3)]
-        public void TownTilesAssignment(int column, int row)
+        [TestCase(0, 1)]
+        [TestCase(3, 1)]
+        [TestCase(3, 4)]
+        [TestCase(0, 4)]
+        public void TownTilesAssignment_CorrectAssignmentsOnly(int column, int row)
         {
             town.Setup(t => t.Width).Returns(2);
             town.Setup(t => t.Height).Returns(2);
@@ -78,8 +79,8 @@ namespace TownTests
             {
                 (column, row),
                 (column + 1, row),
-                (column, row + 1),
-                (column + 1, row + 1)
+                (column, row - 1),
+                (column + 1, row - 1)
             };
 
             tileEntityAssignment.AssignTown(townObject, board.Tiles.Get(column, row));
@@ -96,6 +97,37 @@ namespace TownTests
                         Assert.AreEqual(default, board.Tiles.Get(i, j).Town);
                 }
             }
+        }
+
+        [Test]
+        #region TestCases
+        // Each section tests the following in order: x failure, y failure, x and y failure.
+        // Bottom left
+        [TestCase(-1, 1)]
+        [TestCase(0, 0)]
+        [TestCase(-1, 0)]
+
+        // Bottom right
+        [TestCase(4, 1)]
+        [TestCase(3, 0)]
+        [TestCase(4, 0)]
+
+        // Top right
+        [TestCase(4, 4)]
+        [TestCase(3, 5)]
+        [TestCase(4, 5)]
+
+        // Top left
+        [TestCase(-1, 4)]
+        [TestCase(0, 5)]
+        [TestCase(-1, 5)]
+        #endregion
+        public void TownTilesAssignment_ThrowsIndexOutOfRangeException(int column, int row)
+        {
+            town.Setup(t => t.Width).Returns(2);
+            town.Setup(t => t.Height).Returns(2);
+
+            Assert.Throws<IndexOutOfRangeException>(() => tileEntityAssignment.AssignTown(townObject, board.Tiles.Get(column, row)));
         }
 
         [Test]

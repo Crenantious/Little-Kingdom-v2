@@ -23,7 +23,7 @@ namespace LittleKingdom
 
         #endregion
 
-        private Town town;
+        private ITown town;
         private ITile originTile;
         private bool isPlacing;
         private bool isConfirmingPlacement;
@@ -43,7 +43,7 @@ namespace LittleKingdom
         /// <summary>
         /// Place the town based on where the user specifies.
         /// </summary>
-        public void BeginPlacement(Town town)
+        public void BeginPlacement(ITown town)
         {
             if (isPlacing)
             {
@@ -60,7 +60,9 @@ namespace LittleKingdom
 
         public void FinalisePlacement()
         {
+            isPlacing = false;
             isConfirmingPlacement = false;
+            monoSimulator.UnregisterForUpdate(this);
             tileEntityAssignment.AssignTown(town, originTile);
             townPlacedEvent.Invoke(new TownPlacedEvent.EventData(town));
         }

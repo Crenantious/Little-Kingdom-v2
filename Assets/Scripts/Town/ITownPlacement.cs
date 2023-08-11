@@ -5,7 +5,7 @@ namespace LittleKingdom
         /// <summary>
         /// Perform pre-placement logic such as getting user input or calculating placement position.
         /// </summary>
-        public void BeginPlacement(Town town);
+        public void BeginPlacement(ITown town);
 
         public void FinalisePlacement();
     }
