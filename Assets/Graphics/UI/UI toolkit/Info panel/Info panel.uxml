@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Graphics/UI/UI%20toolkit/Info%20panel/Info%20panel.uss?fileID=7433441132597879392&amp;guid=347ddee5fa97b094b829974cd076cf5c&amp;type=3#Info panel" />
+    <ui:VisualElement name="RootContainer" style="align-items: center; justify-content: center; width: 100%; height: 100%;">
+        <ui:VisualElement name="RootContainer" style="width: 18%; height: 40%; align-items: center; justify-content: flex-start; background-image: url(&apos;project://database/Assets/Graphics/Textures/Plane%20panel.png?fileID=2800000&amp;guid=24beccb69fd852c4e89d1ed6dfc3b1db&amp;type=3#Plane panel&apos;); -unity-background-image-tint-color: rgb(56, 56, 56); right: 0.5%; position: absolute; padding-left: 1%; padding-right: 1%; padding-top: 1%; padding-bottom: 1%;">
+            <ui:Label tabindex="-1" text="Title&#10;" display-tooltip-when-elided="true" name="Title" class="title" style="align-items: center; justify-content: center; left: 0; right: 100%; width: 100%; height: 50px; display: flex; margin-bottom: 5%; padding-right: 0; padding-top: 0; padding-bottom: 0; padding-left: 0;" />
+            <ui:VisualElement name="BuildingLevelContainer" style="width: 100%; justify-content: flex-start; align-items: flex-start; height: 30px; margin-bottom: 5%; flex-direction: row;">
+                <ui:Label tabindex="-1" text="Building level:" display-tooltip-when-elided="true" name="BuildingLevelDescriptor" class="text" />
+                <ui:Label tabindex="-1" text="0" display-tooltip-when-elided="true" name="BuildingLevelValue" class="text" />
+            </ui:VisualElement>
+            <ui:Label tabindex="-1" text="Description:" display-tooltip-when-elided="true" name="BuildingDescriptionHeader" class="header" style="width: 100%;" />
+            <ui:Label tabindex="-1" text="Description" display-tooltip-when-elided="true" name="BuildingDescription" class="text" style="width: 100%;" />
+            <ui:Button tabindex="-1" text="Upgrade" display-tooltip-when-elided="true" name="Button" class="text" style="bottom: 1%; position: absolute; left: 1%;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
