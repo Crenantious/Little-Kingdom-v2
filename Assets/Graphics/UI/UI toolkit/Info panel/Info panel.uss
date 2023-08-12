@@ -1,5 +1,7 @@
 .text {
     font-size: 24px;
+    white-space: normal;
+    -unity-text-align: middle-left;
 }
 
 .title {
@@ -9,4 +11,5 @@
 
 .header {
     font-size: 28px;
+    -unity-text-align: middle-left;
 }
