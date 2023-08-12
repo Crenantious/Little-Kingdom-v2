@@ -9,32 +9,36 @@ namespace LittleKingdom.Board
 {
     public class BoardGenerator : IBoardGenerator
     {
-        private readonly Dictionary<TileInfo, int> remainingResourceTiles = new();
+        private readonly Dictionary<ITileInfo, int> remainingResourceTiles = new();
         private readonly TileFactory tileFactory;
+        private readonly IReferences references;
 
         private SizedGrid<ITile> tiles;
         private float carryOverTiles = 0;
         private int totalTiles;
         private int remainingResourceTilesCount;
 
-        public BoardGenerator(TileFactory tileFactory) =>
-           this.tileFactory = tileFactory;
+        public BoardGenerator(TileFactory tileFactory, IReferences references)
+        {
+            this.tileFactory = tileFactory;
+            this.references = references;
+        }
 
-        public IBoard Generate(int widthInTiles, int heightInTiles, IEnumerable<TileInfo> tileInfos)
+        public IBoard Generate(int widthInTiles, int heightInTiles, IEnumerable<ITileInfo> tileInfos)
         {
             totalTiles = widthInTiles * heightInTiles;
-            tiles = new(widthInTiles, heightInTiles, References.TileWidth, References.TileHeight);
+            tiles = new(widthInTiles, heightInTiles, references.TileWidth, references.TileHeight);
 
             InitialiseRemainingResources(tileInfos);
             CreateTiles();
 
-            return Installer.Board = new Board(tiles);
+            return references.Board = new Board(tiles);
         }
 
-        private void InitialiseRemainingResources(IEnumerable<TileInfo> tileInfos)
+        private void InitialiseRemainingResources(IEnumerable<ITileInfo> tileInfos)
         {
             float totalPercent = 0;
-            foreach (TileInfo tileInfo in tileInfos)
+            foreach (ITileInfo tileInfo in tileInfos)
             {
                 totalPercent += tileInfo.PercentOfBoard;
                 remainingResourceTiles[tileInfo] = GetTileAmount(tileInfo.PercentOfBoard);
@@ -54,15 +58,19 @@ namespace LittleKingdom.Board
             {
                 for (int j = 0; j < tiles.Height; j++)
                 {
-                    tiles.Set(i, j, tileFactory.Create(GetRandomResource()));
+                    ITile tile = tileFactory.Create(GetRandomResource());
+                    tile.Column = i;
+                    tile.Row = j;
+                    tiles.Set(i, j, tile);
+                    tiles.Get(i, j).SetPos(new(references.TileWidth * i, references.TileHeight * j));
                 }
             }
         }
 
-        private TileInfo GetRandomResource()
+        private ITileInfo GetRandomResource()
         {
             int index = Random.Range(0, remainingResourceTilesCount);
-            TileInfo resourceInfo = remainingResourceTiles.ElementAt(index).Key;
+            ITileInfo resourceInfo = remainingResourceTiles.ElementAt(index).Key;
 
             remainingResourceTiles[resourceInfo]--;
             if (remainingResourceTiles[resourceInfo] == 0)

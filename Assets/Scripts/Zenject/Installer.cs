@@ -11,12 +11,9 @@ namespace LittleKingdom
 {
     public class Installer : MonoInstaller
     {
-        public static IBoard Board { get; set; }
-
-        [SerializeField] private new Camera camera;
         [SerializeField] private DialogBox dialogBox;
-        [SerializeField] private MonoSimulator monoSimulator;
         [SerializeField] private LoaderProfiles loaderProfiles;
+        [SerializeField] private References references;
 
         // Prefabs
         [SerializeField] private TileMono tilePrefab;
@@ -27,24 +24,19 @@ namespace LittleKingdom
             Container.Bind<UIInput>().AsSingle();
             Container.Bind<InGameInput>().AsSingle();
             Container.Bind<InputUtility>().AsSingle();
-            Container.Bind<TownPlacement>().AsSingle();
-            Container.Bind<BoardGenerator>().AsSingle();
             Container.Bind<TownPlacedEvent>().AsSingle();
             Container.Bind<TileEntityAssignment>().AsSingle();
+            Container.Bind<TownPlacementUtilities>().AsSingle();
+            Container.Bind<IBoardGenerator>().To<BoardGenerator>().AsSingle();
 
-            Container.Bind<IBoard>().FromMethod(x => Board).AsSingle();
-            Container.Bind<IBoardGenerator>().To<BoardGeneratorMono>().AsSingle();
-
-            Container.BindInstance(camera).AsSingle();
             Container.BindInstance(dialogBox).AsSingle();
-            Container.BindInstance(monoSimulator).AsSingle();
+            Container.BindInstance(tilePrefab).AsSingle();
             Container.BindInstance(loaderProfiles).AsSingle();
             Container.BindInstance(loaderProfiles.Current).AsSingle();
+            Container.BindInstance<IReferences>(references).AsSingle();
 
-            Container.BindInstance(tilePrefab).AsSingle();
-
-            Container.BindFactory<TownPlacement, TownPlacementFactory>();
-            Container.BindFactory<TileInfo, ITile, TileFactory>().FromFactory<CustomTileMonoFactory>();
+            Container.BindFactory<ITownPlacement, TownPlacementFactory>().FromFactory<ManualTownPlacementFactory>();
+            Container.BindFactory<ITileInfo, ITile, TileFactory>().FromFactory<CustomTileMonoFactory>();
 
             BindLoaderConfigs();
         }

@@ -2,7 +2,7 @@ using NUnit.Framework;
 using LittleKingdom.DataStructures;
 using LittleKingdom.Extensions;
 
-namespace LittleKingdom.Tests
+namespace SizedGridTests
 {
     internal class SizedGridTests
     {

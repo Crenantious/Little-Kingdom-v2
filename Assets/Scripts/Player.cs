@@ -1,10 +1,10 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace LittleKingdom
 {
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviour, IPlayer
     {
-        [field: SerializeField] public Town Town { get; private set; }
+        [SerializeField] private Town town;
+        public ITown Town => town;
     }
 }

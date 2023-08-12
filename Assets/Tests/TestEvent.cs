@@ -1,6 +1,6 @@
 ﻿using LittleKingdom.Events;
 
-namespace LittleKingdom.Tests
+namespace EventTests
 {
     internal class TestEvent : Event<TestEvent.TestEventData>
     {

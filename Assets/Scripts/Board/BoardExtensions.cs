@@ -1,5 +1,4 @@
 using LittleKingdom.Board;
-using System;
 using UnityEngine;
 
 namespace LittleKingdom.Extensions
@@ -10,11 +9,11 @@ namespace LittleKingdom.Extensions
         {
             (int column, int row) = board.Tiles.GetNearestIndex(position);
 
-            float maxColumnIndex = (board.Tiles.Width - 1) - MathF.Ceiling((float)town.Width / 2);
-            float minRowIndex = MathF.Ceiling((float)town.Height / 2);
+            int maxColumnIndex = (board.Tiles.Width - 1) - (town.Width - 1);
+            int minRowIndex = town.Height - 1;
 
-            column = (int)Mathf.Clamp(column, 0, maxColumnIndex);
-            row = (int)Mathf.Clamp(row, minRowIndex, board.Tiles.Height - 1);
+            column = Mathf.Clamp(column, 0, maxColumnIndex);
+            row = Mathf.Clamp(row, minRowIndex, board.Tiles.Height - 1);
 
             return board.Tiles.Get(column, row);
         }

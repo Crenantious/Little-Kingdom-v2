@@ -1,8 +1,10 @@
 ﻿using LittleKingdom.Constraints;
 using NUnit.Framework;
 using Moq;
+using System;
+using LittleKingdom.Events;
 
-namespace LittleKingdom.Tests
+namespace EventTests
 {
     internal class EventTests
     {
@@ -112,6 +114,30 @@ namespace LittleKingdom.Tests
 
             InvokeAndAssertCallback(0);
         }
+
+        // These test are fine, but the system under test fails them. It is unclear at the moment
+        // if the system is worth maintaining.
+        // TODO: JR - do an analysis to determine if the system is worth keeping.
+        //[Test]
+        //public void SubscribeTwice_InvokeAndUnsubscribeTheFirstFromWithinTheFirst_BothCallbacksWereCalled()
+        //{
+        //    testEvent.Subscribe(UnsubscribeDuringInvokationCallback1);
+        //    testEvent.Subscribe(UnsubscribeDuringInvokationCallback2);
+
+        //    InvokeAndAssertCallback(2);
+        //}
+
+        //private void UnsubscribeDuringInvokationCallback1(TestEvent.TestEventData eventData)
+        //{
+        //    testEvent.Unsubscribe(UnsubscribeDuringInvokationCallback1);
+        //    Callback(eventData);
+        //}
+
+        //private void UnsubscribeDuringInvokationCallback2(TestEvent.TestEventData eventData)
+        //{
+        //    testEvent.Unsubscribe(UnsubscribeDuringInvokationCallback2);
+        //    Callback(eventData);
+        //}
 
         private IConstraint GetMockConstraint(bool isValid)
         {

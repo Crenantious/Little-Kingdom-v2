@@ -1,25 +1,26 @@
 using LittleKingdom.Board;
 using LittleKingdom.DataStructures;
+using System;
 using UnityEngine;
 
 namespace LittleKingdom
 {
+    [Serializable]
     public class Town : MonoBehaviour, ITown
     {
-        /// <inheritdoc/>
         [field: SerializeField] public int Width { get; protected set; }
 
-        /// <inheritdoc/>
         [field: SerializeField] public int Height { get; protected set; }
 
-        /// <summary>
-        /// The top-left tile that town occupies.
-        /// </summary>
         public ITile OriginTile { get; set; }
-
-        /// <summary>
-        /// The tiles that the town occupies.
-        /// </summary>
         public Grid<ITile> Tiles { get; set; }
+        public float XPosition { get => transform.position.x; }
+        public float YPosition { get => transform.position.z; }
+
+        public void Awake() =>
+            Tiles = new(Width, Height);
+
+        public void SetPosition(Vector2 position) =>
+            transform.position = new(position.x, 0, position.y);
     }
 }

@@ -12,7 +12,7 @@ namespace LittleKingdom.Board
         public int Column { get; set; }
         public int Row { get; set; }
         public float XPosition { get => transform.position.x; set => transform.position = new(value, transform.position.y, transform.position.z); }
-        public float YPosition { get => transform.position.y; set => transform.position = new(transform.position.x, value, transform.position.z); }
+        public float YPosition { get => transform.position.z; set => transform.position = new(transform.position.x, transform.position.y, value); }
         public ITown Town { get; set; }
 
         public void Initialise(ResourceType resourceType)

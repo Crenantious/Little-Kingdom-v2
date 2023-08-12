@@ -1,10 +1,16 @@
+using System;
+
 namespace LittleKingdom
 {
     public interface ITownPlacement
     {
+        public event SimpleEventHandler<ITown> TownPlaced;
+
         /// <summary>
-        /// Position the town on the board and assign the containing tiles.
+        /// Perform pre-placement logic such as getting user input or calculating placement position.
         /// </summary>
-        public void Place(Town town);
+        public void BeginPlacement(ITown town);
+
+        public void FinalisePlacement();
     }
 }

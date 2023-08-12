@@ -1,5 +1,6 @@
 using LittleKingdom.Board;
 using LittleKingdom.DataStructures;
+using UnityEngine;
 
 namespace LittleKingdom
 {
@@ -24,5 +25,17 @@ namespace LittleKingdom
         /// The tiles that the town occupies.
         /// </summary>
         public Grid<ITile> Tiles { get; set; }
+
+        /// <summary>
+        /// The x position relative to the board.
+        /// </summary>
+        public float XPosition { get; }
+
+        /// <summary>
+        /// The y position relative to the board.
+        /// </summary>
+        public float YPosition { get; }
+
+        public void SetPosition(Vector2 position);
     }
 }

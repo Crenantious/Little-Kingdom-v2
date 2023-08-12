@@ -4,7 +4,7 @@ using Zenject;
 
 namespace LittleKingdom.Factories
 {
-    public class CustomTileMonoFactory : IFactory<TileInfo, ITile>
+    public class CustomTileMonoFactory : IFactory<ITileInfo, ITile>
     {
         private readonly DiContainer container;
         private readonly TileMono tileMono;
@@ -15,7 +15,7 @@ namespace LittleKingdom.Factories
             this.tileMono = tileMono;
         }
 
-        public ITile Create(TileInfo tileInfo)
+        public ITile Create(ITileInfo tileInfo)
         {
             TileMono tile = container.InstantiatePrefabForComponent<TileMono>(tileMono);
             tile.Initialise(tileInfo.ResourceType);
