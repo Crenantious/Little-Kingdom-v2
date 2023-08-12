@@ -12,17 +12,13 @@ namespace LittleKingdom
         [SerializeField] private BoardLoader boardLoader;
 
         private TownPlacementFactory townPlacementFactory;
-        private TownPlacedEvent townPlacedEvent;
 
         private ITownPlacement townPlacement;
         private int currentPlayerIndex = 0;
 
         [Inject]
-        public void Construct(TownPlacementFactory townPlacementFactory, TownPlacedEvent townPlacedEvent)
-        {
+        public void Construct(TownPlacementFactory townPlacementFactory) =>
             this.townPlacementFactory = townPlacementFactory;
-            this.townPlacedEvent = townPlacedEvent;
-        }
 
         private void Awake() =>
             Dependencies.Add(boardLoader);
@@ -33,15 +29,18 @@ namespace LittleKingdom
             if (TurnManager.Players.Count <= 0)
                 return;
 
-            townPlacedEvent.Subscribe(BeginNextPlacement);
-            BeginNextPlacement(new(TurnManager.Players[0].Town));
+            townPlacement.TownPlaced += OnTownPlaced;
+            BeginNextPlacement();
         }
 
-        private void BeginNextPlacement(TownPlacedEvent.EventData eventData)
+        private void OnTownPlaced(ITown town) =>
+            BeginNextPlacement();
+
+        private void BeginNextPlacement()
         {
             if (currentPlayerIndex >= TurnManager.Players.Count)
             {
-                townPlacedEvent.Unsubscribe(BeginNextPlacement);
+                townPlacement.TownPlaced -= OnTownPlaced;
                 return;
             }
 

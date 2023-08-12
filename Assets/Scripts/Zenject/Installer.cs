@@ -12,7 +12,6 @@ namespace LittleKingdom
     public class Installer : MonoInstaller
     {
         [SerializeField] private DialogBox dialogBox;
-        [SerializeField] private MonoSimulator monoSimulator;
         [SerializeField] private LoaderProfiles loaderProfiles;
         [SerializeField] private References references;
 
@@ -25,22 +24,18 @@ namespace LittleKingdom
             Container.Bind<UIInput>().AsSingle();
             Container.Bind<InGameInput>().AsSingle();
             Container.Bind<InputUtility>().AsSingle();
-            Container.Bind<ManualTownPlacement>().AsSingle();
             Container.Bind<TownPlacedEvent>().AsSingle();
             Container.Bind<TileEntityAssignment>().AsSingle();
             Container.Bind<TownPlacementUtilities>().AsSingle();
-
             Container.Bind<IBoardGenerator>().To<BoardGenerator>().AsSingle();
 
             Container.BindInstance(dialogBox).AsSingle();
-            Container.BindInstance(monoSimulator).AsSingle();
+            Container.BindInstance(tilePrefab).AsSingle();
             Container.BindInstance(loaderProfiles).AsSingle();
             Container.BindInstance(loaderProfiles.Current).AsSingle();
             Container.BindInstance<IReferences>(references).AsSingle();
 
-            Container.BindInstance(tilePrefab).AsSingle();
-
-            Container.BindFactory<ManualTownPlacement, TownPlacementFactory>();
+            Container.BindFactory<ITownPlacement, TownPlacementFactory>().FromFactory<ManualTownPlacementFactory>();
             Container.BindFactory<ITileInfo, ITile, TileFactory>().FromFactory<CustomTileMonoFactory>();
 
             BindLoaderConfigs();

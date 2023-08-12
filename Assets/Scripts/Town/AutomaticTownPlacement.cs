@@ -21,6 +21,8 @@ namespace LittleKingdom
             this.tileEntityAssignment = tileEntityAssignment;
         }
 
+        public event SimpleEventHandler<ITown> TownPlaced;
+
         public void BeginPlacement(ITown town)
         {
             throw new NotImplementedException();
