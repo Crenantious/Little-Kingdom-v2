@@ -1,5 +1,4 @@
 using UnityEditor;
-using UnityEngine.TestTools;
 using UnityEngine.UIElements;
 
 namespace PlayModeTests
@@ -12,7 +11,5 @@ namespace PlayModeTests
             AssetDatabase.LoadAssetAtPath<UIDocument>(
                 AssetDatabase.GUIDToAssetPath(
                     AssetDatabase.FindAssets(name, UIDocumentPath)[0]));
-
-        public static MonoBehaviourTest<UITestObject> GetUITestObject() => new();
     }
 }

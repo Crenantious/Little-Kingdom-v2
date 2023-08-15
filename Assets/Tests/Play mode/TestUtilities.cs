@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace PlayModeTests
 {
-    public static class TestUtilities
+    public class TestUtilities
     {
         public static GameObject LoadPrefab(string name) =>
             AssetDatabase.LoadAssetAtPath<GameObject>(

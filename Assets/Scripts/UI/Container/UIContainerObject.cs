@@ -3,7 +3,8 @@ using UnityEngine.UIElements;
 
 namespace LittleKingdom.UI
 {
-    public class BuildingInfoDisplayComponent : MonoBehaviour
+    [RequireComponent(typeof(UIDocument))]
+    public class UIContainerObject : MonoBehaviour
     {
         [field: SerializeField] public UIDocument Document { get; private set; }
     }

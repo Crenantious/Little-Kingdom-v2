@@ -13,3 +13,21 @@
     font-size: 28px;
     -unity-text-align: middle-left;
 }
+
+.root {
+    position: absolute;
+    top: 50%;
+    right: 0.5%;
+    align-items: stretch;
+    width: 18%;
+    height: 40%;
+    min-width: 0;
+    min-height: 0;
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    background-image: url('project://database/Assets/Graphics/Textures/Plane%20panel.png?fileID=2800000&guid=24beccb69fd852c4e89d1ed6dfc3b1db&type=3#Plane panel');
+    -unity-background-image-tint-color: rgba(56, 56, 56, 255);
+    translate: 0 -50%;
+}

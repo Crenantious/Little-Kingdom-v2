@@ -6,6 +6,7 @@ using Zenject;
 
 namespace LittleKingdom.UI
 {
+    // TODO: JR - refactor to use the UIContainer system.
     public class DialogBox : MonoBehaviour
     {
         [SerializeField] private UIDocument document;
