@@ -1,10 +1,8 @@
-using LittleKingdom;
 using LittleKingdom.UI;
 using Moq;
 using NUnit.Framework;
 using PlayModeTests;
 using System.Collections;
-using UnityEngine;
 using UnityEngine.TestTools;
 using Zenject;
 
@@ -19,9 +17,13 @@ namespace InfoPanelTests
         public void CommonInstall()
         {
             DefaultInstaller defaultInstaller = new(Container);
-            Container.Bind<UIBuildingInfoPanel>().AsSingle();
-
             defaultInstaller.InstallBindings();
+
+            Container.Bind<UIBuildingInfoPanel>().AsSingle();
+            Container.Bind<UIContainer>()
+                .FromComponentInNewPrefab(TestUtilities.LoadPrefab("Info panel"))
+                .WhenInjectedInto<UIBuildingInfoPanel>();
+
             Container.Inject(this);
         }
 

@@ -5,7 +5,6 @@ namespace LittleKingdom
 {
     public interface IReferences
     {
-        public IUIReferences UI { get; }
         public int DefaultLayer { get; }
         public int IgnoreRaycastLayer { get; }
         public Camera ActiveCamera { get; }

@@ -3,12 +3,11 @@ using UnityEngine.UIElements;
 
 namespace LittleKingdom.UI
 {
-    public class UIContainer : IUIContainer
+    public class UIContainer : MonoBehaviour, IUIContainer
     {
-        [field: SerializeField] public UIContainerObject ContainerObject;
+        [SerializeField] private UIContainerObject ContainerObject;
 
-        public UIContainer(UIContainerObject containerObject) =>
-            ContainerObject = containerObject;
+        public UIDocument Document => ContainerObject.Document;
 
         public void Show(VisualTreeAsset visualTree)
         {

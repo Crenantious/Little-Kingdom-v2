@@ -4,21 +4,25 @@ namespace LittleKingdom.UI
 {
     public class UIBuildingInfoPanel : IUIContainter<BuildingInfoPanelData>
     {
-        private readonly IUIReferences references;
+        private readonly UIContainer infoPanel;
+        private readonly VisualTreeAsset visualTreeAsset;
 
-        public UIBuildingInfoPanel(IUIReferences references) =>
-            this.references = references;
+        public UIBuildingInfoPanel(UIContainer infoPanel)
+        {
+            this.infoPanel = infoPanel;
+            visualTreeAsset = infoPanel.gameObject.GetComponent<InfoPanelVisualTreeAssets>().Buildings;
+        }
 
         public void Show(BuildingInfoPanelData data)
         {
-            references.InfoPanelContainer.Show(references.BuildingInfoPanelVisualTree);
+            infoPanel.Show(visualTreeAsset);
             GetTitle().text = data.Title;
             GetLevel().text = data.BuildingLevel.ToString();
             GetDescription().text = data.Description;
             GetUpgradeButton().clicked += data.UpgradeCallback;
         }
 
-        public void Hide() => references.InfoPanelContainer.Hide();
+        public void Hide() => infoPanel.Hide();
 
         private Label GetTitle() =>
             GetRootVisualElement().Q("Title") as Label;
@@ -33,6 +37,6 @@ namespace LittleKingdom.UI
             GetRootVisualElement().Q("UpgradeButton") as Button;
 
         private VisualElement GetRootVisualElement() =>
-            references.InfoPanelContainer.ContainerObject.Document.rootVisualElement;
+            infoPanel.Document.rootVisualElement;
     }
 }

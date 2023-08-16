@@ -34,7 +34,6 @@ namespace LittleKingdom
             Container.BindInstance(loaderProfiles).AsSingle();
             Container.BindInstance(loaderProfiles.Current).AsSingle();
             Container.BindInstance<IReferences>(references).AsSingle();
-            Container.BindInstance<IUIReferences>(references.UI).AsSingle();
 
             Container.BindFactory<ITownPlacement, TownPlacementFactory>().FromFactory<ManualTownPlacementFactory>();
             Container.BindFactory<ITileInfo, ITile, TileFactory>().FromFactory<CustomTileMonoFactory>();

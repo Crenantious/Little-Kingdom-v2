@@ -8,7 +8,6 @@ namespace LittleKingdom
     // This should only be placed on one GameObject.
     public class References : MonoBehaviour, IReferences
     {
-        [field: SerializeField] public IUIReferences UI { get; private set; }
         [field: SerializeField] public int DefaultLayer { get; private set; }
         [field: SerializeField] public int IgnoreRaycastLayer { get; private set; }
         [field: SerializeField] public Camera ActiveCamera { get; private set; }

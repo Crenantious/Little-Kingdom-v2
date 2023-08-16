@@ -15,11 +15,8 @@ namespace PlayModeTests
         private readonly DiContainer container;
         private readonly Action[] installActions;
 
-        private IUIReferences uiReferences;
-
         public enum BindType
         {
-            IUIReferences,
             IReferences,
             TestUtilities,
             PlayModeTestHelper,
@@ -34,8 +31,7 @@ namespace PlayModeTests
 
             installActions = new Action[]
             {
-                () => InstallUIReferences(),
-                () => InstallReferences(),
+                () => InstallMock(CreateDefaultMock<IReferences>()).AsSingle(),
                 () => container.Bind<TestUtilities>().AsSingle(),
                 () => container.Bind<PlayModeTestHelper>().AsSingle(),
                 () => container.Bind<UIInput>().AsSingle(),
@@ -67,16 +63,6 @@ namespace PlayModeTests
             container.Bind<T>().FromComponentInNewPrefab(prefab).AsSingle();
             return prefab.GetComponent<T>();
         }
-
-        private void InstallReferences()
-        {
-            var mock = CreateDefaultMock<IReferences>();
-            mock.Setup(x => x.UI).Returns(uiReferences);
-            InstallMock(mock).AsSingle();
-        }
-
-        private void InstallUIReferences() =>
-          uiReferences = InstallPrefab<IUIReferences>("UI references");
 
         private Mock<T> CreateDefaultMock<T>() where T : class
         {
