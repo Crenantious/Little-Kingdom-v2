@@ -1,3 +1,4 @@
+using LittleKingdom;
 using LittleKingdom.UI;
 using Moq;
 using NUnit.Framework;
@@ -12,16 +13,15 @@ namespace InfoPanelTests
     public class InfoPanelTests : ZenjectUnitTestFixture
     {
         [Inject] private readonly PlayModeTestHelper testHelper;
-
-        private UIBuildingInfoPanel buildingInfoDisplay;
+        [Inject] private readonly UIBuildingInfoPanel buildingInfoPanel;
 
         [SetUp]
         public void CommonInstall()
         {
-            CommonInstaller.InstallBindings(Container);
-            buildingInfoDisplay = Object.Instantiate(TestUtilities.LoadPrefab("Building info display"))
-                .GetComponent<UIBuildingInfoPanel>();
-            Container.BindInstance(buildingInfoDisplay).AsSingle();
+            DefaultInstaller defaultInstaller = new(Container);
+            Container.Bind<UIBuildingInfoPanel>().AsSingle();
+
+            defaultInstaller.InstallBindings();
             Container.Inject(this);
         }
 
@@ -29,10 +29,10 @@ namespace InfoPanelTests
         public IEnumerator OpenBuildingInfoDisplay_VerifyContent()
         {
             Mock<ITestCallback> testCallback = new();
-            BuildingInfoPanelData buildingInfo = new("Test title", 3, "A super boring description.", testCallback.Object.Callback);
+            BuildingInfoPanelData buildingData = new("Test title", 3, "A super boring description.", testCallback.Object.Callback);
             testHelper.Initialise(() => testCallback.Verify(t => t.Callback(), Times.Once()));
 
-            buildingInfoDisplay.Show(buildingInfo);
+            buildingInfoPanel.Show(buildingData);
 
             yield return testHelper;
         }

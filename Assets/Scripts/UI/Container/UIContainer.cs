@@ -8,7 +8,7 @@ namespace LittleKingdom.UI
         [field: SerializeField] public UIContainerObject ContainerObject;
 
         public UIContainer(UIContainerObject containerObject) =>
-            this.ContainerObject = containerObject;
+            ContainerObject = containerObject;
 
         public void Show(VisualTreeAsset visualTree)
         {
