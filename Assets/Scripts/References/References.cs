@@ -16,6 +16,7 @@ namespace LittleKingdom
         public float TileHeight { get; private set; }
 
         public IBoard Board { get; set; }
+        public GameState GameState { get; set; }
 
         [Inject]
         public void Construct(TileMono tile)

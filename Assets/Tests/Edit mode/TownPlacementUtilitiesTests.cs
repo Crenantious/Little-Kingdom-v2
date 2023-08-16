@@ -36,7 +36,7 @@ namespace TownTests
             references.Setup(r => r.TileHeight).Returns(TileHeight);
 
             Container.Bind<Inputs>().AsSingle();
-            Container.Bind<InGameInput>().AsSingle();
+            Container.Bind<StandardInput>().AsSingle();
             Container.Bind<InputUtility>().AsSingle();
             Container.Bind<BoardGenerator>().AsSingle();
             Container.Bind<TileEntityAssignment>().AsSingle();

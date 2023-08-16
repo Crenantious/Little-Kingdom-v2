@@ -13,10 +13,10 @@ namespace LittleKingdom.UI
         [SerializeField] private StyleSheet optionStyleSheet;
         [SerializeField] private GameObject UIElements;
         
-        private UIInput uiInput;
+        private StandardInput uiInput;
 
         [Inject]
-        public void Construct(UIInput uiInput) =>
+        public void Construct(StandardInput uiInput) =>
             this.uiInput = uiInput;
 
         /// <summary>

@@ -8,10 +8,10 @@ namespace LittleKingdom
     public class GameFlow : MonoBehaviour
     {
         [SerializeField] private Loader initialLoader;
-        private InGameInput inGameInput;
+        private StandardInput inGameInput;
 
         [Inject]
-        public void Construct(InGameInput inGameInput)
+        public void Construct(StandardInput inGameInput)
         {
             this.inGameInput = inGameInput;
         }

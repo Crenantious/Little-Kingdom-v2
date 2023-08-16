@@ -10,7 +10,7 @@ namespace LittleKingdom
     {
         #region DI
 
-        private readonly InGameInput inGameInput;
+        private readonly StandardInput inGameInput;
         private readonly DialogBox dialogBox;
         private readonly TileEntityAssignment tileEntityAssignment;
         private readonly TownPlacementUtilities townPlacementUtilities;
@@ -24,7 +24,7 @@ namespace LittleKingdom
 
         public event SimpleEventHandler<ITown> TownPlaced;
 
-        public ManualTownPlacement(InGameInput inGameInput,
+        public ManualTownPlacement(StandardInput inGameInput,
             DialogBox dialogBox, TileEntityAssignment tileEntityAssignment,
             TownPlacementUtilities townPlacementUtilities)
         {

@@ -11,5 +11,6 @@ namespace LittleKingdom
         public float TileWidth { get; }
         public float TileHeight { get; }
         public IBoard Board { get; set; }
+        public GameState GameState { get; set; }
     }
 }

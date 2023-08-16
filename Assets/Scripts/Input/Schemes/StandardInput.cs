@@ -4,34 +4,30 @@ using static LittleKingdom.Input.Inputs;
 
 namespace LittleKingdom.Input
 {
-    public class InGameInput : IInputScheme
+    public class StandardInput : IInputScheme
     {
-        private InGameActions actions;
-
-        public delegate void PointerTapHandler();
+        private StandardActions actions;
 
         /// <summary>
-        /// Called when a tap is registered on the screen. Mouse click, touch etc.
+        /// Called when a tap is registered on the screen. Mouse click and release, touch and release etc.
         /// </summary>
-        public event PointerTapHandler PointerTap;
+        public event SimpleEventHandler PointerTap;
 
-        public InGameInput(Inputs inputs)
+        public StandardInput(Inputs inputs)
         {
-
-            actions = inputs.InGame;
+            actions = inputs.Standard;
             actions.PointerTap.performed += OnPointerTap;
         }
 
-        /// <inheritdoc/>
         public void Enable() =>
             actions.Enable();
 
-        /// <inheritdoc/>
         public void Disable() =>
             actions.Disable();
 
         public Vector2 GetPointerPosition() =>
-            actions.Point.ReadValue<Vector2>();
+            actions.PointerPosition.ReadValue<Vector2>();
+
         private void OnPointerTap(InputAction.CallbackContext context)
         {
             PointerTap.Invoke();

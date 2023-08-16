@@ -10,14 +10,14 @@ namespace LittleKingdom
         #region DI
 
         private readonly InputUtility inputUtility;
-        private readonly InGameInput inGameInput;
+        private readonly StandardInput inGameInput;
         private readonly IReferences references;
 
         #endregion
 
         private readonly Vector2 defaultPointerWorldPosition = new();
 
-        public TownPlacementUtilities(InputUtility inputUtility, InGameInput inGameInput, IReferences references)
+        public TownPlacementUtilities(InputUtility inputUtility, StandardInput inGameInput, IReferences references)
         {
             this.inputUtility = inputUtility;
             this.inGameInput = inGameInput;

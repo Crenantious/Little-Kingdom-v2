@@ -20,7 +20,6 @@ namespace PlayModeTests
             IReferences,
             TestUtilities,
             PlayModeTestHelper,
-            UIInput,
             Inputs,
             DialogBox,
         }
@@ -34,7 +33,6 @@ namespace PlayModeTests
                 () => InstallMock(CreateDefaultMock<IReferences>()).AsSingle(),
                 () => container.Bind<TestUtilities>().AsSingle(),
                 () => container.Bind<PlayModeTestHelper>().AsSingle(),
-                () => container.Bind<UIInput>().AsSingle(),
                 () => container.Bind<Inputs>().AsSingle(),
                 () => InstallPrefab<DialogBox>("Dialog box"),
             };

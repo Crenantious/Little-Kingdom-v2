@@ -21,8 +21,7 @@ namespace LittleKingdom
         public override void InstallBindings()
         {
             Container.Bind<Inputs>().AsSingle();
-            Container.Bind<UIInput>().AsSingle();
-            Container.Bind<InGameInput>().AsSingle();
+            Container.Bind<StandardInput>().AsSingle();
             Container.Bind<InputUtility>().AsSingle();
             Container.Bind<TownPlacedEvent>().AsSingle();
             Container.Bind<TileEntityAssignment>().AsSingle();

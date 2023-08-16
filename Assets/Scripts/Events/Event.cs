@@ -4,14 +4,14 @@ using System.Linq;
 
 namespace LittleKingdom.Events
 {
-    public abstract class Event<EventDataType> : IEvent
-        where EventDataType : EventDataBase
+    public abstract class Event<TEventData> : IEvent
+        where TEventData : EventDataBase
     {
         private readonly List<(Callback callback, IConstraint[] constraints)> subscribers = new();
 
-        public delegate void Callback(EventDataType eventData);
+        public delegate void Callback(TEventData eventData);
 
-        public void Invoke(EventDataType eventData)
+        public void Invoke(TEventData eventData)
         {
             RecentEventData.Update(this, eventData);
 

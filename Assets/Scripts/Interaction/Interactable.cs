@@ -2,9 +2,9 @@
 
 using System.Collections.Generic;
 using UnityEngine;
-using static LittleKingdom.Interaction;
+using static LittleKingdom.Interaction.Interaction;
 
-namespace LittleKingdom
+namespace LittleKingdom.Interaction
 {
     public class Interactable : MonoBehaviour
     {
@@ -29,7 +29,7 @@ namespace LittleKingdom
                 { InteractionType.MouseOver, mouseOverInteractions },
                 { InteractionType.MouseDrag, mouseDragInteractions }
             };
-            print(Interactions.Count  );
+            print(Interactions.Count);
 
             foreach (Interaction interaction in Interactions)
             {
