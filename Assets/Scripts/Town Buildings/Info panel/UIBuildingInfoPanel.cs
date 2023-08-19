@@ -1,19 +1,22 @@
+using LittleKingdom.UI;
+using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace LittleKingdom.UI
+namespace LittleKingdom.Buildings
 {
-    public class UIBuildingInfoPanel : IUIContainter<BuildingInfoPanelData>
+    [RequireComponent(typeof(UIContainer))]
+    [AddComponentMenu("LittleKingdom/Building info panel")]
+    public class UIBuildingInfoPanel : MonoBehaviour, IUIContainter<Building>
     {
-        private readonly UIContainer infoPanel;
-        private readonly VisualTreeAsset visualTreeAsset;
+        [SerializeField] private UIContainer infoPanel;
+        [SerializeField] private VisualTreeAsset visualTreeAsset;
 
-        public UIBuildingInfoPanel(UIContainer infoPanel)
-        {
-            this.infoPanel = infoPanel;
-            visualTreeAsset = infoPanel.gameObject.GetComponent<InfoPanelVisualTreeAssets>().Buildings;
-        }
+        //public void Awake()
+        //{
+        //    visualTreeAsset = infoPanel.gameObject.GetComponent<InfoPanelVisualTreeAssets>().Buildings;
+        //}
 
-        public void Show(BuildingInfoPanelData data)
+        public void Show(Building data)
         {
             infoPanel.Show(visualTreeAsset);
             GetTitle().text = data.Title;

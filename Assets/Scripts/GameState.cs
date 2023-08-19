@@ -5,7 +5,7 @@ namespace LittleKingdom
     [Flags]
     public enum GameState
     {
-        StandardInGame,
-        UILocked,
+        StandardInGame  = 1 << 0,
+        UILocked        = 1 << 1,
     }
 }

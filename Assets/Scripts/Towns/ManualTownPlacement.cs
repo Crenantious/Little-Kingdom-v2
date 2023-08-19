@@ -3,6 +3,7 @@ using LittleKingdom.Input;
 using LittleKingdom.UI;
 using UnityEngine;
 using Zenject;
+using System;
 
 namespace LittleKingdom
 {
@@ -72,10 +73,10 @@ namespace LittleKingdom
         private void ConfirmPlacement()
         {
             isConfirmingPlacement = true;
-            dialogBox.Open("Place town here?", ("Yes", (o) => FinalisePlacement()), ("No", OnPlacementRejected));
+            dialogBox.Open("Place town here?", ("Yes", FinalisePlacement), ("No", OnPlacementRejected));
         }
 
-        private void OnPlacementRejected(string option) =>
+        private void OnPlacementRejected() =>
             isConfirmingPlacement = false;
     }
 }

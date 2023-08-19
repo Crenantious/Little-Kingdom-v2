@@ -2,6 +2,7 @@ using LittleKingdom.UI;
 using NUnit.Framework;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace PlayModeTests
 {
@@ -9,7 +10,6 @@ namespace PlayModeTests
     {
         private readonly DialogBox dialogBox;
 
-        private Action verify;
         private bool isTestFinished = false;
 
         public object Current => null;
@@ -17,14 +17,41 @@ namespace PlayModeTests
         public PlayModeTestHelper(DialogBox dialogBox) =>
             this.dialogBox = dialogBox;
 
-        /// <param name="verify">Called when the "verify" button is pressed. Should be used for things such as Asserts.</param>
-        public void Initialise(Action verify)
+        /// <summary>
+        /// Initialise and display the panel.
+        /// </summary>
+        /// <param name="extraButtons"></param>
+        public void Initialise(params (string text, Action callback)[] extraButtons)
         {
-            this.verify = verify;
+            List<(string, Action)> buttons = new(extraButtons.Length + 2)
+            {
+                ("Pass", () => ConcludeTest(true))
+            };
+            foreach (var (text, callback) in extraButtons)
+            {
+                buttons.Add((text, callback));
+            }
+            buttons.Add(("Fail", () => ConcludeTest(false)));
+
+            dialogBox.Open("Test helper", buttons.ToArray());
+        }
+
+        ///<summary>
+        /// Initialise and display the panel. Creates a button called "Verify",
+        /// or "Verify and conclude" if <paramref name="concludeAfterVerify"/> is true.
+        ///</summary>
+        /// <param name="verifyCallback">Called when the "Verify"/"Verify and conclude" button is pressed.
+        /// Should be used for things such as Asserts.</param>
+        public void Initialise(Action verifyCallback, bool concludeAfterVerify)
+        {
+            (string, Action) verifyButton = concludeAfterVerify ? 
+                ("Verify and conclude", () => { verifyCallback(); ConcludeTest(); }) :
+                ("Verify", verifyCallback);
+
             dialogBox.Open("Test helper",
-                ("Pass", (s) => ConcludeTest(true)),
-                ("Verify and conclude", (s) => VerifyAndConcludeTest()),
-                ("Fail", (s) => ConcludeTest(false)));
+                ("Pass", () => ConcludeTest(true)),
+                verifyButton,
+                ("Fail", () => ConcludeTest(false)));
         }
 
         public bool MoveNext() => !isTestFinished;
@@ -32,11 +59,6 @@ namespace PlayModeTests
         public void Reset() { }
 
         private void ConcludeTest() => isTestFinished = true;
-        private void VerifyAndConcludeTest()
-        {
-            isTestFinished = true;
-            verify();
-        }
 
         private void ConcludeTest(bool wasSuccessful)
         {

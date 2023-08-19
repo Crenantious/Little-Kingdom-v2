@@ -24,7 +24,7 @@ namespace LittleKingdom.UI
         /// </summary>
         /// <param name="callback">Called when any option button is pressed. The name of the option is passed in.</param>
         /// <param name="options">The name of each option button, to be displayed in order: left to right.</param>
-        public void Open(string title, Action<string> callback, params string[] options)
+        public void Open(string title, Action callback, params string[] options)
         {
             OpenCommon(title);
 
@@ -40,11 +40,11 @@ namespace LittleKingdom.UI
         /// <param name="options">The name of each option button with a corresponding action to be called when said option is pressed,
         /// the name of the option is passed in.<br/>
         /// Displayed in order: left to right.</param>
-        public void Open(string title, params (string name, Action<string> callback)[] options)
+        public void Open(string title, params (string name, Action callback)[] options)
         {
             OpenCommon(title);
 
-            foreach ((string name, Action<string> callback) option in options)
+            foreach ((string name, Action callback) option in options)
             {
                 CreateButton(option.name, option.callback);
             }
@@ -58,7 +58,7 @@ namespace LittleKingdom.UI
             GetOptionsContainer().Clear();
         }
 
-        private void CreateButton(string name, Action<string> callback)
+        private void CreateButton(string name, Action callback)
         {
             Button button = new();
             button.styleSheets.Add(optionStyleSheet);
@@ -67,11 +67,11 @@ namespace LittleKingdom.UI
             GetOptionsContainer().Add(button);
         }
 
-        private void ButtonCallback(Action<string> callback, string option)
+        private void ButtonCallback(Action callback, string option)
         {
             ActiveInputScheme.SetPrevious();
             UIElements.SetActive(false);
-            callback?.Invoke(option);
+            callback?.Invoke();
         }
 
         private VisualElement GetOptionsContainer() =>

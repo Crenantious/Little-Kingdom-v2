@@ -30,7 +30,7 @@ namespace LittleKingdom.Input
 
         private void OnPointerTap(InputAction.CallbackContext context)
         {
-            PointerTap.Invoke();
+            PointerTap?.Invoke();
         }
     }
 }

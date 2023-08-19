@@ -22,6 +22,7 @@ namespace PlayModeTests
             PlayModeTestHelper,
             Inputs,
             DialogBox,
+            StandardInput,
         }
 
         public DefaultInstaller(DiContainer container)
@@ -34,6 +35,7 @@ namespace PlayModeTests
                 () => container.Bind<TestUtilities>().AsSingle(),
                 () => container.Bind<PlayModeTestHelper>().AsSingle(),
                 () => container.Bind<Inputs>().AsSingle(),
+                () => container.Bind<StandardInput>().AsSingle(),
                 () => InstallPrefab<DialogBox>("Dialog box"),
             };
         }

@@ -8,6 +8,6 @@
         </ui:VisualElement>
         <ui:Label tabindex="-1" text="Description:" display-tooltip-when-elided="true" name="BuildingDescriptionHeader" class="header" style="width: 100%; height: 35px; left: 0; top: 0; right: 0; bottom: 0; min-width: 0; min-height: 0; flex-basis: auto;" />
         <ui:Label tabindex="-1" text="A very lovely description filled with wonderous glamours goes here." display-tooltip-when-elided="true" name="BuildingDescription" enable-rich-text="true" class="text" style="width: 100%; left: 0; top: 0; right: 0; bottom: 0; min-width: 0; min-height: 0; flex-basis: auto;" />
-        <ui:Button tabindex="-1" text="Upgrade" display-tooltip-when-elided="true" name="UpgradeButton" class="text" style="bottom: 1%; position: absolute; left: 1%; min-width: 0; min-height: 0; width: 33%; height: 8.5%;" />
+        <ui:Button tabindex="-1" text="Upgrade" display-tooltip-when-elided="true" name="UpgradeButton" class="text" style="bottom: 1%; position: absolute; left: 1%; min-width: 0; min-height: 0; width: auto; height: 8.5%;" />
     </ui:VisualElement>
 </ui:UXML>

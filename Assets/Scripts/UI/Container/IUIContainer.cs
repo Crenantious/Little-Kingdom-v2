@@ -8,7 +8,7 @@ namespace LittleKingdom.UI
         public void Hide();
     }
 
-    public interface IUIContainter<TData> where TData : UIContainerData
+    public interface IUIContainter<TData>
     {
         public void Show(TData data);
         public void Hide();
