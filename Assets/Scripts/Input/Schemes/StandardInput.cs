@@ -4,13 +4,10 @@ using static LittleKingdom.Input.Inputs;
 
 namespace LittleKingdom.Input
 {
-    public class StandardInput : IInputScheme
+    public class StandardInput : IStandardInput
     {
         private StandardActions actions;
 
-        /// <summary>
-        /// Called when a tap is registered on the screen. Mouse click and release, touch and release etc.
-        /// </summary>
         public event SimpleEventHandler PointerTap;
 
         public StandardInput(Inputs inputs)

@@ -22,7 +22,7 @@ namespace LittleKingdom
         {
             Container.Bind<Inputs>().AsSingle();
             Container.Bind<StandardInput>().AsSingle();
-            Container.Bind<InputUtility>().AsSingle();
+            Container.Bind<ObjectClickthrough>().AsSingle();
             Container.Bind<TownPlacedEvent>().AsSingle();
             Container.Bind<TileEntityAssignment>().AsSingle();
             Container.Bind<TownPlacementUtilities>().AsSingle();

@@ -9,18 +9,16 @@ namespace LittleKingdom
     {
         #region DI
 
-        private readonly InputUtility inputUtility;
-        private readonly StandardInput inGameInput;
+        private readonly RaycastFromPointer raycastFromPointer;
         private readonly IReferences references;
 
         #endregion
 
         private readonly Vector2 defaultPointerWorldPosition = new();
 
-        public TownPlacementUtilities(InputUtility inputUtility, StandardInput inGameInput, IReferences references)
+        public TownPlacementUtilities(RaycastFromPointer raycastFromPointer, IReferences references)
         {
-            this.inputUtility = inputUtility;
-            this.inGameInput = inGameInput;
+            this.raycastFromPointer = raycastFromPointer;
             this.references = references;
         }
 
@@ -36,7 +34,7 @@ namespace LittleKingdom
 
         private Vector2 GetWorldspacePointerPosition() =>
             // If true, the position is increased by half a tile since the grid expects the pivot point of the tiles to be the bottom left.
-            inputUtility.RaycastFromPointer(inGameInput.GetPointerPosition(), out RaycastHit hit) ?
+            raycastFromPointer.Cast(out RaycastHit hit) ?
                 new Vector2(hit.point.x + references.TileWidth / 2, hit.point.z + references.TileHeight / 2) :
                 defaultPointerWorldPosition;
     }

@@ -37,7 +37,7 @@ namespace TownTests
 
             Container.Bind<Inputs>().AsSingle();
             Container.Bind<StandardInput>().AsSingle();
-            Container.Bind<InputUtility>().AsSingle();
+            Container.Bind<ObjectClickthrough>().AsSingle();
             Container.Bind<BoardGenerator>().AsSingle();
             Container.Bind<TileEntityAssignment>().AsSingle();
             Container.Bind<TownPlacementUtilities>().AsSingle();
