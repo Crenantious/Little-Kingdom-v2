@@ -12,37 +12,31 @@ namespace LittleKingdom.Interactions
         [SerializeField]
         [Tooltip("The current game state must be one of these to invoke the event. " +
                  "If it is both allowed and prohibited, then the event will not be invoked.")]
-        private GameState AllowedStates;
+        private GameState allowedStates;
 
         [SerializeField]
         [Tooltip("The current game state must not be one of these to invoke the event. " +
                  "If it is both allowed and prohibited, then the event will not be invoked.")]
-        private GameState ProhibitedStates;
+        private GameState prohibitedStates;
 
         [SerializeField]
         [Tooltip("This will be invoked when the interaction occurs and if it is valid (see allowed/prohibited states).")]
         private UnityEvent Event;
 
-        private IReferences references;
+        private InteractionUtilities interactionUtilities;
 
         public Interaction() { }
 
         [Inject]
-        public void ConstructBase(IReferences references) =>
-            this.references = references;
+        public void ConstructBase(InteractionUtilities interactionUtilities) =>
+            this.interactionUtilities = interactionUtilities;
 
         protected virtual void OnInteraction()
         {
-            if (IsGameStateAllowed() is false || IsGameStateProhibited())
+            if (interactionUtilities.AreValidStates(allowedStates, prohibitedStates) is false)
                 return;
 
             Event?.Invoke();
         }
-
-        private bool IsGameStateAllowed() =>
-            (references.GameState & AllowedStates) == references.GameState;
-
-        private bool IsGameStateProhibited() =>
-            (references.GameState & ProhibitedStates) == references.GameState;
     }
 }
