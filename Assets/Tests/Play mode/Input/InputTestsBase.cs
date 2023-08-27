@@ -2,16 +2,19 @@ using LittleKingdom;
 using LittleKingdom.Input;
 using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
 
-public class InputTestsBase : InputTestFixture
+public abstract class InputTestsBase : ZenjectUnitTestFixture
 {
-    [Inject] protected RaycastFromPointer RaycastFromPointer { get; set; }
-    [Inject] protected Inputs Inputs { get; set; }
+    private readonly List<GameObject> gameObjects = new(2);
 
-    protected DiContainer Container { get; private set; }
+    [Inject] protected RaycastFromPointer RaycastFromPointer { get; }
+    [Inject] protected Inputs Inputs { get; }
+
+    protected InputTestFixture InputTestFixture { get; private set; }
 
     protected Mock<IReferences> References { get; set; } = new();
 
@@ -23,37 +26,74 @@ public class InputTestsBase : InputTestFixture
     /// <summary>
     /// An empty <see cref="GameObject"/> with a 1x1x1 box <see cref="Collider"/>.
     /// </summary>
-    protected GameObject TestObject { get; set; }
+    protected GameObject Object1 { get; set; }
+
+    /// <summary>
+    /// An empty <see cref="GameObject"/> with a 1x1x1 box <see cref="Collider"/>.
+    /// </summary>
+    protected GameObject Object2 { get; set; }
 
     /// <summary>
     /// The <see cref="UnityEngine.Camera"/> component on <see cref="CameraObject"/>.
     /// </summary>
     protected Camera Camera { get; set; }
 
+    protected virtual void SetupInputSystem() { }
+
     [SetUp]
-    public virtual void SetUp()
+    protected virtual void SetUp()
     {
-        CreateTestObjects();
-
-        References.Setup(r => r.ActiveCamera)
-            .Returns(CameraObject.AddComponent<Camera>());
-
-        Container = new(StaticContext.Container);
+        PreInstall();
+        Install();
+        PostInstall();
     }
 
-    protected virtual void CommonInstall()
+    protected virtual void PreInstall()
     {
+        CreateTestObjects();
+        InputTestFixture = new();
+        InputTestFixture.Setup();
+    }
+
+    protected virtual void Install()
+    {
+        References.Setup(r => r.ActiveCamera).Returns(Camera);
+
         Container.Bind<IReferences>().FromInstance(References.Object).AsSingle();
         Container.Bind<Inputs>().AsSingle();
-        Container.Bind<IStandardInput>().To<StandardInput>().AsSingle();
+        Container.Bind<StandardInput>().AsSingle();
         Container.Bind<RaycastFromPointer>().AsSingle();
         Container.Inject(this);
     }
 
+    protected virtual void PostInstall()
+    {
+        SetupInputSystem();
+    }
+
+    [TearDown]
+    public virtual void TearDown()
+    {
+        InputTestFixture.TearDown();
+        gameObjects.ForEach(o => Object.Destroy(o));
+        base.Teardown();
+    }
+
     private void CreateTestObjects()
     {
-        CameraObject = new();
-        TestObject = new();
-        TestObject.AddComponent<BoxCollider>().size = new Vector3(1, 1, 1);
+        CameraObject = CreateTestObject(false);
+        Camera = CameraObject.AddComponent<Camera>();
+        Object1 = CreateTestObject();
+        Object2 = CreateTestObject();
+    }
+
+    protected GameObject CreateTestObject(bool addCollider = true)
+    {
+        GameObject TestObject = new();
+        gameObjects.Add(TestObject);
+
+        if (addCollider)
+            TestObject.AddComponent<BoxCollider>().size = new Vector3(1, 1, 1);
+        return TestObject;
     }
 }

@@ -46,6 +46,24 @@ namespace LittleKingdom.Input
                     ""processors"": """",
                     ""interactions"": ""Tap"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pointer Press"",
+                    ""type"": ""Button"",
+                    ""id"": ""35e35f04-9064-4193-963b-bc881d35957e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pointer Release"",
+                    ""type"": ""Button"",
+                    ""id"": ""99449971-7645-4da8-8dcd-008262b3e9e8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -90,6 +108,50 @@ namespace LittleKingdom.Input
                     ""processors"": """",
                     ""groups"": ""Touch"",
                     ""action"": ""Pointer Tap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""67a42b91-8667-4604-845c-d039227881d7"",
+                    ""path"": ""<Mouse>/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Pointer Press"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b4db8b9a-84a2-4e52-872a-ebabcbdc624a"",
+                    ""path"": ""<Touchscreen>/Press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Touch"",
+                    ""action"": ""Pointer Press"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fe3c61b0-3182-430c-ac98-de269fb91d93"",
+                    ""path"": ""<Mouse>/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Pointer Release"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ef9c286a-58f8-47cf-b31e-5bdb7b5dc88a"",
+                    ""path"": ""<Touchscreen>/Press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Touch"",
+                    ""action"": ""Pointer Release"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -163,6 +225,8 @@ namespace LittleKingdom.Input
             m_Standard = asset.FindActionMap("Standard", throwIfNotFound: true);
             m_Standard_PointerPosition = m_Standard.FindAction("Pointer Position", throwIfNotFound: true);
             m_Standard_PointerTap = m_Standard.FindAction("Pointer Tap", throwIfNotFound: true);
+            m_Standard_PointerPress = m_Standard.FindAction("Pointer Press", throwIfNotFound: true);
+            m_Standard_PointerRelease = m_Standard.FindAction("Pointer Release", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -224,12 +288,16 @@ namespace LittleKingdom.Input
         private IStandardActions m_StandardActionsCallbackInterface;
         private readonly InputAction m_Standard_PointerPosition;
         private readonly InputAction m_Standard_PointerTap;
+        private readonly InputAction m_Standard_PointerPress;
+        private readonly InputAction m_Standard_PointerRelease;
         public struct StandardActions
         {
             private @Inputs m_Wrapper;
             public StandardActions(@Inputs wrapper) { m_Wrapper = wrapper; }
             public InputAction @PointerPosition => m_Wrapper.m_Standard_PointerPosition;
             public InputAction @PointerTap => m_Wrapper.m_Standard_PointerTap;
+            public InputAction @PointerPress => m_Wrapper.m_Standard_PointerPress;
+            public InputAction @PointerRelease => m_Wrapper.m_Standard_PointerRelease;
             public InputActionMap Get() { return m_Wrapper.m_Standard; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -245,6 +313,12 @@ namespace LittleKingdom.Input
                     @PointerTap.started -= m_Wrapper.m_StandardActionsCallbackInterface.OnPointerTap;
                     @PointerTap.performed -= m_Wrapper.m_StandardActionsCallbackInterface.OnPointerTap;
                     @PointerTap.canceled -= m_Wrapper.m_StandardActionsCallbackInterface.OnPointerTap;
+                    @PointerPress.started -= m_Wrapper.m_StandardActionsCallbackInterface.OnPointerPress;
+                    @PointerPress.performed -= m_Wrapper.m_StandardActionsCallbackInterface.OnPointerPress;
+                    @PointerPress.canceled -= m_Wrapper.m_StandardActionsCallbackInterface.OnPointerPress;
+                    @PointerRelease.started -= m_Wrapper.m_StandardActionsCallbackInterface.OnPointerRelease;
+                    @PointerRelease.performed -= m_Wrapper.m_StandardActionsCallbackInterface.OnPointerRelease;
+                    @PointerRelease.canceled -= m_Wrapper.m_StandardActionsCallbackInterface.OnPointerRelease;
                 }
                 m_Wrapper.m_StandardActionsCallbackInterface = instance;
                 if (instance != null)
@@ -255,6 +329,12 @@ namespace LittleKingdom.Input
                     @PointerTap.started += instance.OnPointerTap;
                     @PointerTap.performed += instance.OnPointerTap;
                     @PointerTap.canceled += instance.OnPointerTap;
+                    @PointerPress.started += instance.OnPointerPress;
+                    @PointerPress.performed += instance.OnPointerPress;
+                    @PointerPress.canceled += instance.OnPointerPress;
+                    @PointerRelease.started += instance.OnPointerRelease;
+                    @PointerRelease.performed += instance.OnPointerRelease;
+                    @PointerRelease.canceled += instance.OnPointerRelease;
                 }
             }
         }
@@ -308,6 +388,8 @@ namespace LittleKingdom.Input
         {
             void OnPointerPosition(InputAction.CallbackContext context);
             void OnPointerTap(InputAction.CallbackContext context);
+            void OnPointerPress(InputAction.CallbackContext context);
+            void OnPointerRelease(InputAction.CallbackContext context);
         }
     }
 }

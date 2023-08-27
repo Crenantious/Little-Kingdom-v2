@@ -9,12 +9,10 @@ public class InteractionTests : InputTestsBase
 {
     [Inject] private readonly InteractionUtilities interactionUtilities;
 
-    [SetUp]
-    public override void SetUp()
+    protected override void PreInstall()
     {
-        base.SetUp();
+        base.PreInstall();
         Container.Bind<InteractionUtilities>().AsSingle();
-        CommonInstall();
     }
 
     [UnityTest]

@@ -9,21 +9,17 @@ public class RaycastFromPointerTests : InputTestsBase
 {
     private Mouse mouse;
 
-    [SetUp]
-    public override void Setup()
+    protected override void SetupInputSystem()
     {
-        base.Setup();
-
+        base.SetupInputSystem();
         mouse = InputSystem.AddDevice<Mouse>();
         Inputs.Standard.Enable();
-
-        CommonInstall();
     }
 
     [UnityTest]
     public IEnumerator PositionObjectUnderPointer_RayCast_HitsObject()
     {
-        TestObject.transform.position = new(0, 0, 2);
+        Object1.transform.position = new(0, 0, 2);
         MoveMouseToCentreOfScreen();
         yield return null;
 
@@ -33,7 +29,7 @@ public class RaycastFromPointerTests : InputTestsBase
     [UnityTest]
     public IEnumerator PositionObjectNotUnderPointer_RayCast_DoesNotHitObject()
     {
-        TestObject.transform.position = new(2, 0, 0);
+        Object1.transform.position = new(2, 0, 0);
         MoveMouseToCentreOfScreen();
         yield return null;
 
@@ -41,5 +37,5 @@ public class RaycastFromPointerTests : InputTestsBase
     }
 
     private void MoveMouseToCentreOfScreen() =>
-        Move(mouse.position, new Vector2(Screen.width / 2, Screen.height / 2));
+        InputTestFixture.Move(mouse.position, new Vector2(Screen.width / 2, Screen.height / 2));
 }

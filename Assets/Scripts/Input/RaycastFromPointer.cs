@@ -4,10 +4,10 @@ namespace LittleKingdom.Input
 {
     public class RaycastFromPointer
     {
-        private readonly IStandardInput input;
+        private readonly StandardInput input;
         private readonly IReferences references;
 
-        public RaycastFromPointer(IStandardInput input, IReferences references)
+        public RaycastFromPointer(StandardInput input, IReferences references)
         {
             this.input = input;
             this.references = references;
