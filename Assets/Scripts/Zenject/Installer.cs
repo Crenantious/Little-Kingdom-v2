@@ -2,6 +2,7 @@ using LittleKingdom.Board;
 using LittleKingdom.Events;
 using LittleKingdom.Factories;
 using LittleKingdom.Input;
+using LittleKingdom.Interactions;
 using LittleKingdom.Loading;
 using LittleKingdom.UI;
 using UnityEngine;
@@ -25,6 +26,8 @@ namespace LittleKingdom
             Container.Bind<ObjectClickthrough>().AsSingle();
             Container.Bind<TownPlacedEvent>().AsSingle();
             Container.Bind<TileEntityAssignment>().AsSingle();
+            Container.Bind<InteractionUtilities>().AsSingle();
+            Container.Bind<SelectedObjectTracker>().AsSingle();
             Container.Bind<TownPlacementUtilities>().AsSingle();
             Container.Bind<IBoardGenerator>().To<BoardGenerator>().AsSingle();
 
