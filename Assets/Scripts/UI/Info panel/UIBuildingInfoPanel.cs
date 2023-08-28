@@ -1,20 +1,22 @@
 using LittleKingdom.UI;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Zenject;
 
 namespace LittleKingdom.Buildings
 {
-    [RequireComponent(typeof(UIContainer))]
     [AddComponentMenu("LittleKingdom/Building info panel")]
     public class UIBuildingInfoPanel : MonoBehaviour, IUIContainter<Building>
     {
-        [SerializeField] private UIContainer infoPanel;
-        [SerializeField] private VisualTreeAsset visualTreeAsset;
+        [HideInInspector] private UIContainer infoPanel;
+        [HideInInspector] private VisualTreeAsset visualTreeAsset;
 
-        //public void Awake()
-        //{
-        //    visualTreeAsset = infoPanel.gameObject.GetComponent<InfoPanelVisualTreeAssets>().Buildings;
-        //}
+        [Inject]
+        public void Construct(UIContainer infoPanel, VisualTreeAsset visualTreeAsset)
+        {
+            this.infoPanel = infoPanel;
+            this.visualTreeAsset = visualTreeAsset;
+        }
 
         public void Show(Building data)
         {

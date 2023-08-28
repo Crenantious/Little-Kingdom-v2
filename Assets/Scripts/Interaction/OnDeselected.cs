@@ -20,8 +20,6 @@ namespace LittleKingdom.Interactions
 
         private void OnObjectDeselected(Selectable selectable)
         {
-            print("Deselected");
-
             if (selectable == this.selectable)
                 OnInteraction();
         }

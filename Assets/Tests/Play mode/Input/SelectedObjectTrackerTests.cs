@@ -485,7 +485,7 @@ public class SelectedObjectTrackerTests : InputTestsBase
         onSelected.Verify(x => x.Callback(It.IsAny<Selectable>()), timesCalled);
 
     private void VerifyOnDeselectedEvent(Selectable selectable, Times timesCalled) =>
-        onDeselected.Verify(x => x.Callback(It.Is<Selectable>(x => selectable)), timesCalled);
+        onDeselected.Verify(x => x.Callback(It.Is<Selectable>(s => s == selectable)), timesCalled);
 
     private void VerifyOnDeselectedEvent(Times timesCalled) =>
         onDeselected.Verify(x => x.Callback(It.IsAny<Selectable>()), timesCalled);

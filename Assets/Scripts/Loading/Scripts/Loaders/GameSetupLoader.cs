@@ -1,17 +1,22 @@
-using UnityEngine;
+using LittleKingdom.Factories;
 using LittleKingdom.Loading;
-using System.Collections.Generic;
+using UnityEngine;
+using Zenject;
 
 namespace LittleKingdom
 {
     public class GameSetupLoader : Loader<GameSetupLC>
     {
-        private readonly IReferences references;
+        private IReferences references;
+        private PlayerFactory playerFactory;
 
-        [SerializeField] private Player player;
-
-        public GameSetupLoader(IReferences references) =>
+        [Inject]
+        public void Construct(IReferences references, PlayerFactory playerFactory)
+        {
+            Dependencies = new();
             this.references = references;
+            this.playerFactory = playerFactory;
+        }
 
         public override void Load(GameSetupLC config)
         {
@@ -19,7 +24,7 @@ namespace LittleKingdom
 
             for (int i = 0; i < config.PlayerCount; i++)
             {
-                TurnManager.AddPlayer(Instantiate(player));
+                TurnManager.AddPlayer(playerFactory.Create());
             }
         }
 

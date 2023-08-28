@@ -5,14 +5,14 @@ namespace LittleKingdom
 {
     public static class TurnManager
     {
-        private readonly static List<Player> players = new();
+        private readonly static List<IPlayer> players = new();
 
         private static int currentPlayerIndex = 0;
 
-        public static IReadOnlyList<Player> Players => players.AsReadOnly();
-        public static Player CurrentPlayer { get; private set; }
+        public static IReadOnlyList<IPlayer> Players => players.AsReadOnly();
+        public static IPlayer CurrentPlayer { get; private set; }
     
-        public static void AddPlayer(Player player) =>
+        public static void AddPlayer(IPlayer player) =>
             players.Add(player);
 
         public static void Next()

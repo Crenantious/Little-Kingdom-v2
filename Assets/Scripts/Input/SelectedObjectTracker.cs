@@ -80,8 +80,8 @@ namespace LittleKingdom.Input
 
         private void DeselectObject()
         {
-            Selected = null;
             ObjectDeselected?.Invoke(Selected);
+            Selected = null;
         }
 
         private bool IsThereASelectedObject() => Selected != null;

@@ -96,36 +96,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Info panel
       objectReference: {fileID: 0}
+    - target: {fileID: 5954242437350359034, guid: 42587f8eab303b944b667ec9970d8422, type: 3}
+      propertyPath: sourceAsset
+      value: 
+      objectReference: {fileID: 9197481963319205126, guid: f6bd3cbd44ab16948bb54d4c2abc021f, type: 3}
+    - target: {fileID: 6741437125955308494, guid: 42587f8eab303b944b667ec9970d8422, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 42587f8eab303b944b667ec9970d8422, type: 3}
---- !u!114 &4998360617902752087 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3153008853825861023, guid: 42587f8eab303b944b667ec9970d8422, type: 3}
-  m_PrefabInstance: {fileID: 7970248356831622344}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5854851621264982847}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f191832261e00c479c99bd2ff12fea3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &5854851621264982847 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4601726781597710327, guid: 42587f8eab303b944b667ec9970d8422, type: 3}
-  m_PrefabInstance: {fileID: 7970248356831622344}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5808428002184570632
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5854851621264982847}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3cb64914388f274d948f94ab8648424, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  infoPanel: {fileID: 4998360617902752087}
-  visualTreeAsset: {fileID: 9197481963319205126, guid: f6bd3cbd44ab16948bb54d4c2abc021f, type: 3}

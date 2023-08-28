@@ -8,15 +8,9 @@ namespace LittleKingdom
     public class GameFlow : MonoBehaviour
     {
         [SerializeField] private Loader initialLoader;
-        private StandardInput inGameInput;
 
         [Inject]
         public void Construct(StandardInput inGameInput)
-        {
-            this.inGameInput = inGameInput;
-        }
-
-        private void Awake()
         {
             ActiveInputScheme.Set(inGameInput);
         }

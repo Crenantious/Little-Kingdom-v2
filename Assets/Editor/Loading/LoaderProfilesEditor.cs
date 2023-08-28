@@ -1,15 +1,14 @@
+using LittleKingdom.Loading;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
-using UnityEngine.UIElements;
 using UnityEditor.UIElements;
-using LittleKingdom.Loading;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace LittleKingdom
-
 {
     // TODO: JR - add a button to update all profile configs.
     [CustomEditor(typeof(LoaderProfiles))]

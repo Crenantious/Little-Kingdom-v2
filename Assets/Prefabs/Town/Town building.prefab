@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5078174244253692161}
   - component: {fileID: 490979227306441528}
   - component: {fileID: 1090981736092222855}
+  - component: {fileID: 6186245425009557719}
   m_Layer: 0
   m_Name: Town building
   m_TagString: Untagged
@@ -36,7 +37,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3055565944562264059
 MeshFilter:
@@ -145,7 +146,7 @@ MonoBehaviour:
   Event:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5808428002184570632, guid: 6e91ab28e5f18864999b4fb9a5248b88, type: 3}
+      - m_Target: {fileID: 6186245425009557719}
         m_TargetAssemblyTypeName: LittleKingdom.Buildings.UIBuildingInfoPanel, Scripts
         m_MethodName: Show
         m_Mode: 2
@@ -157,7 +158,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  selectable: {fileID: 0}
+  selectable: {fileID: 5078174244253692161}
 --- !u!114 &1090981736092222855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,7 +176,7 @@ MonoBehaviour:
   Event:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5808428002184570632, guid: 6e91ab28e5f18864999b4fb9a5248b88, type: 3}
+      - m_Target: {fileID: 6186245425009557719}
         m_TargetAssemblyTypeName: LittleKingdom.Buildings.UIBuildingInfoPanel, Scripts
         m_MethodName: Hide
         m_Mode: 1
@@ -188,3 +189,15 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   selectable: {fileID: 5078174244253692161}
+--- !u!114 &6186245425009557719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5911207154420250943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3cb64914388f274d948f94ab8648424, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
