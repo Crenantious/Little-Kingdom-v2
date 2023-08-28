@@ -1,10 +1,11 @@
+using System;
 using UnityEngine.UIElements;
 
 namespace LittleKingdom.UI
 {
     public interface IUIContainer
     {
-        public void Show(VisualTreeAsset document);
+        public void Show(VisualTreeAsset document, Action teardown);
         public void Hide();
     }
 

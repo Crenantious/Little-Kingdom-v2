@@ -60,6 +60,14 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 8398426001415704897, guid: d43187f6e3f3c34488894ceef2f865c9, type: 3}
+      propertyPath: <Title>k__BackingField
+      value: Barracks
+      objectReference: {fileID: 0}
+    - target: {fileID: 8398426001415704897, guid: d43187f6e3f3c34488894ceef2f865c9, type: 3}
+      propertyPath: <Description>k__BackingField
+      value: Upgrading produces either a guard or a thief.
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: d43187f6e3f3c34488894ceef2f865c9, type: 3}

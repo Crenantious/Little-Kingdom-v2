@@ -20,7 +20,7 @@ namespace LittleKingdom.Buildings
 
         public void Show(Building data)
         {
-            infoPanel.Show(visualTreeAsset);
+            infoPanel.Show(visualTreeAsset, () => OnPanelHide(data));
             GetTitle().text = data.Title;
             GetLevel().text = data.BuildingLevel.ToString();
             GetDescription().text = data.Description;
@@ -28,6 +28,9 @@ namespace LittleKingdom.Buildings
         }
 
         public void Hide() => infoPanel.Hide();
+
+        private void OnPanelHide(Building data) =>
+            GetUpgradeButton().clicked -= data.UpgradeCallback;
 
         private Label GetTitle() =>
             GetRootVisualElement().Q("Title") as Label;

@@ -8,6 +8,15 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2210998980600923104, guid: fe5cc04724c2cc944808840baddb2c71, type: 3}
+      propertyPath: <Title>k__BackingField
+      value: Town hall
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210998980600923104, guid: fe5cc04724c2cc944808840baddb2c71, type: 3}
+      propertyPath: <Description>k__BackingField
+      value: Upgrading produces a worker. Maybe at higher levels it also increases
+        worker production.
+      objectReference: {fileID: 0}
     - target: {fileID: 3055565944562264059, guid: fe5cc04724c2cc944808840baddb2c71, type: 3}
       propertyPath: m_Mesh
       value: 

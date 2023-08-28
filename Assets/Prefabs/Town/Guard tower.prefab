@@ -8,6 +8,14 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1394606076286584176, guid: d261dc952f2cdfb40bad3d95300bd07b, type: 3}
+      propertyPath: <Title>k__BackingField
+      value: Guard tower
+      objectReference: {fileID: 0}
+    - target: {fileID: 1394606076286584176, guid: d261dc952f2cdfb40bad3d95300bd07b, type: 3}
+      propertyPath: <Description>k__BackingField
+      value: Helps protect the town's tiles from thiefs.
+      objectReference: {fileID: 0}
     - target: {fileID: 2851381114729914731, guid: d261dc952f2cdfb40bad3d95300bd07b, type: 3}
       propertyPath: m_Mesh
       value: 
