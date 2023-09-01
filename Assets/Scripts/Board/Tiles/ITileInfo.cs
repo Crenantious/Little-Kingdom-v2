@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using LittleKingdom.Resources;
+using UnityEngine;
 
 namespace LittleKingdom.Board
 {
