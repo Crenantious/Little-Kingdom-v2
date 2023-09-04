@@ -130,6 +130,10 @@ namespace LittleKingdom.Resources
             }
         }
 
+        /// <returns>
+        /// <see cref="Resources"/> where each <see cref="ResourceType"/> is the minimum value between
+        /// those in <paramref name="resources1"/> and <paramref name="resources2"/>.
+        /// </returns>
         public static Resources ClampMin(Resources resources1, Resources resources2)
         {
             Resources result = new();
@@ -140,6 +144,10 @@ namespace LittleKingdom.Resources
             return result;
         }
 
+        /// <returns>
+        /// <see cref="Resources"/> where each <see cref="ResourceType"/> is the minimum value between
+        /// those in <see langword="this"/> and <paramref name="resources2"/>.
+        /// </returns>
         public void ClampMin(Resources min)
         {
             foreach (ResourceType resource in GetResourceTypes())

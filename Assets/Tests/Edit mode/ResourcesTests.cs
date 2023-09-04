@@ -20,6 +20,7 @@ public class ResourcesTests : ZenjectUnitTestFixture
                          (ResourceType.Metal, 1));
     }
 
+    #region Creation
     [Test]
     public void CreateWithNoResourceTypes_CorrectlyStoredValues()
     {
@@ -129,7 +130,9 @@ public class ResourcesTests : ZenjectUnitTestFixture
     {
         Assert.Throws<ArgumentOutOfRangeException>(() => new Resources((ResourceType.Glass, -1)));
     }
+    #endregion
 
+    #region Addition
     [Test]
     public void AddTwoResources_CorrectlyAdded()
     {
@@ -247,7 +250,9 @@ public class ResourcesTests : ZenjectUnitTestFixture
     {
         Assert.Throws<ArgumentOutOfRangeException>(()=> resources1.Add(ResourceType.Glass, -2));
     }
+    #endregion
 
+    #region Subtraction
     [Test]
     public void SubtractTwoResources_CorrectlySubtracted()
     {
@@ -364,6 +369,35 @@ public class ResourcesTests : ZenjectUnitTestFixture
     public void SubtractTooManyResourceFromResources_Throws()
     {
         Assert.Throws<ArgumentOutOfRangeException>(() => resources1.Subtract(ResourceType.Glass, 5));
+    }
+    #endregion
+
+    [Test]
+    public void ClampMin_GetCorrectResults()
+    {
+        Resources resources = new((ResourceType.Glass | ResourceType.Wood, 2), (ResourceType.Stone, 5));
+        resources2.ClampMin(resources);
+
+        Assert.AreEqual(7, resources2.Total);
+        Assert.AreEqual(2, resources2.Get(ResourceType.Glass));
+        Assert.AreEqual(3, resources2.Get(ResourceType.Stone));
+        Assert.AreEqual(2, resources2.Get(ResourceType.Wood));
+        Assert.AreEqual(0, resources2.Get(ResourceType.Metal));
+        Assert.AreEqual(0, resources2.Get(ResourceType.Brick));
+    }
+
+    [Test]
+    public void ClampMinStatic_GetCorrectResults()
+    {
+        Resources resources = new((ResourceType.Glass | ResourceType.Wood, 2), (ResourceType.Stone, 5));
+        Resources result = Resources.ClampMin(resources, resources2);
+
+        Assert.AreEqual(7, result.Total);
+        Assert.AreEqual(2, result.Get(ResourceType.Glass));
+        Assert.AreEqual(3, result.Get(ResourceType.Stone));
+        Assert.AreEqual(2, result.Get(ResourceType.Wood));
+        Assert.AreEqual(0, result.Get(ResourceType.Metal));
+        Assert.AreEqual(0, result.Get(ResourceType.Brick));
     }
 
     private void AssertResources1BaseValues()
