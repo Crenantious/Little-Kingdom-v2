@@ -5,6 +5,10 @@ namespace LittleKingdom.Resources
 {
     public class ResolveHaltRequests
     {
+        /// <summary>
+        /// Removes resources from <paramref name="moveRequests"/> to account for those halted by <paramref name="haltRequests"/>.<br/>
+        /// Also removes those resources from <paramref name="haltRequests"/> to reflect their remaining potential.
+        /// </summary>
         public void Resolve(List<HaltResourcesRequest> haltRequests, List<MoveResourcesRequest> moveRequests)
         {
             foreach (MoveResourcesRequest moveRequest in moveRequests)

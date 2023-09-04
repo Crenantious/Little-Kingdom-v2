@@ -1,24 +1,28 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace LittleKingdom.Resources
 {
-    public class ResourceCollectionOrder : ScriptableObject
+    [CreateAssetMenu(menuName = "Game/Resources/Resource collection order", fileName = "Resource collection order")]
+    public class ResourceCollectionOrder : ScriptableObject, IResourceCollectionOrder, ISerializationCallbackReceiver
     {
-        [SerializeField] private List<Type> producers = new();
-        [SerializeField] private List<Type> movers = new();
-        [SerializeField] private List<Type> halters = new();
+        [SerializeField] private List<string> producers = new();
+        [SerializeField] private List<string> halters = new();
+        [SerializeField] private List<string> movers = new();
 
         public IReadOnlyList<Type> Producers { get; private set; }
-        public IReadOnlyList<Type> Movers { get; private set; }
         public IReadOnlyList<Type> Halters { get; private set; }
+        public IReadOnlyList<Type> Movers { get; private set; }
 
-        private void Awake()
+        public void OnAfterDeserialize()
         {
-            Producers = producers.AsReadOnly();
-            Movers = movers.AsReadOnly();
-            Halters = halters.AsReadOnly();
+            Producers = producers.Select(h => Type.GetType(h)).ToList().AsReadOnly();
+            Halters = halters.Select(h => Type.GetType(h)).ToList().AsReadOnly();
+            Movers = movers.Select(h => Type.GetType(h)).ToList().AsReadOnly();
         }
+
+        public void OnBeforeSerialize() { }
     }
 }
