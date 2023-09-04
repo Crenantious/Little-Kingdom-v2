@@ -79,14 +79,14 @@ namespace LittleKingdom.Resources
             // Resources cannot be moved if they would exceed either the amount
             // the From holder has, or the amount the To holder can carry.
             moveRequest.Resources.ClampMin(moveRequest.From.Resources);
-            moveRequest.Resources.ClampMin(ResourceAmounts.Subtract(moveRequest.To.ResourcesCapactiy, moveRequest.To.Resources));
+            moveRequest.Resources.ClampMin(Resources.Subtract(moveRequest.To.ResourcesCapactiy, moveRequest.To.Resources));
         }
 
         private void ResolveHaltRequestsFor(MoveResourcesRequest moveRequest)
         {
             foreach (HaltResourcesRequest haltRequest in GetMatchingHaltRequests(moveRequest))
             {
-                var reduction = ResourceAmounts.ClampMin(moveRequest.Resources, haltRequest.Resources);
+                var reduction = Resources.ClampMin(moveRequest.Resources, haltRequest.Resources);
                 moveRequest.Resources.Subtract(reduction);
                 haltRequest.Resources.Subtract(reduction);
                 if (moveRequest.Resources.Total == 0)

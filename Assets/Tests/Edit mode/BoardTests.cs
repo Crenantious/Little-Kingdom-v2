@@ -3,6 +3,7 @@ using LittleKingdom;
 using LittleKingdom.Board;
 using LittleKingdom.Extensions;
 using LittleKingdom.Factories;
+using LittleKingdom.Resources;
 using Moq;
 using NUnit.Framework;
 using System;
