@@ -15,6 +15,9 @@ namespace LittleKingdom.Resources
         /// </summary>
         public int Total { get; private set; } = 0;
 
+        public Resources(ResourceType resourceType, int amount) =>
+            SetAll((resourceType, amount));
+
         public Resources(params (ResourceType resourceType, int amount)[] resources) =>
             SetAll(resources);
 
@@ -23,6 +26,8 @@ namespace LittleKingdom.Resources
         /// </summary>
         /// <exception cref="KeyNotFoundException"/>
         public int Get(ResourceType resourceType) => resources[resourceType];
+
+        public Dictionary<ResourceType, int> GetAll() => new(resources);
 
         // Sets the resources by splitting out combinations of "ResourceType".
         // to ensure only individual enum values are used.

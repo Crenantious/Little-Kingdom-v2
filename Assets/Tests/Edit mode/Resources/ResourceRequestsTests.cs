@@ -17,15 +17,9 @@ namespace ResourceRequests
         private Mock<IResourceCollectionOrder> collectionOrder;
         private Mock<IPlayer> playerOne;
         private Mock<IPlayer> playerTwo;
-        private Mock<IHoldResources> holderOne;
-        private Mock<IHoldResources> holderTwo;
-        private TestHandlerOne handlerOne;
-        private TestHandlerTwo handlerTwo;
-        private TestRequest nullToNullRequest;
-        private TestRequest holderOneToHolderOnceRequest;
-        private TestRequest holderOneToHolderTwoRequest;
-        private TestRequest holderTwoToHolderOneRequest;
-        private TestRequest holderTwoToHolderTwoRequest;
+        private TestHandlerOne handler;
+        private TestRequest requestOne;
+        private TestRequest RequestTwo;
         private IEnumerable<TestRequest> requestsResult;
 
         [SetUp]
@@ -34,16 +28,10 @@ namespace ResourceRequests
             collectionOrder = new();
             playerOne = new();
             playerTwo = new();
-            handlerOne = new();
-            handlerTwo = new();
-            holderOne = new();
-            holderTwo = new();
+            handler = new();
 
-            nullToNullRequest = new(null, null);
-            holderOneToHolderOnceRequest = new(holderOne.Object, holderOne.Object);
-            holderOneToHolderTwoRequest = new(holderOne.Object, holderTwo.Object);
-            holderTwoToHolderOneRequest = new(holderTwo.Object, holderOne.Object);
-            holderTwoToHolderTwoRequest = new(holderTwo.Object, holderTwo.Object);
+            requestOne = GetUniqueRequest();
+            RequestTwo = GetUniqueRequest();
 
             collectionOrder.Setup(o => o.Halters).Returns(new Type[] { typeof(IResourceRequestsTestsHandler) });
             collectionOrder.Setup(o => o.GetOrderFor<IResourceRequestsTestsHandler>()).Returns(
@@ -57,17 +45,17 @@ namespace ResourceRequests
         [Test]
         public void RegisterHandlerWithPlayerOne_GetRequestsWithPlayerOne_AllGotten()
         {
-            SetupHandler(handlerOne, playerOne, nullToNullRequest);
+            SetupHandler(handler, playerOne, requestOne);
 
             GetRequests(playerOne);
 
-            AssertResult(nullToNullRequest);
+            AssertResult(requestOne);
         }
 
         [Test]
         public void RegisterHandlerWithPlayerOne_GetRequestsWithPlayerTwo_NoneGotten()
         {
-            SetupHandler(handlerOne, playerOne, nullToNullRequest);
+            SetupHandler(handler, playerOne, requestOne);
 
             GetRequests(playerTwo);
 
@@ -77,17 +65,17 @@ namespace ResourceRequests
         [Test]
         public void RegisterHandlerWithNullPlayer_GetRequestsWithPlayerOne_AllGotten()
         {
-            SetupHandler(handlerOne, null, nullToNullRequest);
+            SetupHandler(handler, null, requestOne);
 
             GetRequests(playerOne);
 
-            AssertResult(nullToNullRequest);
+            AssertResult(requestOne);
         }
 
         [Test]
         public void RegisterHandler_GetRequestsWithNullPlayer_Throws()
         {
-            SetupHandler(handlerOne, playerOne, nullToNullRequest);
+            SetupHandler(handler, playerOne, requestOne);
 
             Assert.Throws<ArgumentNullException>(() => GetRequests(null));
         }
@@ -95,23 +83,23 @@ namespace ResourceRequests
         [Test]
         public void RegisterTwoHandlersWithPlayerOne_GetRequestsWithPlayerOne_AllGotten()
         {
-            SetupHandler(new TestHandlerOne(), playerOne, nullToNullRequest);
-            SetupHandler(new TestHandlerOne(), playerOne, holderOneToHolderOnceRequest);
+            SetupHandler(new TestHandlerOne(), playerOne, requestOne);
+            SetupHandler(new TestHandlerOne(), playerOne, RequestTwo);
 
             GetRequests(playerOne);
 
-            AssertResult(nullToNullRequest, holderOneToHolderOnceRequest);
+            AssertResult(requestOne, RequestTwo);
         }
 
         [Test]
         public void RegisterHandlerWithPlayerOneAndHandlerWithPlayerTwo_GetRequestsWithPlayerOne_OnlyPlayerOneRequestsGotten()
         {
-            SetupHandler(new TestHandlerOne(), playerOne, nullToNullRequest);
-            SetupHandler(new TestHandlerOne(), playerTwo, holderOneToHolderOnceRequest);
+            SetupHandler(new TestHandlerOne(), playerOne, requestOne);
+            SetupHandler(new TestHandlerOne(), playerTwo, RequestTwo);
 
             GetRequests(playerOne);
 
-            AssertResult(nullToNullRequest);
+            AssertResult(requestOne);
         }
 
         [Test]
@@ -171,7 +159,7 @@ namespace ResourceRequests
                     SetupHandler(new TestHandlerOne(), playerOne, request);
                 }
                 else
-                    SetupHandler(new TestHandlerOne(), playerTwo, nullToNullRequest);
+                    SetupHandler(new TestHandlerOne(), playerTwo, requestOne);
             }
 
             GetRequests(playerOne);

@@ -1,10 +1,13 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace LittleKingdom.Resources
 {
     public class ResolveHaltRequests
     {
+        private readonly IResourceHandlingUtilities utilities;
+
+        public ResolveHaltRequests(IResourceHandlingUtilities utilities) => this.utilities = utilities;
+
         /// <summary>
         /// Removes resources from <paramref name="moveRequests"/> to account for those halted by <paramref name="haltRequests"/>.<br/>
         /// Also removes those resources from <paramref name="haltRequests"/> to reflect their remaining potential.
@@ -13,17 +16,9 @@ namespace LittleKingdom.Resources
         {
             foreach (MoveResourcesRequest moveRequest in moveRequests)
             {
-                AccountForHoldCapacity(moveRequest);
+                utilities.AccountForHoldCapacity(moveRequest);
                 ResolveHaltRequestsFor(moveRequest, haltRequests);
             }
-        }
-
-        private static void AccountForHoldCapacity(MoveResourcesRequest moveRequest)
-        {
-            // Resources cannot be moved if they would exceed either the amount
-            // the From holder has, or the amount the To holder can carry.
-            moveRequest.Resources.ClampMin(moveRequest.From.Resources);
-            moveRequest.Resources.ClampMin(Resources.Subtract(moveRequest.To.ResourcesCapactiy, moveRequest.To.Resources));
         }
 
         // This and GetMatchingHaltRequests could be collapsed into one method do the haltRequests are not iterated twice.
@@ -31,7 +26,7 @@ namespace LittleKingdom.Resources
         // (multiple lists and dictionaries) to avoid constant iteration.
         private void ResolveHaltRequestsFor(MoveResourcesRequest moveRequest, IEnumerable<HaltResourcesRequest> haltRequests)
         {
-            foreach (HaltResourcesRequest haltRequest in GetMatchingHaltRequests(moveRequest, haltRequests))
+            foreach (HaltResourcesRequest haltRequest in utilities.GetMatchingHaltRequests(moveRequest, haltRequests))
             {
                 var reduction = Resources.ClampMin(moveRequest.Resources, haltRequest.Resources);
                 moveRequest.Resources.Subtract(reduction);
@@ -40,12 +35,5 @@ namespace LittleKingdom.Resources
                     return;
             }
         }
-
-        private IEnumerable<HaltResourcesRequest> GetMatchingHaltRequests(
-            MoveResourcesRequest moveRequest, IEnumerable<HaltResourcesRequest> haltRequests) =>
-            // If From or To are null, they are valid for any movement request.
-            haltRequests.Where(r =>
-                (r.From == null || r.From == moveRequest.From) &&
-                (r.To == null || r.To == moveRequest.To));
     }
 }
