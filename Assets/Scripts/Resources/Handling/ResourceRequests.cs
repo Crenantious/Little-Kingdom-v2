@@ -7,39 +7,45 @@ namespace LittleKingdom.Resources
     public class ResourceRequests<THandler, TRequest>
         where THandler : IHandleResources<TRequest>
     {
-        protected ResourceCollectionOrder ResourceCollectionOrder { get; }
-        protected Dictionary<Type, List<THandler>> Requests { get; } = new();
+        private readonly IResourceCollectionOrder resourceCollectionOrder;
+        private readonly Dictionary<Type, List<THandler>> requests = new();
 
-        public ResourceRequests(ResourceCollectionOrder collectionOrder) =>
-            ResourceCollectionOrder = collectionOrder;
+        public ResourceRequests(IResourceCollectionOrder collectionOrder) =>
+            resourceCollectionOrder = collectionOrder;
 
         public void RegisterHandler(THandler handler) =>
-            AddHandler(handler, Requests);
+            AddHandler(handler);
 
-        public List<TRequest> GetRequests(IPlayer player)
+        public IEnumerable<TRequest> GetRequests(IPlayer player)
         {
-            List<TRequest> moveRequests = new();
+            if (player is null)
+                throw new ArgumentNullException("Player cannot be null. Can only get resources for an existing player.");
 
-            foreach (Type type in ResourceCollectionOrder.Movers)
+            IEnumerable<TRequest> result = new TRequest[] { };
+
+            foreach (Type type in resourceCollectionOrder.GetOrderFor<THandler>())
             {
-                foreach (THandler mover in Requests[type])
+                foreach (THandler handler in GetRequests(type))
                 {
-                    if (mover.Player is null || mover.Player == player)
+                    if (handler.Player is null || handler.Player == player)
                     {
-                        moveRequests.Concat(mover.GetRequests());
+                        result = result.Concat(handler.GetRequests());
                     }
                 }
             }
 
-            return moveRequests;
+            return result;
         }
 
-        protected void AddHandler<K>(K handler, Dictionary<Type, List<K>> dict)
+        private List<THandler> GetRequests(Type type) =>
+            requests.ContainsKey(type) ? requests[type] : new();
+
+        protected void AddHandler(THandler handler)
         {
             Type handlerType = handler.GetType();
-            if (dict.ContainsKey(handlerType) is false)
-                dict[handlerType] = new();
-            dict[handlerType].Add(handler);
+            if (requests.ContainsKey(handlerType) is false)
+                requests[handlerType] = new();
+            requests[handlerType].Add(handler);
         }
     }
 }

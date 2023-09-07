@@ -9,7 +9,7 @@ namespace LittleKingdom.Resources
         /// Removes resources from <paramref name="moveRequests"/> to account for those halted by <paramref name="haltRequests"/>.<br/>
         /// Also removes those resources from <paramref name="haltRequests"/> to reflect their remaining potential.
         /// </summary>
-        public void Resolve(List<HaltResourcesRequest> haltRequests, List<MoveResourcesRequest> moveRequests)
+        public void Resolve(IEnumerable<HaltResourcesRequest> haltRequests, IEnumerable<MoveResourcesRequest> moveRequests)
         {
             foreach (MoveResourcesRequest moveRequest in moveRequests)
             {
@@ -29,7 +29,7 @@ namespace LittleKingdom.Resources
         // This and GetMatchingHaltRequests could be collapsed into one method do the haltRequests are not iterated twice.
         // haltRequests could also be stored in a better data structure
         // (multiple lists and dictionaries) to avoid constant iteration.
-        private void ResolveHaltRequestsFor(MoveResourcesRequest moveRequest, List<HaltResourcesRequest> haltRequests)
+        private void ResolveHaltRequestsFor(MoveResourcesRequest moveRequest, IEnumerable<HaltResourcesRequest> haltRequests)
         {
             foreach (HaltResourcesRequest haltRequest in GetMatchingHaltRequests(moveRequest, haltRequests))
             {
@@ -42,7 +42,7 @@ namespace LittleKingdom.Resources
         }
 
         private IEnumerable<HaltResourcesRequest> GetMatchingHaltRequests(
-            MoveResourcesRequest moveRequest, List<HaltResourcesRequest> haltRequests) =>
+            MoveResourcesRequest moveRequest, IEnumerable<HaltResourcesRequest> haltRequests) =>
             // If From or To are null, they are valid for any movement request.
             haltRequests.Where(r =>
                 (r.From == null || r.From == moveRequest.From) &&

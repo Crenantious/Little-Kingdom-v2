@@ -11,5 +11,6 @@ namespace LittleKingdom.Resources
         public IReadOnlyList<Type> Producers { get; }
         public IReadOnlyList<Type> Halters { get; }
         public IReadOnlyList<Type> Movers { get; }
+        public IReadOnlyList<Type> GetOrderFor<T>() where T : IHandleResources;
     }
 }

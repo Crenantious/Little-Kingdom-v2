@@ -16,6 +16,15 @@ namespace LittleKingdom.Resources
         public IReadOnlyList<Type> Halters { get; private set; }
         public IReadOnlyList<Type> Movers { get; private set; }
 
+        public IReadOnlyList<Type> GetOrderFor<T>() where T : IHandleResources =>
+            typeof(T) switch
+            {
+                IProduceResources => Producers,
+                IHaltResources => Halters,
+                IMoveResources => Movers,
+                _ => throw new NotImplementedException()
+            };
+
         public void OnAfterDeserialize()
         {
             Producers = producers.Select(h => Type.GetType(h)).ToList().AsReadOnly();

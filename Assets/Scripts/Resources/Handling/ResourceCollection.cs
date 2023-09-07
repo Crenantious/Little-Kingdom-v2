@@ -21,8 +21,8 @@ namespace LittleKingdom.Resources
 
         public void CollectFor(IPlayer player)
         {
-            List<HaltResourcesRequest> haltRequests = haltResourcesRequests.GetRequests(player);
-            List<MoveResourcesRequest> moveRequests = moveResourcesRequests.GetRequests(player);
+            IEnumerable<HaltResourcesRequest> haltRequests = haltResourcesRequests.GetRequests(player);
+            IEnumerable<MoveResourcesRequest> moveRequests = moveResourcesRequests.GetRequests(player);
             resolveHaltRequests.Resolve(haltRequests, moveRequests);
             resolveMoveRequests.Resolve(moveRequests);
         }

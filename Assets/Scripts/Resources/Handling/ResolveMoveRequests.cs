@@ -7,7 +7,7 @@ namespace LittleKingdom.Resources
         /// <summary>
         /// Move all resources as requested in <paramref name="moveRequests"/>.
         /// </summary>
-        public void Resolve(List<MoveResourcesRequest> moveRequests)
+        public void Resolve(IEnumerable<MoveResourcesRequest> moveRequests)
         {
             foreach (MoveResourcesRequest request in moveRequests)
             {
