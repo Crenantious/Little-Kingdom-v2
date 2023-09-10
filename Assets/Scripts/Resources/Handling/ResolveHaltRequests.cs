@@ -16,7 +16,6 @@ namespace LittleKingdom.Resources
         {
             foreach (MoveResourcesRequest moveRequest in moveRequests)
             {
-                utilities.AccountForHoldCapacity(moveRequest);
                 ResolveHaltRequestsFor(moveRequest, haltRequests);
             }
         }

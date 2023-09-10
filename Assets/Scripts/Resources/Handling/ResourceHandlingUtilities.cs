@@ -5,12 +5,15 @@ namespace LittleKingdom.Resources
 {
     public class ResourceHandlingUtilities : IResourceHandlingUtilities
     {
-        public void AccountForHoldCapacity(MoveResourcesRequest moveRequest)
-        {
+        /// <inheritdoc/>
+        public void AccountForAvailableResources(MoveResourcesRequest moveRequest) =>
             moveRequest.Resources.ClampMin(moveRequest.From.Resources);
-            moveRequest.Resources.ClampMin(Resources.Subtract(moveRequest.To.ResourcesCapactiy, moveRequest.To.Resources));
-        }
 
+        /// <inheritdoc/>
+        public void AccountForHoldingCapacity(MoveResourcesRequest moveRequest) =>
+            moveRequest.Resources.ClampMin(Resources.Subtract(moveRequest.To.ResourcesCapactiy, moveRequest.To.Resources));
+
+        /// <inheritdoc/>
         public IEnumerable<HaltResourcesRequest> GetMatchingHaltRequests(
             MoveResourcesRequest moveRequest, IEnumerable<HaltResourcesRequest> haltRequests) =>
             // If From or To are null, they are valid for any movement request.
