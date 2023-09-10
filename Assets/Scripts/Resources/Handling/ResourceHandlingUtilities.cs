@@ -11,7 +11,7 @@ namespace LittleKingdom.Resources
 
         /// <inheritdoc/>
         public void AccountForHoldingCapacity(MoveResourcesRequest moveRequest) =>
-            moveRequest.Resources.ClampMin(Resources.Subtract(moveRequest.To.ResourcesCapactiy, moveRequest.To.Resources));
+            moveRequest.Resources.ClampMin(Resources.Subtract(moveRequest.To.ResourcesCapactity, moveRequest.To.Resources));
 
         /// <inheritdoc/>
         public IEnumerable<HaltResourcesRequest> GetMatchingHaltRequests(

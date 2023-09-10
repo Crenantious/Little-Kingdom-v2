@@ -21,7 +21,9 @@ namespace LittleKingdom.Resources
             this.resolveMoveRequests = resolveMoveRequests;
             this.utilities = utilities;
         }
-
+        
+        // There are no tests for this class as each component is tested and doing them in combination is not feasible.
+        // Should this method need to change, take caution and do not make it complicated.
         public void CollectFor(IPlayer player)
         {
             IEnumerable<HaltResourcesRequest> haltRequests = haltResourcesRequests.GetRequests(player);

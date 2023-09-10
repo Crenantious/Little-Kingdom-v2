@@ -5,7 +5,8 @@ namespace LittleKingdom.Resources
     public class ResolveMoveRequests
     {
         /// <summary>
-        /// Move all resources as requested in <paramref name="moveRequests"/>.
+        /// Moves all resources as requested in <paramref name="moveRequests"/>.
+        /// This assumes the resource movement is valid hence makes no safety checks.
         /// </summary>
         public void Resolve(IEnumerable<MoveResourcesRequest> moveRequests)
         {
