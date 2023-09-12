@@ -8,7 +8,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace LittleKingdom
+namespace LittleKingdom.Editor
 {
     // TODO: JR - add a button to update all profile configs.
     [CustomEditor(typeof(LoaderProfiles))]
@@ -28,7 +28,7 @@ namespace LittleKingdom
                 .GetTypes()
                 .Where(t => baseType.IsAssignableFrom(t) && t != baseType)
                 .OrderBy(t => t.Name);
-
+            
             DisplayDrawerAttributeDrawer.OnPropertyObjectChange += o => UpdateProfileConfigs();
             UpdateProfileConfigs();
         }
@@ -98,7 +98,7 @@ namespace LittleKingdom
             GetProfileFromProperty(GetCurrentProfileProperty());
 
         private SerializedProperty GetCurrentProfileProperty() =>
-            serializedObject.FindProperty("Current");
+            serializedObject.FindProperty("current");
 
         private LoaderProfile GetProfileFromProperty(SerializedProperty property) =>
             property.objectReferenceValue as LoaderProfile;

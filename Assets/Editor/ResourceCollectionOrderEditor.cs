@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEditor;
 
-namespace LittleKingdom
+namespace LittleKingdom.Editor
 {
     //TODO : JR - maybe add grouping to the halter types (maybe via an attribute with a string group name parameter)
     // So they can be moved around the order together. Seems like way too much work though.

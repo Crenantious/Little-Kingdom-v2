@@ -6,6 +6,7 @@ using LittleKingdom.Input;
 using LittleKingdom.Interactions;
 using LittleKingdom.Loading;
 using LittleKingdom.UI;
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Zenject;
@@ -30,6 +31,7 @@ namespace LittleKingdom
         {
 
             Container.Bind<Inputs>().AsSingle();
+            Container.Bind<Loading.Loading>().AsSingle();
             Container.Bind<StandardInput>().AsSingle();
             Container.Bind<TownPlacedEvent>().AsSingle();
             Container.Bind<ObjectClickthrough>().AsSingle();
@@ -53,6 +55,7 @@ namespace LittleKingdom
             Container.BindFactory<ITownPlacement, TownPlacementFactory>().FromFactory<ManualTownPlacementFactory>();
             Container.BindFactory<ITileInfo, ITile, TileFactory>().FromFactory<CustomTileMonoFactory>();
             Container.BindFactory<IPlayer, PlayerFactory>().FromFactory<PlayerFactory>();
+            Container.BindFactory<Type, ILoader, LoaderFactory>().FromFactory<LoaderFactory>();
 
             BindLoaderConfigs();
         }

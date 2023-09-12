@@ -3,7 +3,7 @@ using UnityEditor;
 using LittleKingdom.Attributes;
 using System;
 
-namespace LittleKingdom
+namespace LittleKingdom.Editor
 {
     [CustomPropertyDrawer(typeof(DisplayDrawerAttribute), true)]
     public class DisplayDrawerAttributeDrawer : PropertyDrawer

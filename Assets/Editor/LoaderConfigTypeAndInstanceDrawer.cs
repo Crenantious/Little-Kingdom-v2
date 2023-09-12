@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEditor;
 using LittleKingdom.Loading;
 
-namespace LittleKingdom
+namespace LittleKingdom.Editor
 {
     [CustomPropertyDrawer(typeof(LoaderConfigTypeAndInstance), true)]
     public class LoaderConfigTypeAndInstanceDrawer : PropertyDrawer

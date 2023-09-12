@@ -1,9 +1,7 @@
 using LittleKingdom.Factories;
-using LittleKingdom.Loading;
-using UnityEngine;
 using Zenject;
 
-namespace LittleKingdom
+namespace LittleKingdom.Loading
 {
     public class GameSetupLoader : Loader<GameSetupLC>
     {
@@ -13,7 +11,6 @@ namespace LittleKingdom
         [Inject]
         public void Construct(IReferences references, PlayerFactory playerFactory)
         {
-            Dependencies = new();
             this.references = references;
             this.playerFactory = playerFactory;
         }
@@ -28,7 +25,7 @@ namespace LittleKingdom
             }
         }
 
-        public override void Unload()
+        public void Unload()
         {
             // TODO
             throw new System.NotImplementedException();

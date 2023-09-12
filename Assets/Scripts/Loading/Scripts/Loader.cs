@@ -1,15 +1,26 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
+using Zenject;
 
 namespace LittleKingdom.Loading
 {
     [Serializable]
-    // TODO: JR - convert to an interface
-    public class Loader : MonoBehaviour
+    public abstract class Loader<TConfig> : ILoader
+        where TConfig : LoaderConfig
     {
-        public virtual List<Loader> Dependencies { get; protected set; } = new();
-        public virtual void Load() { }
-        public virtual void Unload() { }
+        private TConfig config;
+
+        public List<Type> Dependencies { get; protected set; } = new();
+
+        [Inject]
+        public void Construct(TConfig config) =>
+            this.config = config;
+
+        public void Load() => Load(config);
+
+        public abstract void Load(TConfig config);
+
+        public void AddDependency<T>() where T : ILoader =>
+            Dependencies.Add(typeof(T));
     }
 }

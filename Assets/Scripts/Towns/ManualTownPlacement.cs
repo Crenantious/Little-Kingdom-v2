@@ -40,7 +40,7 @@ namespace LittleKingdom
             if (isPlacing)
             {
                 // TODO: JR - log properly.
-                Debug.Log("Already placing a town.");
+                Debug.LogWarning("Already placing a town.");
                 return;
             }
 

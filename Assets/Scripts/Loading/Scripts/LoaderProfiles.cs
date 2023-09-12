@@ -5,6 +5,9 @@ namespace LittleKingdom.Loading
 {
     public class LoaderProfiles : MonoBehaviour
     {
-        [field: SerializeField, DisplayDrawer] public LoaderProfile Current;
+        // Cannot use field: SerializeField as it is used in a SerializedProperty.
+        [SerializeField, DisplayDrawer] private LoaderProfile current;
+
+        public LoaderProfile Current => current;
     }
 }

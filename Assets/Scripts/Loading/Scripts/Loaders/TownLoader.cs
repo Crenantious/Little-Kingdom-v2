@@ -1,27 +1,22 @@
-using LittleKingdom.Events;
 using LittleKingdom.Factories;
-using LittleKingdom.Loading;
 using System;
-using UnityEngine;
 using Zenject;
 
-namespace LittleKingdom
+namespace LittleKingdom.Loading
 {
     public class TownLoader : Loader<TownLC>
     {
-        [SerializeField] private BoardLoader boardLoader;
-
         private TownPlacementFactory townPlacementFactory;
 
         private ITownPlacement townPlacement;
         private int currentPlayerIndex = 0;
 
         [Inject]
-        public void Construct(TownPlacementFactory townPlacementFactory) =>
+        public void Construct(TownPlacementFactory townPlacementFactory)
+        {
             this.townPlacementFactory = townPlacementFactory;
-
-        private void Awake() =>
-            Dependencies.Add(boardLoader);
+            AddDependency<BoardLoader>();
+        }
 
         public override void Load(TownLC config)
         {
@@ -47,7 +42,7 @@ namespace LittleKingdom
             townPlacement.BeginPlacement(TurnManager.Players[currentPlayerIndex++].Town);
         }
 
-        public override void Unload()
+        public void Unload()
         {
             throw new NotImplementedException();
         }
