@@ -12,10 +12,10 @@ namespace LittleKingdom.Buildings
         [HideInInspector] private VisualTreeAsset visualTreeAsset;
 
         [Inject]
-        public void Construct(UIContainer infoPanel, VisualTreeAsset visualTreeAsset)
+        public void Construct(UIContainer infoPanel, IVisualTreeAssets visualTreeAssets)
         {
             this.infoPanel = infoPanel;
-            this.visualTreeAsset = visualTreeAsset;
+            visualTreeAsset = visualTreeAssets.BuildingInfoPanel;
         }
 
         public void Show(Building data)

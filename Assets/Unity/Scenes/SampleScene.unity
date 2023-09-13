@@ -173,7 +173,7 @@ MonoBehaviour:
   loaderProfiles: {fileID: 887071030}
   dialogBox: {fileID: 1314893675}
   infoPanel: {fileID: 916617671566593525}
-  buildingInfoPanelTree: {fileID: 9197481963319205126, guid: f6bd3cbd44ab16948bb54d4c2abc021f, type: 3}
+  visualTreeAssets: {fileID: 1864142382}
   tilePrefab: {fileID: 258248469826108430, guid: a466df6f3fec767429364bcadb5de80d, type: 3}
 --- !u!114 &236274290
 MonoBehaviour:
@@ -874,6 +874,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 122967996187995806, guid: 0c0ef0075b5b63b4a8b8dec4b213139f, type: 3}
   m_PrefabInstance: {fileID: 122967996877136051}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1864142382 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1864142382, guid: 0c0ef0075b5b63b4a8b8dec4b213139f, type: 3}
+  m_PrefabInstance: {fileID: 122967996877136051}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c610e6cb55755174d854f2723564e1fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1958304783
 GameObject:
   m_ObjectHideFlags: 0

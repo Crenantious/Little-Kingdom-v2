@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 122967996187995806}
   - component: {fileID: 122967996187995807}
+  - component: {fileID: 1864142382}
   m_Layer: 0
   m_Name: References
   m_TagString: Untagged
@@ -47,3 +48,16 @@ MonoBehaviour:
   <DefaultLayer>k__BackingField: 0
   <IgnoreRaycastLayer>k__BackingField: 0
   <ActiveCamera>k__BackingField: {fileID: 0}
+--- !u!114 &1864142382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122967996187995800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c610e6cb55755174d854f2723564e1fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <BuildingInfoPanel>k__BackingField: {fileID: 9197481963319205126, guid: f6bd3cbd44ab16948bb54d4c2abc021f, type: 3}

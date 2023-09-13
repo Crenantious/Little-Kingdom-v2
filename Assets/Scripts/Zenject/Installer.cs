@@ -8,7 +8,6 @@ using LittleKingdom.Loading;
 using LittleKingdom.UI;
 using System;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Zenject;
 
 namespace LittleKingdom
@@ -22,7 +21,7 @@ namespace LittleKingdom
         // UI
         [SerializeField] private DialogBox dialogBox;
         [SerializeField] private UIContainer infoPanel;
-        [SerializeField] private VisualTreeAsset buildingInfoPanelTree;
+        [SerializeField] private VisualTreeAssets visualTreeAssets;
 
         // Prefabs
         [SerializeField] private TileMono tilePrefab;
@@ -40,6 +39,7 @@ namespace LittleKingdom
             Container.Bind<InteractionUtilities>().AsSingle();
             Container.Bind<SelectedObjectTracker>().AsSingle();
             Container.Bind<TownPlacementUtilities>().AsSingle();
+
             Container.Bind<IBoardGenerator>().To<BoardGenerator>().AsSingle();
 
             Container.BindInstance(player).AsSingle();
@@ -47,15 +47,16 @@ namespace LittleKingdom
             Container.BindInstance(tilePrefab).AsSingle();
             Container.BindInstance(loaderProfiles).AsSingle();
             Container.BindInstance(loaderProfiles.Current).AsSingle();
+
             Container.BindInstance<IReferences>(references).AsSingle();
+            Container.BindInstance<IVisualTreeAssets>(visualTreeAssets).AsSingle();
 
             Container.BindInstance(infoPanel).AsSingle().WhenInjectedInto<UIBuildingInfoPanel>();
-            Container.BindInstance(buildingInfoPanelTree).AsSingle().WhenInjectedInto<UIBuildingInfoPanel>();
 
-            Container.BindFactory<ITownPlacement, TownPlacementFactory>().FromFactory<ManualTownPlacementFactory>();
-            Container.BindFactory<ITileInfo, ITile, TileFactory>().FromFactory<CustomTileMonoFactory>();
             Container.BindFactory<IPlayer, PlayerFactory>().FromFactory<PlayerFactory>();
             Container.BindFactory<Type, ILoader, LoaderFactory>().FromFactory<LoaderFactory>();
+            Container.BindFactory<ITileInfo, ITile, TileFactory>().FromFactory<CustomTileMonoFactory>();
+            Container.BindFactory<ITownPlacement, TownPlacementFactory>().FromFactory<ManualTownPlacementFactory>();
 
             BindLoaderConfigs();
         }
