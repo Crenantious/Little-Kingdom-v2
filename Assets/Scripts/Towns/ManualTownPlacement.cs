@@ -46,7 +46,7 @@ namespace LittleKingdom
 
             isPlacing = true;
             this.town = town;
-            inGameInput.PointerTap += ConfirmPlacement;
+            inGameInput.PointerPressAndRelease += ConfirmPlacement;
         }
 
         public void FinalisePlacement()

@@ -8,14 +8,14 @@ namespace LittleKingdom.Input
     {
         private StandardActions actions;
 
-        public event SimpleEventHandler PointerTap;
+        public event SimpleEventHandler PointerPressAndRelease;
         public event SimpleEventHandler PointerPress;
         public event SimpleEventHandler PointerRelease;
 
         public StandardInput(Inputs inputs)
         {
             actions = inputs.Standard;
-            actions.PointerTap.performed += OnPointerTap;
+            actions.PointerPressAndRelease.performed += OnPointerPressAndRelease;
             actions.PointerPress.performed += OnPointerPress;
             actions.PointerRelease.performed += OnPointerRelease;
         }
@@ -29,8 +29,8 @@ namespace LittleKingdom.Input
         public Vector2 GetPointerPosition() =>
             actions.PointerPosition.ReadValue<Vector2>();
 
-        private void OnPointerTap(InputAction.CallbackContext context) =>
-            PointerTap?.Invoke();
+        private void OnPointerPressAndRelease(InputAction.CallbackContext context) =>
+            PointerPressAndRelease?.Invoke();
 
         private void OnPointerPress(InputAction.CallbackContext context) =>
             PointerPress?.Invoke();
