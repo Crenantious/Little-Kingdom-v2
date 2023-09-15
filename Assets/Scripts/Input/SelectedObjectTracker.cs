@@ -30,6 +30,9 @@ namespace LittleKingdom.Input
 
         private void OnPointerPress()
         {
+            if (raycastFromPointer.IsPointerOverUIElement())
+                return;
+
             objectPressedOn = GetSelectableUnderPointer();
             isPointerPressed = true;
         }
@@ -41,6 +44,12 @@ namespace LittleKingdom.Input
             if (isPointerPressed is false)
                 return;
 
+            if (raycastFromPointer.IsPointerOverUIElement())
+            {
+                objectPressedOn = null;
+                return;
+            }
+
             objectReleasedOn = GetSelectableUnderPointer();
 
             DetermineSelectedObject();
@@ -48,7 +57,7 @@ namespace LittleKingdom.Input
         }
 
         private Selectable GetSelectableUnderPointer() =>
-            raycastFromPointer.Cast(out RaycastHit hit) &&
+            raycastFromPointer.CastTo3D(out RaycastHit hit) &&
                 IsSelectable(hit.collider.gameObject, out Selectable selectable) ?
                 selectable :
                 null;
@@ -76,6 +85,7 @@ namespace LittleKingdom.Input
         {
             Selected = objectPressedOn;
             ObjectSelected?.Invoke(Selected);
+            Debug.Log("Selected: " + Selected.name);
         }
 
         private void DeselectObject()

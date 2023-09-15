@@ -6,7 +6,7 @@ using Zenject;
 namespace LittleKingdom.Interactions
 {
     [Serializable]
-    [AddComponentMenu("LittleKingdom/Interaction/PointerTapInteraction")]
+    [AddComponentMenu("LittleKingdom/Interaction/PointerPressAndReleaseInteraction")]
     public class PointerPressAndReleaseInteraction : Interaction
     {
         [Inject]

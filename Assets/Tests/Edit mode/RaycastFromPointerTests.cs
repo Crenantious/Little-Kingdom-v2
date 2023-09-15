@@ -49,7 +49,7 @@ public class RaycastFromPointerTests : ZenjectUnitTestFixture
         testObject.transform.position = new(0, 0, 2);
         input.PressAndRelease(mouse.leftButton);
 
-        Assert.IsTrue(raycastFromPointer.Cast(out RaycastHit _));
+        Assert.IsTrue(raycastFromPointer.CastTo3D(out RaycastHit _));
     }
 
     [Test]
@@ -58,6 +58,6 @@ public class RaycastFromPointerTests : ZenjectUnitTestFixture
         testObject.transform.position = new(2, 0, 0);
         input.PressAndRelease(mouse.leftButton);
 
-        Assert.IsFalse(raycastFromPointer.Cast(out RaycastHit _));
+        Assert.IsFalse(raycastFromPointer.CastTo3D(out RaycastHit _));
     }
 }

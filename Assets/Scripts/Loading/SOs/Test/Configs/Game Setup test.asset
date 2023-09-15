@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b10339f051340244a08a84f8122d236, type: 3}
   m_Name: Game Setup test
   m_EditorClassIdentifier: 
-  <PlayerCount>k__BackingField: 2
+  <PlayerCount>k__BackingField: 1

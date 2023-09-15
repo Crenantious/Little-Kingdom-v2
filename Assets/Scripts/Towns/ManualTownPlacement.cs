@@ -54,6 +54,7 @@ namespace LittleKingdom
             tileEntityAssignment.AssignTown(town, originTile);
             isPlacing = false;
             isConfirmingPlacement = false;
+            inGameInput.PointerPressAndRelease -= ConfirmPlacement;
             TownPlaced.Invoke(town);
         }
 
