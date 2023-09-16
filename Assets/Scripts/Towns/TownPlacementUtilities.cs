@@ -34,7 +34,7 @@ namespace LittleKingdom
 
         private Vector2 GetWorldspacePointerPosition() =>
             // If true, the position is increased by half a tile since the grid expects the pivot point of the tiles to be the bottom left.
-            raycastFromPointer.Cast(out RaycastHit hit) ?
+            raycastFromPointer.CastTo3D(out RaycastHit hit) ?
                 new Vector2(hit.point.x + references.TileWidth / 2, hit.point.z + references.TileHeight / 2) :
                 defaultPointerWorldPosition;
     }

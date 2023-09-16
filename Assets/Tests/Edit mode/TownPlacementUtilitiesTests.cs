@@ -42,6 +42,7 @@ namespace TownTests
             Container.Bind<BoardGenerator>().AsSingle();
             Container.Bind<TileEntityAssignment>().AsSingle();
             Container.Bind<TownPlacementUtilities>().AsSingle();
+            Container.Bind<RaycastFromPointer>().AsSingle();
             Container.BindInstance(references.Object).AsSingle();
             Container.BindFactory<ITileInfo, ITile, TileFactory>().FromFactory<CustomTileFactory>();
             Container.Inject(this);
@@ -59,12 +60,6 @@ namespace TownTests
             tileInfos = new() { tileInfo.Object };
 
             board = boardGenerator.Generate(5, 5, tileInfos);
-        }
-
-        private void SetTownPosition(Vector2 position)
-        {
-            town.Setup(t => t.XPosition).Returns(position.x);
-            town.Setup(t => t.YPosition).Returns(position.y);
         }
 
         [Test]
@@ -148,6 +143,12 @@ namespace TownTests
 
             Assert.AreEqual(expectedXPositionOffset, townObject.XPosition - originTile.XPosition);
             Assert.AreEqual(expectedYPositionOffset, townObject.YPosition - originTile.YPosition);
+        }
+
+        private void SetTownPosition(Vector2 position)
+        {
+            town.Setup(t => t.XPosition).Returns(position.x);
+            town.Setup(t => t.YPosition).Returns(position.y);
         }
     }
 }

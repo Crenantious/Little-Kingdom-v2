@@ -36,6 +36,8 @@ namespace LittleKingdom
         /// </summary>
         public float YPosition { get; }
 
+        public IPlayer Player { get; }
+
         public void SetPosition(Vector2 position);
     }
 }

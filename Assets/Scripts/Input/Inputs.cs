@@ -39,12 +39,12 @@ namespace LittleKingdom.Input
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Pointer Tap"",
+                    ""name"": ""Pointer Press And Release"",
                     ""type"": ""Button"",
                     ""id"": ""02c674aa-81b1-4fcd-b4d9-a4cb95f249de"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Tap"",
+                    ""interactions"": ""Press(behavior=2)"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -96,7 +96,7 @@ namespace LittleKingdom.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Pointer Tap"",
+                    ""action"": ""Pointer Press And Release"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -107,7 +107,7 @@ namespace LittleKingdom.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Touch"",
-                    ""action"": ""Pointer Tap"",
+                    ""action"": ""Pointer Press And Release"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -224,7 +224,7 @@ namespace LittleKingdom.Input
             // Standard
             m_Standard = asset.FindActionMap("Standard", throwIfNotFound: true);
             m_Standard_PointerPosition = m_Standard.FindAction("Pointer Position", throwIfNotFound: true);
-            m_Standard_PointerTap = m_Standard.FindAction("Pointer Tap", throwIfNotFound: true);
+            m_Standard_PointerPressAndRelease = m_Standard.FindAction("Pointer Press And Release", throwIfNotFound: true);
             m_Standard_PointerPress = m_Standard.FindAction("Pointer Press", throwIfNotFound: true);
             m_Standard_PointerRelease = m_Standard.FindAction("Pointer Release", throwIfNotFound: true);
         }
@@ -287,7 +287,7 @@ namespace LittleKingdom.Input
         private readonly InputActionMap m_Standard;
         private IStandardActions m_StandardActionsCallbackInterface;
         private readonly InputAction m_Standard_PointerPosition;
-        private readonly InputAction m_Standard_PointerTap;
+        private readonly InputAction m_Standard_PointerPressAndRelease;
         private readonly InputAction m_Standard_PointerPress;
         private readonly InputAction m_Standard_PointerRelease;
         public struct StandardActions
@@ -295,7 +295,7 @@ namespace LittleKingdom.Input
             private @Inputs m_Wrapper;
             public StandardActions(@Inputs wrapper) { m_Wrapper = wrapper; }
             public InputAction @PointerPosition => m_Wrapper.m_Standard_PointerPosition;
-            public InputAction @PointerTap => m_Wrapper.m_Standard_PointerTap;
+            public InputAction @PointerPressAndRelease => m_Wrapper.m_Standard_PointerPressAndRelease;
             public InputAction @PointerPress => m_Wrapper.m_Standard_PointerPress;
             public InputAction @PointerRelease => m_Wrapper.m_Standard_PointerRelease;
             public InputActionMap Get() { return m_Wrapper.m_Standard; }
@@ -310,9 +310,9 @@ namespace LittleKingdom.Input
                     @PointerPosition.started -= m_Wrapper.m_StandardActionsCallbackInterface.OnPointerPosition;
                     @PointerPosition.performed -= m_Wrapper.m_StandardActionsCallbackInterface.OnPointerPosition;
                     @PointerPosition.canceled -= m_Wrapper.m_StandardActionsCallbackInterface.OnPointerPosition;
-                    @PointerTap.started -= m_Wrapper.m_StandardActionsCallbackInterface.OnPointerTap;
-                    @PointerTap.performed -= m_Wrapper.m_StandardActionsCallbackInterface.OnPointerTap;
-                    @PointerTap.canceled -= m_Wrapper.m_StandardActionsCallbackInterface.OnPointerTap;
+                    @PointerPressAndRelease.started -= m_Wrapper.m_StandardActionsCallbackInterface.OnPointerPressAndRelease;
+                    @PointerPressAndRelease.performed -= m_Wrapper.m_StandardActionsCallbackInterface.OnPointerPressAndRelease;
+                    @PointerPressAndRelease.canceled -= m_Wrapper.m_StandardActionsCallbackInterface.OnPointerPressAndRelease;
                     @PointerPress.started -= m_Wrapper.m_StandardActionsCallbackInterface.OnPointerPress;
                     @PointerPress.performed -= m_Wrapper.m_StandardActionsCallbackInterface.OnPointerPress;
                     @PointerPress.canceled -= m_Wrapper.m_StandardActionsCallbackInterface.OnPointerPress;
@@ -326,9 +326,9 @@ namespace LittleKingdom.Input
                     @PointerPosition.started += instance.OnPointerPosition;
                     @PointerPosition.performed += instance.OnPointerPosition;
                     @PointerPosition.canceled += instance.OnPointerPosition;
-                    @PointerTap.started += instance.OnPointerTap;
-                    @PointerTap.performed += instance.OnPointerTap;
-                    @PointerTap.canceled += instance.OnPointerTap;
+                    @PointerPressAndRelease.started += instance.OnPointerPressAndRelease;
+                    @PointerPressAndRelease.performed += instance.OnPointerPressAndRelease;
+                    @PointerPressAndRelease.canceled += instance.OnPointerPressAndRelease;
                     @PointerPress.started += instance.OnPointerPress;
                     @PointerPress.performed += instance.OnPointerPress;
                     @PointerPress.canceled += instance.OnPointerPress;
@@ -387,7 +387,7 @@ namespace LittleKingdom.Input
         public interface IStandardActions
         {
             void OnPointerPosition(InputAction.CallbackContext context);
-            void OnPointerTap(InputAction.CallbackContext context);
+            void OnPointerPressAndRelease(InputAction.CallbackContext context);
             void OnPointerPress(InputAction.CallbackContext context);
             void OnPointerRelease(InputAction.CallbackContext context);
         }

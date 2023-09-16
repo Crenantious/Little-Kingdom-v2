@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace LittleKingdom.DataStructures
 {
@@ -68,6 +69,9 @@ namespace LittleKingdom.DataStructures
 
         public TElement Get(int column, int row) =>
             grid[column, row];
+
+        public TElement Get(Vector2Int position) =>
+            grid[position.x, position.y];
 
         public IEnumerable<TElement> GetEnumerable() =>
             grid.Cast<TElement>();

@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.TestTools;
+using UnityEngine.UIElements;
 using Zenject;
 
 namespace InfoPanelTests
@@ -15,20 +16,27 @@ namespace InfoPanelTests
     {
         [Inject] private readonly PlayModeTestHelper testHelper;
         private GameObject infoPanel;
+        private UIBuildingInfoPanel buildingInfoPanel;
 
         [SetUp]
         public void CommonInstall()
         {
+            Mock<IVisualTreeAssets> visualTreeAssets = new();
+            visualTreeAssets.Setup(v => v.BuildingInfoPanel).Returns(
+                UITestUtilities.GetAsset<VisualTreeAsset>(nameof(UIBuildingInfoPanel)));
+
             DefaultInstaller defaultInstaller = new(Container);
             defaultInstaller.InstallBindings();
 
             Container.Bind<UIContainer>()
                 .FromComponentInNewPrefab(TestUtilities.LoadPrefab("Info panel"))
                 .WhenInjectedInto<UIBuildingInfoPanel>();
+            Container.BindInstance(visualTreeAssets.Object).AsSingle();
 
             Container.Inject(this);
 
             infoPanel = UnityEngine.Object.Instantiate(TestUtilities.LoadPrefab("Info panel"));
+            buildingInfoPanel = Container.InstantiateComponent<UIBuildingInfoPanel>(new GameObject());
         }
 
         [UnityTest]
@@ -37,7 +45,7 @@ namespace InfoPanelTests
             (Mock<ITestCallback> _, Building building) = CreateObjects();
             testHelper.Initialise();
 
-            infoPanel.GetComponent<UIBuildingInfoPanel>().Show(building);
+            ShowPanel(building);
 
             yield return testHelper;
         }
@@ -48,7 +56,7 @@ namespace InfoPanelTests
             (Mock<ITestCallback> testCallback, Building building) = CreateObjects();
             testHelper.Initialise(() => testCallback.Verify(t => t.Callback(), Times.Never()), true);
 
-            infoPanel.GetComponent<UIBuildingInfoPanel>().Show(building);
+            ShowPanel(building);
 
             yield return testHelper;
         }
@@ -59,10 +67,13 @@ namespace InfoPanelTests
             (Mock<ITestCallback> testCallback, Building building) = CreateObjects();
             testHelper.Initialise(() => testCallback.Verify(t => t.Callback(), Times.Once()), true);
 
-            infoPanel.GetComponent<UIBuildingInfoPanel>().Show(building);
+            ShowPanel(building);
 
             yield return testHelper;
         }
+
+        private void ShowPanel(Building building) =>
+            buildingInfoPanel.Show(building);
 
         private static (Mock<ITestCallback> testCallback, Building building) CreateObjects()
         {

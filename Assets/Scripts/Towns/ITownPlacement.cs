@@ -1,5 +1,3 @@
-using System;
-
 namespace LittleKingdom
 {
     public interface ITownPlacement
@@ -7,10 +5,9 @@ namespace LittleKingdom
         public event SimpleEventHandler<ITown> TownPlaced;
 
         /// <summary>
-        /// Perform pre-placement logic such as getting user input or calculating placement position.
+        /// Placement may take multiple frames so be sure to listen to <see cref="TownPlaced"/> to know when it's finished.
         /// </summary>
-        public void BeginPlacement(ITown town);
-
-        public void FinalisePlacement();
+        /// <param name="town"></param>
+        public void Place(ITown town);
     }
 }

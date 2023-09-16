@@ -15,12 +15,12 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Pointer Tap",
+                    "name": "Pointer Press And Release",
                     "type": "Button",
                     "id": "02c674aa-81b1-4fcd-b4d9-a4cb95f249de",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Tap",
+                    "interactions": "Press(behavior=2)",
                     "initialStateCheck": false
                 },
                 {
@@ -72,7 +72,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Pointer Tap",
+                    "action": "Pointer Press And Release",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -83,7 +83,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Touch",
-                    "action": "Pointer Tap",
+                    "action": "Pointer Press And Release",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

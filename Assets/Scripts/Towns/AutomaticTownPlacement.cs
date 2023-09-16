@@ -1,6 +1,7 @@
 using LittleKingdom.Board;
-using LittleKingdom.Events;
-using System;
+using LittleKingdom.Loading;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace LittleKingdom
 {
@@ -8,29 +9,37 @@ namespace LittleKingdom
     {
         #region DI
 
-        private readonly IBoard board;
-        private readonly TownPlacedEvent townPlacedEvent;
         private readonly TileEntityAssignment tileEntityAssignment;
+        private readonly TownPlacementUtilities townPlacementUtilities;
+        private readonly List<Vector2Int> originTiles;
+        private readonly IBoard board;
 
         #endregion
 
-        public AutomaticTownPlacement(IBoard board, TownPlacedEvent townPlacedEvent, TileEntityAssignment tileEntityAssignment)
-        {
-            this.board = board;
-            this.townPlacedEvent = townPlacedEvent;
-            this.tileEntityAssignment = tileEntityAssignment;
-        }
-
         public event SimpleEventHandler<ITown> TownPlaced;
 
-        public void BeginPlacement(ITown town)
+        public AutomaticTownPlacement(TileEntityAssignment tileEntityAssignment,
+            TownPlacementUtilities townPlacementUtilities, LoaderProfile loaderProfile,
+            IReferences references)
         {
-            throw new NotImplementedException();
+            this.tileEntityAssignment = tileEntityAssignment;
+            this.townPlacementUtilities = townPlacementUtilities;
+            originTiles = loaderProfile.GetConfig<TownLC>().TownOriginTiles;
+            board = references.Board;
         }
 
-        public void FinalisePlacement()
+        public void Place(ITown town)
         {
-            throw new NotImplementedException();
+            if (town.Player.Number >= originTiles.Count)
+            {
+                Debug.LogError($"Not enough origin tiles specified in {nameof(TownLC)} for automatic placement.");
+                return;
+            }
+
+            ITile originTile = board.Tiles.Get(originTiles[town.Player.Number]);
+            townPlacementUtilities.MoveTownToTile(town, originTile);
+            tileEntityAssignment.AssignTown(town, originTile);
+            TownPlaced.Invoke(town);
         }
     }
 }

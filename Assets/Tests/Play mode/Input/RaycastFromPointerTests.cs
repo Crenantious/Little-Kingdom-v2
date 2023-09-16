@@ -23,7 +23,7 @@ public class RaycastFromPointerTests : InputTestsBase
         MoveMouseToCentreOfScreen();
         yield return null;
 
-        Assert.IsTrue(RaycastFromPointer.Cast(out RaycastHit _));
+        Assert.IsTrue(RaycastFromPointer.CastTo3D(out RaycastHit _));
     }
 
     [UnityTest]
@@ -33,7 +33,7 @@ public class RaycastFromPointerTests : InputTestsBase
         MoveMouseToCentreOfScreen();
         yield return null;
 
-        Assert.IsFalse(RaycastFromPointer.Cast(out RaycastHit _));
+        Assert.IsFalse(RaycastFromPointer.CastTo3D(out RaycastHit _));
     }
 
     private void MoveMouseToCentreOfScreen() =>

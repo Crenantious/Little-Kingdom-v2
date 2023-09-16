@@ -2,7 +2,9 @@ using LittleKingdom;
 using LittleKingdom.Input;
 using Moq;
 using NUnit.Framework;
+using PlayModeTests;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Zenject;
 
@@ -16,12 +18,6 @@ public class RaycastFromPointerTests : ZenjectUnitTestFixture
 
     private Mouse mouse;
 
-    [OneTimeSetUp]
-    public void ClassSetup()
-    {
-
-    }
-
     [SetUp]
     public void CommonInstall()
     {
@@ -30,6 +26,9 @@ public class RaycastFromPointerTests : ZenjectUnitTestFixture
         Container.Bind<StandardInput>().AsSingle();
         Container.Bind<RaycastFromPointer>().AsSingle();
         Container.Inject(this);
+
+        // TODO: JR - figure out how to do this.
+        EventSystem.current = Object.Instantiate(TestUtilities.LoadPrefab("Test EventSystem")).GetComponent<EventSystem>();
 
         mouse = InputSystem.AddDevice<Mouse>();
         var action2 = new InputAction("action2", binding: "<Mouse>/leftButton");
@@ -49,7 +48,7 @@ public class RaycastFromPointerTests : ZenjectUnitTestFixture
         testObject.transform.position = new(0, 0, 2);
         input.PressAndRelease(mouse.leftButton);
 
-        Assert.IsTrue(raycastFromPointer.Cast(out RaycastHit _));
+        Assert.IsTrue(raycastFromPointer.CastTo3D(out RaycastHit _));
     }
 
     [Test]
@@ -58,6 +57,6 @@ public class RaycastFromPointerTests : ZenjectUnitTestFixture
         testObject.transform.position = new(2, 0, 0);
         input.PressAndRelease(mouse.leftButton);
 
-        Assert.IsFalse(raycastFromPointer.Cast(out RaycastHit _));
+        Assert.IsFalse(raycastFromPointer.CastTo3D(out RaycastHit _));
     }
 }

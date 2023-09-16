@@ -6,13 +6,13 @@ using Zenject;
 namespace LittleKingdom.Interactions
 {
     [Serializable]
-    [AddComponentMenu("LittleKingdom/Interaction/PointerTapInteraction")]
-    public class PointerTapInteraction : Interaction
+    [AddComponentMenu("LittleKingdom/Interaction/PointerPressAndReleaseInteraction")]
+    public class PointerPressAndReleaseInteraction : Interaction
     {
         [Inject]
         public void Construct(StandardInput input)
         {
-            input.PointerTap += OnInteraction;
+            input.PointerPressAndRelease += OnInteraction;
         }
     }
 }

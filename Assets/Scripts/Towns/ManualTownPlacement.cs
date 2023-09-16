@@ -35,7 +35,7 @@ namespace LittleKingdom
             this.townPlacementUtilities = townPlacementUtilities;
         }
 
-        public void BeginPlacement(ITown town)
+        public void Place(ITown town)
         {
             if (isPlacing)
             {
@@ -46,7 +46,7 @@ namespace LittleKingdom
 
             isPlacing = true;
             this.town = town;
-            inGameInput.PointerTap += ConfirmPlacement;
+            inGameInput.PointerPressAndRelease += ConfirmPlacement;
         }
 
         public void FinalisePlacement()
@@ -54,6 +54,7 @@ namespace LittleKingdom
             tileEntityAssignment.AssignTown(town, originTile);
             isPlacing = false;
             isConfirmingPlacement = false;
+            inGameInput.PointerPressAndRelease -= ConfirmPlacement;
             TownPlaced.Invoke(town);
         }
 
