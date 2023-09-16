@@ -54,6 +54,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 7251552405205551827}
     m_Modifications:
+    - target: {fileID: -6773553549016252625, guid: 7dba61eef50655e4a9e078e42629f3bf, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1237667895801296232}
     - target: {fileID: 5107432959898809727, guid: 7dba61eef50655e4a9e078e42629f3bf, type: 3}
       propertyPath: m_Name
       value: Town

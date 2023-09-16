@@ -39,7 +39,7 @@ namespace LittleKingdom.Loading
                 return;
             }
 
-            townPlacement.BeginPlacement(TurnManager.Players[currentPlayerIndex++].Town);
+            townPlacement.Place(TurnManager.Players[currentPlayerIndex++].Town);
         }
 
         public void Unload()

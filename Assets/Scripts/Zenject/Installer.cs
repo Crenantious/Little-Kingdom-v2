@@ -56,9 +56,17 @@ namespace LittleKingdom
             Container.BindFactory<IPlayer, PlayerFactory>().FromFactory<PlayerFactory>();
             Container.BindFactory<Type, ILoader, LoaderFactory>().FromFactory<LoaderFactory>();
             Container.BindFactory<ITileInfo, ITile, TileFactory>().FromFactory<CustomTileMonoFactory>();
-            Container.BindFactory<ITownPlacement, TownPlacementFactory>().FromFactory<ManualTownPlacementFactory>();
+            BindTownPlacementFactory();
 
             BindLoaderConfigs();
+        }
+
+        private void BindTownPlacementFactory()
+        {
+            if (loaderProfiles.Current.GetConfig<TownLC>().AutoPlace)
+                Container.BindFactory<ITownPlacement, TownPlacementFactory>().FromFactory<AutomaticTownPlacementFactory>();
+            else
+                Container.BindFactory<ITownPlacement, TownPlacementFactory>().FromFactory<ManualTownPlacementFactory>();
         }
 
         private void BindLoaderConfigs()

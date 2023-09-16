@@ -35,7 +35,7 @@ namespace LittleKingdom
             this.townPlacementUtilities = townPlacementUtilities;
         }
 
-        public void BeginPlacement(ITown town)
+        public void Place(ITown town)
         {
             if (isPlacing)
             {

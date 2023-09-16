@@ -1,4 +1,3 @@
-using UnityEngine;
 using Zenject;
 
 namespace LittleKingdom.Factories
@@ -14,7 +13,11 @@ namespace LittleKingdom.Factories
             this.player = player;
         }
 
-        public override IPlayer Create() =>
-            container.InstantiatePrefabForComponent<IPlayer>(player);
+        public override IPlayer Create()
+        {
+            Player newPlayer = container.InstantiatePrefabForComponent<Player>(player);
+            newPlayer.Initialise(TurnManager.Players.Count);
+            return newPlayer;
+        }
     }
 }

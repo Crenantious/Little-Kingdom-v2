@@ -8,9 +8,13 @@ namespace LittleKingdom
     [Serializable]
     public class Town : MonoBehaviour, ITown
     {
+        [SerializeField] private Player player;
+
         [field: SerializeField] public int Width { get; protected set; }
 
         [field: SerializeField] public int Height { get; protected set; }
+
+        public IPlayer Player => player;
 
         public ITile OriginTile { get; set; }
         public Grid<ITile> Tiles { get; set; }
