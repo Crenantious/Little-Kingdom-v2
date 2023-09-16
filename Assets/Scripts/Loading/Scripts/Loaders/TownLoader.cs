@@ -10,20 +10,19 @@ namespace LittleKingdom.Loading
 
         private ITownPlacement townPlacement;
         private int currentPlayerIndex = 0;
+        private TurnOrder turnOrder;
 
         [Inject]
-        public void Construct(TownPlacementFactory townPlacementFactory)
+        public void Construct(TownPlacementFactory townPlacementFactory, TurnOrder turnOrder)
         {
             this.townPlacementFactory = townPlacementFactory;
+            this.turnOrder = turnOrder;
             AddDependency<BoardLoader>();
         }
 
         public override void Load(TownLC config)
         {
             townPlacement = townPlacementFactory.Create();
-            if (TurnManager.Players.Count <= 0)
-                return;
-
             townPlacement.TownPlaced += OnTownPlaced;
             BeginNextPlacement();
         }
@@ -33,13 +32,13 @@ namespace LittleKingdom.Loading
 
         private void BeginNextPlacement()
         {
-            if (currentPlayerIndex >= TurnManager.Players.Count)
+            if (turnOrder.MoveNext() is false)
             {
                 townPlacement.TownPlaced -= OnTownPlaced;
                 return;
             }
 
-            townPlacement.Place(TurnManager.Players[currentPlayerIndex++].Town);
+            townPlacement.Place(turnOrder.Current.Town);
         }
 
         public void Unload()

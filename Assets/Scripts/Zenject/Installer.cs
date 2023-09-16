@@ -28,8 +28,16 @@ namespace LittleKingdom
 
         public override void InstallBindings()
         {
+            InstallSingletons();
+            InstallTransients();
+            InstallFactories();
+            InstallLoaderConfigs();
+        }
 
+        private void InstallSingletons()
+        {
             Container.Bind<Inputs>().AsSingle();
+            Container.Bind<TurnOrder>().AsSingle();
             Container.Bind<Loading.Loading>().AsSingle();
             Container.Bind<StandardInput>().AsSingle();
             Container.Bind<TownPlacedEvent>().AsSingle();
@@ -52,13 +60,19 @@ namespace LittleKingdom
             Container.BindInstance<IVisualTreeAssets>(visualTreeAssets).AsSingle();
 
             Container.BindInstance(infoPanel).AsSingle().WhenInjectedInto<UIBuildingInfoPanel>();
+        }
 
+        private void InstallTransients()
+        {
+
+        }
+
+        private void InstallFactories()
+        {
             Container.BindFactory<IPlayer, PlayerFactory>().FromFactory<PlayerFactory>();
             Container.BindFactory<Type, ILoader, LoaderFactory>().FromFactory<LoaderFactory>();
             Container.BindFactory<ITileInfo, ITile, TileFactory>().FromFactory<CustomTileMonoFactory>();
             BindTownPlacementFactory();
-
-            BindLoaderConfigs();
         }
 
         private void BindTownPlacementFactory()
@@ -69,7 +83,7 @@ namespace LittleKingdom
                 Container.BindFactory<ITownPlacement, TownPlacementFactory>().FromFactory<ManualTownPlacementFactory>();
         }
 
-        private void BindLoaderConfigs()
+        private void InstallLoaderConfigs()
         {
             Container.BindInstance(loaderProfiles.Current.GetConfig<TownLC>()).AsSingle();
             Container.BindInstance(loaderProfiles.Current.GetConfig<BoardLC>()).AsSingle();

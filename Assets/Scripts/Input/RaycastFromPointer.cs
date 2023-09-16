@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 
 namespace LittleKingdom.Input
 {
+    // TODO: JR - probably use an interface for testing. Or a prefab for the EventSystem.
     public class RaycastFromPointer
     {
         private readonly StandardInput input;

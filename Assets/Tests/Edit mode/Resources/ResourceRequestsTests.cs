@@ -198,8 +198,5 @@ namespace ResourceRequests
 
         private void AssertResult(params TestRequest[] requests) =>
             CollectionAssert.AreEqual(requests, requestsResult);
-
-        //private void AssertResult(params TestRequest[] requests) =>
-        //    CollectionAssert.AreEqual(requests, requestsResult);
     }
 }
