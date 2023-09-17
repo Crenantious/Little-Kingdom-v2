@@ -1,5 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Graphics/UI/UI%20toolkit/Info%20panel/Info%20panel.uss?fileID=7433441132597879392&amp;guid=347ddee5fa97b094b829974cd076cf5c&amp;type=3#Info panel" />
+    <Style src="project://database/Assets/Graphics/UI/UI%20toolkit/Stylesheets/Text.uss?fileID=7433441132597879392&amp;guid=448dc5f583b33284e991805603388797&amp;type=3#Text" />
     <ui:VisualElement name="RootContainer" class="root">
         <ui:Label tabindex="-1" text="Title" display-tooltip-when-elided="true" name="Title" class="title" style="align-items: center; justify-content: center; left: 0; right: 100%; width: 100%; height: 50px; margin-bottom: 5%; padding-right: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; top: 0; bottom: 0; min-height: 0; min-width: 0; flex-basis: auto;" />
         <ui:VisualElement name="BuildingLevelContainer" style="width: 100%; justify-content: flex-start; align-items: flex-start; height: 30px; margin-bottom: 5%; flex-direction: row; left: 0; top: 0; right: 0; bottom: 0; min-width: 0; min-height: 0; flex-basis: auto;">

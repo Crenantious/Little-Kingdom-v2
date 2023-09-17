@@ -1,7 +1,17 @@
+using System.Collections.Generic;
+
 namespace LittleKingdom
 {
     public interface IPlayer
     {
+        public Resources.Resources Resources { get; }
+
+        public List<IPowerCard> OffensiveCards { get; }
+
+        public List<IPowerCard> DefensiveCards { get; }
+
+        public List<IPowerCard> UtilityCards { get; }
+
         public ITown Town { get; }
 
         /// <summary>

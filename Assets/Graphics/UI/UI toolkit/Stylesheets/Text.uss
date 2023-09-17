@@ -1,0 +1,15 @@
+.text {
+    font-size: 24px;
+    white-space: normal;
+    -unity-text-align: middle-left;
+}
+
+.title {
+    font-size: 36px;
+    -unity-text-align: middle-center;
+}
+
+.header {
+    font-size: 28px;
+    -unity-text-align: middle-left;
+}
