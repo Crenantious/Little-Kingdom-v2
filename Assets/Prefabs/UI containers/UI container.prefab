@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4601726781597710324}
   - component: {fileID: 3153008853825861023}
+  - component: {fileID: 5654484971009549632}
   m_Layer: 0
   m_Name: UI container
   m_TagString: Untagged
@@ -51,6 +52,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ContainerObject: {fileID: 1015321541354420478}
+--- !u!114 &5654484971009549632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4601726781597710327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 249de6d65fe90954baaef55f3ecec3b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  container: {fileID: 0}
+  hud: {fileID: 0}
+  resource: {fileID: 0}
 --- !u!1 &6741437125955308494
 GameObject:
   m_ObjectHideFlags: 0
@@ -101,7 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be3a29968d52c47498385953d4a6a48f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Document>k__BackingField: {fileID: 5954242437350359034}
+  document: {fileID: 5954242437350359034}
 --- !u!114 &5954242437350359034
 MonoBehaviour:
   m_ObjectHideFlags: 0

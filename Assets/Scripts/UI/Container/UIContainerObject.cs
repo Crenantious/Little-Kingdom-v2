@@ -6,6 +6,11 @@ namespace LittleKingdom.UI
     [RequireComponent(typeof(UIDocument))]
     public class UIContainerObject : MonoBehaviour
     {
-        [field: SerializeField] public UIDocument Document { get; private set; }
+        [SerializeField]
+        [Tooltip("What to display when the associated UIContainer.Show is called. " +
+            "Note the UIDocument.SourceAsset will be overridden at runtime.")]
+        private UIDocument document;
+
+        public UIDocument Document => document;
     }
 }

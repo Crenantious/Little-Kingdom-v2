@@ -21,6 +21,7 @@ namespace LittleKingdom
         // UI
         [SerializeField] private DialogBox dialogBox;
         [SerializeField] private UIContainer infoPanel;
+        [SerializeField] private PlayerHUD playerHUD;
         [SerializeField] private VisualTreeAssets visualTreeAssets;
 
         // Prefabs
@@ -52,6 +53,7 @@ namespace LittleKingdom
 
             Container.BindInstance(player).AsSingle();
             Container.BindInstance(dialogBox).AsSingle();
+            Container.BindInstance(playerHUD).AsSingle();
             Container.BindInstance(tilePrefab).AsSingle();
             Container.BindInstance(loaderProfiles).AsSingle();
             Container.BindInstance(loaderProfiles.Current).AsSingle();
