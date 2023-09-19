@@ -1,3 +1,4 @@
+using LittleKingdom.CharacterTurns;
 using LittleKingdom.Loading;
 using Zenject;
 
@@ -7,9 +8,9 @@ namespace LittleKingdom.Factories
     {
         private readonly DiContainer container;
         private readonly Player player;
-        private TurnOrder turnOrder;
+        private CharacterTurnOrder turnOrder;
 
-        public PlayerFactory(DiContainer container, Player player, TurnOrder turnOrder)
+        public PlayerFactory(DiContainer container, Player player, CharacterTurnOrder turnOrder)
         {
             this.container = container;
             this.player = player;

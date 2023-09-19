@@ -13,6 +13,7 @@ namespace LittleKingdom.Loading
         {
             { typeof(GameSetupLoader), GameSetupToBoard },
             { typeof(BoardLoader), BoardToTown },
+            { typeof(TownLoader), TownToCharacterTurns },
         };
 
         [SerializeField] private string initialLoaderTypeName;
@@ -38,6 +39,9 @@ namespace LittleKingdom.Loading
 
         private static void BoardToTown() =>
             loading.Load<TownLoader>();
+
+        private static void TownToCharacterTurns() =>
+            loading.Load<CharacterTurnsLoader>();
 
         private void OnLoaded(ILoader loader)
         {

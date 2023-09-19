@@ -1,3 +1,4 @@
+using LittleKingdom.CharacterTurns;
 using LittleKingdom.Factories;
 using System;
 using Zenject;
@@ -10,10 +11,10 @@ namespace LittleKingdom.Loading
 
         private ITownPlacement townPlacement;
         private int currentPlayerIndex = 0;
-        private TurnOrder turnOrder;
+        private CharacterTurnOrder turnOrder;
 
         [Inject]
-        public void Construct(TownPlacementFactory townPlacementFactory, TurnOrder turnOrder)
+        public void Construct(TownPlacementFactory townPlacementFactory, CharacterTurnOrder turnOrder)
         {
             this.townPlacementFactory = townPlacementFactory;
             this.turnOrder = turnOrder;

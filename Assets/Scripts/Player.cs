@@ -1,3 +1,4 @@
+using LittleKingdom.CharacterTurns;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,7 +20,12 @@ namespace LittleKingdom
 
         public List<IPowerCard> UtilityCards { get; private set; } = new();
 
-        public void Initialise(int creationIndex) =>
+        public ICharacterTurn Turn { get; private set; }
+
+        public void Initialise(int creationIndex)
+        {
             Number = creationIndex;
+            Turn = new CharacterTurn(this);
+        }
     }
 }

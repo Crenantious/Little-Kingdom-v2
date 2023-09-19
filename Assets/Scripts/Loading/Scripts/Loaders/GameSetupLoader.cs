@@ -1,3 +1,4 @@
+using LittleKingdom.CharacterTurns;
 using LittleKingdom.Factories;
 using LittleKingdom.Input;
 using Zenject;
@@ -9,11 +10,11 @@ namespace LittleKingdom.Loading
         private IReferences references;
         private PlayerFactory playerFactory;
         private StandardInput standardInput;
-        private TurnOrder turnOrder;
+        private CharacterTurnOrder turnOrder;
 
         [Inject]
         public void Construct(IReferences references, PlayerFactory playerFactory, StandardInput standardInput,
-            TurnOrder turnOrder)
+            CharacterTurnOrder turnOrder)
         {
             this.references = references;
             this.playerFactory = playerFactory;
@@ -28,7 +29,7 @@ namespace LittleKingdom.Loading
 
             for (int i = 0; i < config.PlayerCount; i++)
             {
-                turnOrder.AddPlayer(playerFactory.Create());
+                CharacterTurnOrder.AddCharacter(playerFactory.Create());
             }
         }
 

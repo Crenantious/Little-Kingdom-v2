@@ -1,5 +1,6 @@
 using LittleKingdom.Board;
 using LittleKingdom.Buildings;
+using LittleKingdom.CharacterTurns;
 using LittleKingdom.Events;
 using LittleKingdom.Factories;
 using LittleKingdom.Input;
@@ -38,7 +39,6 @@ namespace LittleKingdom
         private void InstallSingletons()
         {
             Container.Bind<Inputs>().AsSingle();
-            Container.Bind<TurnOrder>().AsSingle();
             Container.Bind<Loading.Loading>().AsSingle();
             Container.Bind<StandardInput>().AsSingle();
             Container.Bind<TownPlacedEvent>().AsSingle();
@@ -66,7 +66,7 @@ namespace LittleKingdom
 
         private void InstallTransients()
         {
-
+            Container.Bind<CharacterTurnOrder>().AsTransient();
         }
 
         private void InstallFactories()
