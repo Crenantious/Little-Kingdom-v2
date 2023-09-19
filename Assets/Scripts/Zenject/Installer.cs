@@ -39,8 +39,8 @@ namespace LittleKingdom
         private void InstallSingletons()
         {
             Container.Bind<Inputs>().AsSingle();
-            Container.Bind<Loading.Loading>().AsSingle();
             Container.Bind<StandardInput>().AsSingle();
+            Container.Bind<Loading.Loading>().AsSingle();
             Container.Bind<TownPlacedEvent>().AsSingle();
             Container.Bind<ObjectClickthrough>().AsSingle();
             Container.Bind<RaycastFromPointer>().AsSingle();
@@ -48,6 +48,7 @@ namespace LittleKingdom
             Container.Bind<InteractionUtilities>().AsSingle();
             Container.Bind<SelectedObjectTracker>().AsSingle();
             Container.Bind<TownPlacementUtilities>().AsSingle();
+            Container.Bind<CharacterTurnTransitions>().AsSingle();
 
             Container.Bind<IBoardGenerator>().To<BoardGenerator>().AsSingle();
 
