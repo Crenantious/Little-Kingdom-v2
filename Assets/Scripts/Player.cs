@@ -1,12 +1,15 @@
 using LittleKingdom.CharacterTurns;
+using LittleKingdom.Factories;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace LittleKingdom
 {
     public class Player : MonoBehaviour, IPlayer
     {
         [SerializeField] private Town town;
+        private CharacterTurnFactory turnFactory;
 
         public ITown Town => town;
 
@@ -22,10 +25,14 @@ namespace LittleKingdom
 
         public ICharacterTurn Turn { get; private set; }
 
+        [Inject]
+        public void Construct(CharacterTurnFactory turnFactory) =>
+            this.turnFactory = turnFactory;
+
         public void Initialise(int creationIndex)
         {
             Number = creationIndex;
-            Turn = new CharacterTurn(this);
+            Turn = turnFactory.Create(this);
         }
     }
 }

@@ -1,3 +1,4 @@
+using LittleKingdom.CharacterTurns;
 using LittleKingdom.Resources;
 using LittleKingdom.UI;
 using System;
@@ -5,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Zenject;
 
 namespace LittleKingdom.Buildings
 {
@@ -17,7 +19,13 @@ namespace LittleKingdom.Buildings
         [SerializeField] private UIContainer container;
         [SerializeField] private VisualTreeAsset hud;
         [SerializeField] private VisualTreeAsset resource;
+
+        private CharacterTurnTransitions transitions;
         private ICharacter character;
+
+        [Inject]
+        public void Construct(CharacterTurnTransitions transitions) =>
+            this.transitions = transitions;
 
         // TODO: JR - figure out why this doesn't create extra resource labels when called multiple times.
         // (Works as intended so it's unimportant for now.)
@@ -30,7 +38,7 @@ namespace LittleKingdom.Buildings
 
             container.Show(hud, OnPanelHide);
             CreateResourcesLabels();
-            GetRootVisualElement().Q<Button>("EndTurnButton").clicked += character.Turn.End;
+            GetRootVisualElement().Q<Button>("EndTurnButton").clicked += transitions.EndCurrentTurn;
 
             UpdateValues();
         }
