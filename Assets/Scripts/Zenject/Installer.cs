@@ -91,6 +91,7 @@ namespace LittleKingdom
             Container.BindInstance(loaderProfiles.Current.GetConfig<TownLC>()).AsSingle();
             Container.BindInstance(loaderProfiles.Current.GetConfig<BoardLC>()).AsSingle();
             Container.BindInstance(loaderProfiles.Current.GetConfig<GameSetupLC>()).AsSingle();
+            Container.BindInstance(loaderProfiles.Current.GetConfig<CharacterTurnsLC>()).AsSingle();
         }
     }
 }
