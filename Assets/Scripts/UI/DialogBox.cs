@@ -12,7 +12,7 @@ namespace LittleKingdom.UI
         [SerializeField] private UIDocument document;
         [SerializeField] private StyleSheet optionStyleSheet;
         [SerializeField] private GameObject UIElements;
-        
+
         private StandardInput uiInput;
 
         [Inject]
@@ -24,13 +24,13 @@ namespace LittleKingdom.UI
         /// </summary>
         /// <param name="callback">Called when any option button is pressed. The name of the option is passed in.</param>
         /// <param name="options">The name of each option button, to be displayed in order: left to right.</param>
-        public void Open(string title, Action callback, params string[] options)
+        public void Open(string title, bool closeOnButtonClick, Action callback, params string[] options)
         {
             OpenCommon(title);
 
             foreach (string option in options)
             {
-                CreateButton(option, callback);
+                CreateButton(option, callback, closeOnButtonClick);
             }
         }
 
@@ -40,13 +40,13 @@ namespace LittleKingdom.UI
         /// <param name="options">The name of each option button with a corresponding action to be called when said option is pressed,
         /// the name of the option is passed in.<br/>
         /// Displayed in order: left to right.</param>
-        public void Open(string title, params (string name, Action callback)[] options)
+        public void Open(string title, bool closeOnButtonClick, params (string name, Action callback)[] options)
         {
             OpenCommon(title);
 
             foreach ((string name, Action callback) option in options)
             {
-                CreateButton(option.name, option.callback);
+                CreateButton(option.name, option.callback, closeOnButtonClick);
             }
         }
 
@@ -58,20 +58,22 @@ namespace LittleKingdom.UI
             GetOptionsContainer().Clear();
         }
 
-        private void CreateButton(string name, Action callback)
+        private void CreateButton(string name, Action callback, bool closeOnButtonClick)
         {
             Button button = new();
             button.styleSheets.Add(optionStyleSheet);
             button.text = name;
-            button.clicked += () => ButtonCallback(callback, name);
+            button.clicked += () => ButtonCallback(callback, name, closeOnButtonClick);
             GetOptionsContainer().Add(button);
         }
 
-        private void ButtonCallback(Action callback, string option)
+        private void ButtonCallback(Action callback, string option, bool closeOnButtonClick)
         {
             ActiveInputScheme.SetPrevious();
-            UIElements.SetActive(false);
             callback?.Invoke();
+
+            if (closeOnButtonClick)
+                UIElements.SetActive(false);
         }
 
         private VisualElement GetOptionsContainer() =>

@@ -74,7 +74,7 @@ namespace LittleKingdom
         private void ConfirmPlacement()
         {
             isConfirmingPlacement = true;
-            dialogBox.Open("Place town here?", ("Yes", FinalisePlacement), ("No", OnPlacementRejected));
+            dialogBox.Open("Place town here?", true, ("Yes", FinalisePlacement), ("No", OnPlacementRejected));
         }
 
         private void OnPlacementRejected() =>

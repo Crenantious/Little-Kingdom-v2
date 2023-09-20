@@ -1,34 +1,36 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/Graphics/UI/UI%20toolkit/Stylesheets/Text.uss?fileID=7433441132597879392&amp;guid=448dc5f583b33284e991805603388797&amp;type=3#Text" />
     <Style src="project://database/Assets/Graphics/UI/UI%20toolkit/HUD/Player%20info/Player%20info.uss?fileID=7433441132597879392&amp;guid=a228aa158223b834fb40b531c04d186e&amp;type=3#Player info" />
-    <ui:VisualElement name="Root" style="width: 30%; height: 162px; left: 5px; top: 5px; right: 0; bottom: 0;">
+    <ui:VisualElement name="Root" style="width: auto; height: 162px; left: 5px; top: 5px; right: 0; bottom: 0; min-width: 30%; align-items: flex-start;">
         <ui:Label tabindex="-1" text="Character info" display-tooltip-when-elided="true" name="Title" class="title" style="left: 0; top: 0; right: 0; bottom: 0;" />
-        <ui:VisualElement name="Resources" class="InfoSectionContainer">
-            <ui:VisualElement name="ResourceContainer" class="InfoContainer" style="display: none;">
-                <ui:Label tabindex="-1" text="Stone: " display-tooltip-when-elided="true" name="ResourceName" class="text" />
-                <ui:Label tabindex="-1" text="27" display-tooltip-when-elided="true" name="ResourceAmount" class="text" />
+        <ui:VisualElement name="Info" style="border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-width: 0; border-right-width: 2px; border-top-width: 0; border-bottom-width: 2px;">
+            <ui:VisualElement name="Resources" class="InfoSectionContainer">
+                <ui:VisualElement name="ResourceContainer" class="InfoContainer" style="display: none;">
+                    <ui:Label tabindex="-1" text="Stone: " display-tooltip-when-elided="true" name="ResourceName" class="text" />
+                    <ui:Label tabindex="-1" text="999" display-tooltip-when-elided="true" name="ResourceAmount" class="text" />
+                </ui:VisualElement>
             </ui:VisualElement>
-        </ui:VisualElement>
-        <ui:VisualElement name="PowerCards" class="InfoSectionContainer">
-            <ui:VisualElement name="Offensive" class="InfoContainer">
-                <ui:Label tabindex="-1" text="Offensive:" display-tooltip-when-elided="true" name="Label" class="text" />
-                <ui:Label tabindex="-1" text="7" display-tooltip-when-elided="true" name="Amount" class="text" />
+            <ui:VisualElement name="PowerCards" class="InfoSectionContainer">
+                <ui:VisualElement name="Offensive" class="InfoContainer">
+                    <ui:Label tabindex="-1" text="Offensive:" display-tooltip-when-elided="true" name="Label" class="text" />
+                    <ui:Label tabindex="-1" text="7" display-tooltip-when-elided="true" name="Amount" class="text" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Defensive" class="InfoContainer">
+                    <ui:Label tabindex="-1" text="Defensive: " display-tooltip-when-elided="true" name="Label" class="text" />
+                    <ui:Label tabindex="-1" text="7" display-tooltip-when-elided="true" name="Amount" class="text" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Utility" class="InfoContainer">
+                    <ui:Label tabindex="-1" text="Utility: " display-tooltip-when-elided="true" name="Label" class="text" />
+                    <ui:Label tabindex="-1" text="7" display-tooltip-when-elided="true" name="Amount" class="text" />
+                </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="Defensive" class="InfoContainer">
-                <ui:Label tabindex="-1" text="Defensive: " display-tooltip-when-elided="true" name="Label" class="text" />
-                <ui:Label tabindex="-1" text="7" display-tooltip-when-elided="true" name="Amount" class="text" />
-            </ui:VisualElement>
-            <ui:VisualElement name="Utility" class="InfoContainer">
-                <ui:Label tabindex="-1" text="Utility: " display-tooltip-when-elided="true" name="Label" class="text" />
-                <ui:Label tabindex="-1" text="7" display-tooltip-when-elided="true" name="Amount" class="text" />
-            </ui:VisualElement>
-        </ui:VisualElement>
-        <ui:VisualElement name="Wonders" class="InfoSectionContainer">
-            <ui:VisualElement name="Library" class="InfoContainer">
-                <ui:Label tabindex="-1" text="Library" display-tooltip-when-elided="true" name="LibraryWonder" class="text" style="padding-left: 0; padding-right: 5px;" />
-            </ui:VisualElement>
-            <ui:VisualElement name="IonForge" class="InfoContainer">
-                <ui:Label tabindex="-1" text="Ion forge" display-tooltip-when-elided="true" name="IonForgeWonder" class="text" style="padding-left: 0; padding-right: 5px;" />
+            <ui:VisualElement name="Wonders" class="InfoSectionContainer" style="margin-bottom: 0;">
+                <ui:VisualElement name="Library" class="InfoContainer">
+                    <ui:Label tabindex="-1" text="Library" display-tooltip-when-elided="true" name="LibraryWonder" class="text" />
+                </ui:VisualElement>
+                <ui:VisualElement name="IonForge" class="InfoContainer">
+                    <ui:Label tabindex="-1" text="Ion forge" display-tooltip-when-elided="true" name="IonForgeWonder" class="text" />
+                </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

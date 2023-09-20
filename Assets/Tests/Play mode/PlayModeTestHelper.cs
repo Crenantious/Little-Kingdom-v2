@@ -3,6 +3,7 @@ using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace PlayModeTests
 {
@@ -23,6 +24,8 @@ namespace PlayModeTests
         /// <param name="extraButtons"></param>
         public void Initialise(params (string text, Action callback)[] extraButtons)
         {
+            CreateCamera();
+
             List<(string, Action)> buttons = new(extraButtons.Length + 2)
             {
                 ("Pass", () => ConcludeTest(true))
@@ -33,7 +36,7 @@ namespace PlayModeTests
             }
             buttons.Add(("Fail", () => ConcludeTest(false)));
 
-            dialogBox.Open("Test helper", buttons.ToArray());
+            dialogBox.Open("Test helper", false, buttons.ToArray());
         }
 
         ///<summary>
@@ -44,11 +47,13 @@ namespace PlayModeTests
         /// Should be used for things such as Asserts.</param>
         public void Initialise(Action verifyCallback, bool concludeAfterVerify)
         {
+            CreateCamera();
+
             (string, Action) verifyButton = concludeAfterVerify ? 
                 ("Verify and conclude", () => { verifyCallback(); ConcludeTest(); }) :
                 ("Verify", verifyCallback);
 
-            dialogBox.Open("Test helper",
+            dialogBox.Open("Test helper", false,
                 ("Pass", () => ConcludeTest(true)),
                 verifyButton,
                 ("Fail", () => ConcludeTest(false)));
@@ -57,6 +62,9 @@ namespace PlayModeTests
         public bool MoveNext() => !isTestFinished;
 
         public void Reset() { }
+
+        private void CreateCamera() =>
+            new GameObject().AddComponent<Camera>();
 
         private void ConcludeTest() => isTestFinished = true;
 

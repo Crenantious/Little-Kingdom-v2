@@ -7,6 +7,7 @@ namespace LittleKingdom
     {
         public int DefaultLayer { get; }
         public int IgnoreRaycastLayer { get; }
+        public int MaxResourceAmount { get; }
         public Camera ActiveCamera { get; }
         public float TileWidth { get; }
         public float TileHeight { get; }

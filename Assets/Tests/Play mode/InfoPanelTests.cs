@@ -3,7 +3,6 @@ using LittleKingdom.UI;
 using Moq;
 using NUnit.Framework;
 using PlayModeTests;
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -35,7 +34,7 @@ namespace InfoPanelTests
 
             Container.Inject(this);
 
-            infoPanel = UnityEngine.Object.Instantiate(TestUtilities.LoadPrefab("Info panel"));
+            infoPanel = Object.Instantiate(TestUtilities.LoadPrefab("Info panel"));
             buildingInfoPanel = Container.InstantiateComponent<UIBuildingInfoPanel>(new GameObject());
         }
 
