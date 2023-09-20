@@ -1,5 +1,6 @@
 using LittleKingdom;
 using LittleKingdom.Buildings;
+using LittleKingdom.CharacterTurns;
 using LittleKingdom.Resources;
 using Moq;
 using NUnit.Framework;
@@ -102,6 +103,20 @@ namespace PlayModeTests
 
             playerHUD.Show(characterOne.Object);
             playerHUD.Show(characterTwo.Object);
+
+            yield return testHelper;
+        }
+
+
+        [UnityTest]
+        public IEnumerator OpenHUD_ClickEndTurnButton_VerifyCharacterEndTurnWasCalled()
+        {
+            Mock<ICharacter> character = CreateCharacter(uniqueResourceAmounts, 6, 7, 8);
+            Mock<ICharacterTurn> turn = new();
+            character.Setup(c => c.Turn).Returns(turn.Object);
+            testHelper.Initialise(() => turn.Verify(t => t.End(), Times.Once()), true);
+
+            playerHUD.Show(character.Object);
 
             yield return testHelper;
         }

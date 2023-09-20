@@ -50,7 +50,7 @@ namespace PlayModeTests
             CreateCamera();
 
             (string, Action) verifyButton = concludeAfterVerify ? 
-                ("Verify and conclude", () => { verifyCallback(); ConcludeTest(); }) :
+                ("Verify and conclude", () => { ConcludeTest(); verifyCallback(); }) :
                 ("Verify", verifyCallback);
 
             dialogBox.Open("Test helper", false,

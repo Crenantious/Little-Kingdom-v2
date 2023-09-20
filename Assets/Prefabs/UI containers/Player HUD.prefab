@@ -94,12 +94,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4601726781597710327, guid: 42587f8eab303b944b667ec9970d8422, type: 3}
       propertyPath: m_Name
-      value: UI container
+      value: Player HUD
       objectReference: {fileID: 0}
     - target: {fileID: 5654484971009549632, guid: 42587f8eab303b944b667ec9970d8422, type: 3}
       propertyPath: hud
       value: 
-      objectReference: {fileID: 9197481963319205126, guid: 2890ec3c81ba1db418521eeebf8cad79, type: 3}
+      objectReference: {fileID: 9197481963319205126, guid: 540ed9a9882809940a40e75f294c0de7, type: 3}
     - target: {fileID: 5654484971009549632, guid: 42587f8eab303b944b667ec9970d8422, type: 3}
       propertyPath: resource
       value: 
@@ -108,6 +108,10 @@ PrefabInstance:
       propertyPath: container
       value: 
       objectReference: {fileID: 2298356069923041850}
+    - target: {fileID: 6741437125955308494, guid: 42587f8eab303b944b667ec9970d8422, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 42587f8eab303b944b667ec9970d8422, type: 3}

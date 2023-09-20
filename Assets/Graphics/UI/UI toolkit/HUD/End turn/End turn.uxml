@@ -1,0 +1,4 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Graphics/UI/UI%20toolkit/Stylesheets/Text.uss?fileID=7433441132597879392&amp;guid=448dc5f583b33284e991805603388797&amp;type=3#Text" />
+    <ui:Button tabindex="-1" text="End turn" display-tooltip-when-elided="true" name="EndTurnButton" class="text" style="width: 125px;" />
+</ui:UXML>

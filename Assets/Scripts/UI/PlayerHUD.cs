@@ -30,6 +30,7 @@ namespace LittleKingdom.Buildings
 
             container.Show(hud, OnPanelHide);
             CreateResourcesLabels();
+            GetRootVisualElement().Q<Button>("EndTurnButton").clicked += character.Turn.End;
 
             UpdateValues();
         }
