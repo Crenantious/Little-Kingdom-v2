@@ -16,7 +16,7 @@ namespace IntegrationTests
     public class CharacterTurnTests : ZenjectIntegrationTestFixture
     {
         [Inject] private readonly PlayModeTestHelper testHelper;
-        [Inject] private readonly CharacterTurnTransitions turnTransitions;
+        [Inject] private readonly ICharacterTurnTransitions turnTransitions;
         [Inject] private readonly PlayerFactory playerFactory;
 
         private readonly Resources uniqueResourceAmounts = new((ResourceType.Stone, 1),
@@ -34,7 +34,7 @@ namespace IntegrationTests
             PreInstall();
             CharacterTurnInstaller.Install(Container);
             PlayModeInstaller.Install(Container);
-            PlayerInstaller.Player = TestUtilities.LoadPrefab("Player").GetComponent<Player>();
+            PlayerInstaller.Player = new UnityEngine.GameObject().AddComponent<Player>();
             PlayerInstaller.Install(Container);
             PostInstall();
 
@@ -69,7 +69,6 @@ namespace IntegrationTests
             testHelper.Initialise();
 
             turnTransitions.BeginFirstTurn();
-            turnTransitions.EndCurrentTurn();
 
             yield return testHelper;
         }

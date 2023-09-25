@@ -8,8 +8,8 @@ namespace LittleKingdom
     {
         public override void InstallBindings()
         {
-            Container.Bind<CharacterTurnTransitions>().AsSingle();
             Container.Bind<CharacterTurnOrder>().AsTransient();
+            Container.Bind<ICharacterTurnTransitions>().To<CharacterTurnTransitions>().AsSingle();
             Container.BindFactory<ICharacter, ICharacterTurn, CharacterTurnFactory>().FromFactory<CustomCharacterTurnFactory>();
         }
     }
