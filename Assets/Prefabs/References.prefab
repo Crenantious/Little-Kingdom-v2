@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 122967996187995800}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.7053633, y: 5.627125, z: -2.7199411}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <DefaultLayer>k__BackingField: 0
   <IgnoreRaycastLayer>k__BackingField: 0
-  <ActiveCamera>k__BackingField: {fileID: 0}
+  <MaxResourceAmount>k__BackingField: 0
 --- !u!114 &1864142382
 MonoBehaviour:
   m_ObjectHideFlags: 0

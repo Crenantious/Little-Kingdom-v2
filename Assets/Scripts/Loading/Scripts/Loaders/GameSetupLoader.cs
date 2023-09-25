@@ -8,12 +8,12 @@ namespace LittleKingdom.Loading
     public class GameSetupLoader : Loader<GameSetupLC>
     {
         private IReferences references;
-        private PlayerFactory playerFactory;
+        private CustomPlayerMonoFactory playerFactory;
         private StandardInput standardInput;
         private CharacterTurnOrder turnOrder;
 
         [Inject]
-        public void Construct(IReferences references, PlayerFactory playerFactory, StandardInput standardInput,
+        public void Construct(IReferences references, CustomPlayerMonoFactory playerFactory, StandardInput standardInput,
             CharacterTurnOrder turnOrder)
         {
             this.references = references;

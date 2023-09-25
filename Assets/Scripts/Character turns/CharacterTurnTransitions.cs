@@ -2,7 +2,7 @@ using Assets.Scripts.Exceptions;
 
 namespace LittleKingdom.CharacterTurns
 {
-    public class CharacterTurnTransitions
+    public class CharacterTurnTransitions : ICharacterTurnTransitions
     {
         private const string NoCharactersRegisteredError = "No characters registered with {0} thus cannot start any character turns.";
         private const string NoCharacterTurnStartedError = "No character turn started thus none to end.";

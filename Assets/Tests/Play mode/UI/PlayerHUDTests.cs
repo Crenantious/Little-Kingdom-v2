@@ -32,16 +32,15 @@ namespace PlayModeTests
                                                              ResourceType.Glass |
                                                              ResourceType.Metal,
                                                              maxValue));
+        private Mock<ICharacterTurnTransitions> turnTransitions;
 
         [SetUp]
         public void CommonInstall()
         {
-            DefaultInstaller defaultInstaller = new(Container);
-            defaultInstaller.InstallBindings();
+            turnTransitions = new();
 
-            Container.Bind<PlayerHUD>()
-                .FromComponentInNewPrefab(TestUtilities.LoadPrefab("Player HUD"))
-                .AsSingle();
+            Container.BindInstance(turnTransitions.Object);
+            PlayModeInstaller.Install(Container);
             Container.Inject(this);
         }
 

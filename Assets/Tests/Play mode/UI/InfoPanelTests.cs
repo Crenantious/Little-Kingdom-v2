@@ -24,8 +24,7 @@ namespace InfoPanelTests
             visualTreeAssets.Setup(v => v.BuildingInfoPanel).Returns(
                 UITestUtilities.GetAsset<VisualTreeAsset>(nameof(UIBuildingInfoPanel)));
 
-            DefaultInstaller defaultInstaller = new(Container);
-            defaultInstaller.InstallBindings();
+            PlayModeInstaller.Install(Container);
 
             Container.Bind<UIContainer>()
                 .FromComponentInNewPrefab(TestUtilities.LoadPrefab("Info panel"))

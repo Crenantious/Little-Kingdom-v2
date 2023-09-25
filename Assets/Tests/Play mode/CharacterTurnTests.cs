@@ -1,5 +1,4 @@
 using LittleKingdom;
-using LittleKingdom.Buildings;
 using LittleKingdom.CharacterTurns;
 using LittleKingdom.Factories;
 using LittleKingdom.Resources;
@@ -9,52 +8,49 @@ using PlayModeTests;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using Zenject;
 
 namespace IntegrationTests
 {
-    public class CharacterTurnTests : ZenjectUnitTestFixture
+    public class CharacterTurnTests : ZenjectIntegrationTestFixture
     {
         [Inject] private readonly PlayModeTestHelper testHelper;
         [Inject] private readonly CharacterTurnTransitions turnTransitions;
-        [Inject] private readonly PlayerHUD playerHUD;
+        [Inject] private readonly PlayerFactory playerFactory;
 
         private readonly Resources uniqueResourceAmounts = new((ResourceType.Stone, 1),
-                                                               (ResourceType.Wood, 2),
-                                                               (ResourceType.Brick, 3),
-                                                               (ResourceType.Glass, 4),
-                                                               (ResourceType.Metal, 5));
+                                                                                       (ResourceType.Wood, 2),
+                                                                                       (ResourceType.Brick, 3),
+                                                                                       (ResourceType.Glass, 4),
+                                                                                       (ResourceType.Metal, 5));
 
-        private Mock<ICharacter> characterOne;
-        private Mock<ICharacter> characterTwo;
+        private ICharacter characterOne;
+        private ICharacter characterTwo;
 
         [SetUp]
         public void CommonInstall()
         {
-            DefaultInstaller defaultInstaller = new(Container);
-            defaultInstaller.InstallBindings();
+            PreInstall();
+            CharacterTurnInstaller.Install(Container);
+            PlayModeInstaller.Install(Container);
+            PlayerInstaller.Player = TestUtilities.LoadPrefab("Player").GetComponent<Player>();
+            PlayerInstaller.Install(Container);
+            PostInstall();
 
-            Container.Bind<PlayerHUD>()
-                .FromComponentInNewPrefab(TestUtilities.LoadPrefab("Player HUD"))
-                .AsSingle();
-            Container.Bind<Player>()
-                .FromComponentInNewPrefab(TestUtilities.LoadPrefab("Player"))
-                .AsSingle();
-            Container.Bind<CharacterTurnOrder>().AsSingle();
-            Container.Bind<CharacterTurnTransitions>().AsSingle();
-            Container.BindFactory<ICharacter, ICharacterTurn, CharacterTurnFactory>().FromFactory<CustomCharacterTurnFactory>();
-            Container.Inject(this);
+            Setup();
+        }
 
-            characterOne = new();
-            characterTwo = new();
+        private void Setup()
+        {
+            characterOne = playerFactory.Create();
+            characterTwo = playerFactory.Create();
 
-            characterOne.Setup(c=>c.Resources).Returns(uniqueResourceAmounts);
-            characterOne.Setup(c=>c.Resources).Returns(Resources.Add(uniqueResourceAmounts, uniqueResourceAmounts));
+            characterOne.Resources.Add(uniqueResourceAmounts);
+            characterTwo.Resources.Add(Resources.Add(uniqueResourceAmounts, uniqueResourceAmounts));
 
-            CharacterTurnOrder.AddCharacter(characterOne.Object);
-            CharacterTurnOrder.AddCharacter(characterTwo.Object);
+            CharacterTurnOrder.AddCharacter(characterOne);
+            CharacterTurnOrder.AddCharacter(characterTwo);
         }
 
         [UnityTest]
@@ -73,6 +69,7 @@ namespace IntegrationTests
             testHelper.Initialise();
 
             turnTransitions.BeginFirstTurn();
+            turnTransitions.EndCurrentTurn();
 
             yield return testHelper;
         }

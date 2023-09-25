@@ -20,11 +20,11 @@ namespace LittleKingdom.Buildings
         [SerializeField] private VisualTreeAsset hud;
         [SerializeField] private VisualTreeAsset resource;
 
-        private CharacterTurnTransitions transitions;
+        private ICharacterTurnTransitions transitions;
         private ICharacter character;
 
         [Inject]
-        public void Construct(CharacterTurnTransitions transitions) =>
+        public void Construct(ICharacterTurnTransitions transitions) =>
             this.transitions = transitions;
 
         // TODO: JR - figure out why this doesn't create extra resource labels when called multiple times.
