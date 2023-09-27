@@ -11,8 +11,7 @@ namespace LittleKingdom
         [field: SerializeField] public int DefaultLayer { get; private set; }
         [field: SerializeField] public int IgnoreRaycastLayer { get; private set; }
         [field: SerializeField] public int MaxResourceAmount { get; private set; }
-
-        public Camera ActiveCamera { get; private set; }
+        [field: SerializeField]  public Camera ActiveCamera { get; set; }
 
         public float TileWidth { get; private set; }
         public float TileHeight { get; private set; }

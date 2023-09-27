@@ -8,18 +8,15 @@ namespace LittleKingdom.Loading
     public class GameSetupLoader : Loader<GameSetupLC>
     {
         private IReferences references;
-        private CustomPlayerMonoFactory playerFactory;
+        private PlayerFactory playerFactory;
         private StandardInput standardInput;
-        private CharacterTurnOrder turnOrder;
 
         [Inject]
-        public void Construct(IReferences references, CustomPlayerMonoFactory playerFactory, StandardInput standardInput,
-            CharacterTurnOrder turnOrder)
+        public void Construct(IReferences references, PlayerFactory playerFactory, StandardInput standardInput)
         {
             this.references = references;
             this.playerFactory = playerFactory;
             this.standardInput = standardInput;
-            this.turnOrder = turnOrder;
         }
 
         public override void Load(GameSetupLC config)

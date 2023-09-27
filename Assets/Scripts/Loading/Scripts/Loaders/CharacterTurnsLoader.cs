@@ -5,10 +5,10 @@ namespace LittleKingdom.Loading
 {
     public class CharacterTurnsLoader : Loader<CharacterTurnsLC>
     {
-        private CharacterTurnTransitions transitions;
+        private ICharacterTurnTransitions transitions;
 
         [Inject]
-        public void Construct(CharacterTurnTransitions transitions) =>
+        public void Construct(ICharacterTurnTransitions transitions) =>
             this.transitions = transitions;
 
         public override void Load(CharacterTurnsLC config) =>

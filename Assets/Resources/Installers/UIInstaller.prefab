@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 229721586758508448}
   - component: {fileID: 6868863458450188672}
   m_Layer: 0
-  m_Name: UI installer
+  m_Name: UIInstaller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

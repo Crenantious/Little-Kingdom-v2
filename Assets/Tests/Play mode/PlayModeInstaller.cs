@@ -12,8 +12,6 @@ namespace PlayModeTests
 {
     public class PlayModeInstaller : Installer<PlayModeInstaller>
     {
-        private const string UIInstallerPath = "Installers/UI installer";
-
         private HashSet<BindType> excludeBinds = new();
 
         public enum BindType
@@ -35,7 +33,7 @@ namespace PlayModeTests
                 { BindType.IReferences, () => InstallMock(CreateDefaultMock<IReferences>()).AsSingle() },
                 { BindType.TestUtilities, () => Container.Bind<TestUtilities>().AsSingle() },
                 { BindType.Input,() => InputInstaller.Install(Container) },
-                { BindType.UI, () => UIInstaller.InstallFromResource(UIInstallerPath, Container) },
+                { BindType.UI, () => UIInstaller.InstallFromResource(Container) },
                 { BindType.PlayModeTestHelper, () => Container.Bind<PlayModeTestHelper>().AsSingle()},
             };
 

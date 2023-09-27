@@ -25,7 +25,10 @@ namespace LittleKingdom
             InstallLoaderConfigs();
 
             InputInstaller.Install(Container);
+            InteractionInstaller.Install(Container);
             CharacterTurnInstaller.Install(Container);
+            UIInstaller.InstallFromResource(Container);
+            PlayerInstaller.Player = player;
             PlayerInstaller.Install(Container);
         }
 
