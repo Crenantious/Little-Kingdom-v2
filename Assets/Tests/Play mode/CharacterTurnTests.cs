@@ -43,8 +43,8 @@ namespace IntegrationTests
 
         private void Setup()
         {
-            characterOne = playerFactory.Create();
-            characterTwo = playerFactory.Create();
+            characterOne = playerFactory.Create("Player one");
+            characterTwo = playerFactory.Create("Player two");
 
             characterOne.Resources.Add(uniqueResourceAmounts);
             characterTwo.Resources.Add(Resources.Add(uniqueResourceAmounts, uniqueResourceAmounts));

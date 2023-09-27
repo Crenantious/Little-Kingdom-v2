@@ -38,6 +38,7 @@ namespace LittleKingdom.Buildings
 
             container.Show(hud, OnPanelHide);
             CreateResourcesLabels();
+            GetRootVisualElement().Q<Label>("PlayerName").text = character.Name;
             GetRootVisualElement().Q<Button>("EndTurnButton").clicked += transitions.EndCurrentTurn;
 
             UpdateValues();

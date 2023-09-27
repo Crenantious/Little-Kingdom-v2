@@ -5,6 +5,7 @@ namespace LittleKingdom
 {
     public interface ICharacter
     {
+        public string Name { get; }
         public Resources.Resources Resources { get; }
 
         public List<IPowerCard> OffensiveCards { get; }

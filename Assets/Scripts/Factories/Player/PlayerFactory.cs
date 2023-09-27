@@ -3,7 +3,7 @@ using Zenject;
 
 namespace LittleKingdom.Factories
 {
-    public class PlayerFactory : PlaceholderFactory<IPlayer>
+    public class PlayerFactory : PlaceholderFactory<string, IPlayer>
     {
         private readonly DiContainer container;
         private readonly Player player;
@@ -16,10 +16,10 @@ namespace LittleKingdom.Factories
             this.turnOrder = turnOrder;
         }
 
-        public IPlayer Create()
+        public IPlayer Create(string name)
         {
             Player newPlayer = container.InstantiatePrefabForComponent<Player>(player);
-            newPlayer.Initialise(turnOrder.Count);
+            newPlayer.Initialise(turnOrder.Count, name);
             return newPlayer;
         }
     }

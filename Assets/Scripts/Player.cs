@@ -13,6 +13,7 @@ namespace LittleKingdom
 
         public ITown Town => town;
 
+        public string Name { get; private set; }
         public int Number { get; private set; }
 
         public Resources.Resources Resources { get; private set; } = new();
@@ -25,14 +26,16 @@ namespace LittleKingdom
 
         public ICharacterTurn Turn { get; private set; }
 
+
         [Inject]
         public void Construct(CharacterTurnFactory turnFactory) =>
             this.turnFactory = turnFactory;
 
-        public void Initialise(int creationIndex)
+        public void Initialise(int creationIndex, string name)
         {
             Number = creationIndex;
             Turn = turnFactory.Create(this);
+            Name = name;
         }
     }
 }

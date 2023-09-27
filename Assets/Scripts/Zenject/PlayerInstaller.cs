@@ -10,7 +10,7 @@ namespace LittleKingdom
         public override void InstallBindings()
         {
             Container.BindInstance(Player).AsSingle();
-            Container.BindFactory<IPlayer, PlayerFactory>().FromFactory<PlayerFactory>();
+            Container.BindFactory<string, IPlayer, PlayerFactory>().FromFactory<PlayerFactory>();
         }
     }
 }

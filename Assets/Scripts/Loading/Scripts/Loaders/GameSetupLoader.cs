@@ -24,9 +24,9 @@ namespace LittleKingdom.Loading
             references.GameState = GameState.StandardInGame;
             standardInput.Enable();
 
-            for (int i = 0; i < config.PlayerCount; i++)
+            for (int i = 0; i < config.PlayerNames.Count; i++)
             {
-                CharacterTurnOrder.AddCharacter(playerFactory.Create());
+                CharacterTurnOrder.AddCharacter(playerFactory.Create(config.PlayerNames[i]));
             }
         }
 
