@@ -7,9 +7,9 @@ namespace LittleKingdom.Factories
     public class CustomTileMonoFactory : IFactory<ITileInfo, ITile>
     {
         private readonly DiContainer container;
-        private readonly TileMono tileMono;
+        private readonly Tile tileMono;
 
-        public CustomTileMonoFactory(DiContainer container, TileMono tileMono)
+        public CustomTileMonoFactory(DiContainer container, Tile tileMono)
         {
             this.container = container;
             this.tileMono = tileMono;
@@ -17,8 +17,8 @@ namespace LittleKingdom.Factories
 
         public ITile Create(ITileInfo tileInfo)
         {
-            TileMono tile = container.InstantiatePrefabForComponent<TileMono>(tileMono);
-            tile.Initialise(tileInfo.ResourceType);
+            Tile tile = container.InstantiatePrefabForComponent<Tile>(tileMono);
+            tile.Initialise(tileInfo.Resources);
             tile.GetComponent<Renderer>().material.mainTexture = tileInfo.Texture;
             return tile;
         }

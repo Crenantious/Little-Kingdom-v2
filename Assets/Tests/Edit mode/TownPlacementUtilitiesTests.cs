@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
+using Resources = LittleKingdom.Resources.Resources;
 
 namespace TownTests
 {
@@ -44,7 +45,7 @@ namespace TownTests
             Container.Bind<TownPlacementUtilities>().AsSingle();
             Container.Bind<RaycastFromPointer>().AsSingle();
             Container.BindInstance(references.Object).AsSingle();
-            Container.BindFactory<ITileInfo, ITile, TileFactory>().FromFactory<CustomTileFactory>();
+            Container.BindFactory<ITileInfo, ITile, TileFactory>().FromFactory<MockTileFactory>();
             Container.Inject(this);
 
             town = new();
@@ -55,7 +56,7 @@ namespace TownTests
             townObject = town.Object;
 
             Mock<ITileInfo> tileInfo = new();
-            tileInfo.SetupGet(t => t.ResourceType).Returns(ResourceType.Metal);
+            tileInfo.SetupGet(t => t.Resources).Returns(new Resources(ResourceType.Metal, 1));
             tileInfo.SetupGet(t => t.PercentOfBoard).Returns(100);
             tileInfos = new() { tileInfo.Object };
 

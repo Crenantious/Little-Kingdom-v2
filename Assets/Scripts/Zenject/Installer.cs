@@ -16,7 +16,7 @@ namespace LittleKingdom
         [SerializeField] private LoaderTransitions loaderTransitions;
 
         // Prefabs
-        [SerializeField] private TileMono tilePrefab;
+        [SerializeField] private Tile tilePrefab;
 
         public override void InstallBindings()
         {

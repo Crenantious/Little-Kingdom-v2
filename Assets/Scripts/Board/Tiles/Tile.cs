@@ -1,38 +1,45 @@
 using LittleKingdom.Resources;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace LittleKingdom.Board
 {
-    public class Tile : ITile
+    [RequireComponent(typeof(MeshRenderer))]
+    public class Tile : MonoBehaviour, ITile
     {
         private readonly List<IPlaceableInTile> placeables = new();
         private readonly List<IHoldResources> holders = new();
-        private readonly IReferences references;
 
-        public IReadOnlyList<IHoldResources> Holders { get; }
+        private IReferences references;
 
-        public ResourceType ResourceType { get; private set; }
+        [field: SerializeField] public MeshRenderer MeshRenderer { get; private set; }
+
+        public Transform Transform { get; private set; }
+        public Resources.Resources Resources { get; private set; }
         public int Column { get; set; }
         public int Row { get; set; }
-        public float XPosition { get; set; }
-        public float YPosition { get; set; }
+        public float XPosition { get => transform.position.x; set => transform.position = new(value, transform.position.y, transform.position.z); }
+        public float YPosition { get => transform.position.z; set => transform.position = new(transform.position.x, transform.position.y, value); }
         public ITown Town { get; set; }
 
-        public Tile(IReferences references)
+        public IReadOnlyList<IHoldResources> Holders { get; private set; }
+
+        [Inject]
+        public void Construct(IReferences references)
         {
             this.references = references;
             Holders = holders.AsReadOnly();
         }
 
-        public void Initialise(ResourceType resourceType) =>
-            ResourceType = resourceType;
-
-        public void SetPos(Vector2 position)
+        public void Initialise(Resources.Resources resources)
         {
-            XPosition = position.x;
-            YPosition = position.y;
+            Resources = resources;
+            Transform = transform;
         }
+
+        public void SetPos(Vector2 position) =>
+            transform.position = new(position.x, 0, position.y);
 
         public bool Add(IPlaceableInTile placeable)
         {

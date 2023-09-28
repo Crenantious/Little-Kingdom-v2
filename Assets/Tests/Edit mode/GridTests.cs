@@ -14,8 +14,8 @@ namespace GridTests
         public void CommonInstall()
         {
             Container.Bind<BoardGenerator>().AsSingle();
-            Container.Bind<ITile>().To<TileMono>().AsSingle();
-            Container.BindFactory<ITileInfo, ITile, TileFactory>().FromFactory<CustomTileFactory>();
+            Container.Bind<ITile>().To<Tile>().AsSingle();
+            Container.BindFactory<ITileInfo, ITile, TileFactory>().FromFactory<MockTileFactory>();
             Container.Inject(this);
         }
 

@@ -8,12 +8,12 @@ namespace LittleKingdom.Resources
     public class AllOnTileGRH : IGetResourceHolders
     {
         private static readonly string NullPlaceableError =
-            $"{nameof(placeable)} cannot be null with the {nameof(Tile.CurrentTile)} option selected.";
+            $"{nameof(placeable)} cannot be null with the {nameof(Tile.OriginTile)} option selected.";
         private static readonly string InvalidTileError = $"Must set to a valid value of {nameof(Tile)}.";
         private static readonly string TileNotSetError = $"Value must be set; cannot be {nameof(Tile.None)}.";
 
         [SerializeField]
-        [Tooltip("Used to get the tile it is on if the " + nameof(Tile.CurrentTile) + " option is selected.")]
+        [Tooltip("Used to get the tile it is on if the " + nameof(Tile.OriginTile) + " option is selected.")]
         private IPlaceableInTile placeable;
 
         [SerializeField] private Tile tile;
@@ -22,14 +22,14 @@ namespace LittleKingdom.Resources
         {
             None,
 
-            // Only for entities that inherit IPlaceableInTile. Gets the tile the entity is on.
-            CurrentTile
+            // Only for entities that inherit IPlaceableInTile. Uses the origin tile the entity is on.
+            OriginTile
         }
 
         public IEnumerable<IHoldResources> Get() =>
             tile switch
             {
-                Tile.CurrentTile => GetForCurrentTile(),
+                Tile.OriginTile => GetForCurrentTile(),
                 Tile.None => throw new ArgumentOutOfRangeException(nameof(tile), TileNotSetError),
                 _ => throw new ArgumentOutOfRangeException(nameof(tile), InvalidTileError),
             };
@@ -39,7 +39,7 @@ namespace LittleKingdom.Resources
             if (placeable is null)
                 throw new NullReferenceException(NullPlaceableError);
 
-            return placeable.Tile.Holders;
+            return placeable.OriginTile.Holders;
         }
     }
 }

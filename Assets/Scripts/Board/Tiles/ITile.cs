@@ -1,15 +1,11 @@
 using LittleKingdom.Resources;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace LittleKingdom.Board
 {
-    public interface ITile
+    public interface ITile : IProduceResources
     {
-        /// <summary>
-        /// The resource that this tile produces.
-        /// </summary>
-        public ResourceType ResourceType { get; }
-
         /// <summary>
         /// The index of the column on the board that this tile is located.
         /// </summary>
@@ -29,6 +25,7 @@ namespace LittleKingdom.Board
         /// The y position relative to the board.
         /// </summary>
         public float YPosition { get; set; }
+        public IReadOnlyList<IHoldResources> Holders { get; }
 
 #nullable enable
         /// <summary>
@@ -40,11 +37,14 @@ namespace LittleKingdom.Board
         /// <summary>
         /// Only to be called from a factory.
         /// </summary>
-        public void Initialise(ResourceType resourceType);
+        public void Initialise(Resources.Resources resources);
 
         /// <summary>
         /// Sets <see cref="XPosition"/> and <see cref="YPosition"/>. Use this if both are needed to be set.
         /// </summary>
         public void SetPos(Vector2 position);
+
+        public bool Add(IPlaceableInTile placeable);
+        public bool Remove(IPlaceableInTile placeable);
     }
 }

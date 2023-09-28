@@ -27,9 +27,9 @@ public class BoardTests : ZenjectUnitTestFixture
         references = new();
 
         Container.Bind<BoardGenerator>().AsSingle();
-        Container.Bind<ITile>().To<TileMono>().AsSingle();
+        Container.Bind<ITile>().To<Tile>().AsSingle();
         Container.BindInstance(references.Object).AsSingle();
-        Container.BindFactory<ITileInfo, ITile, TileFactory>().FromFactory<CustomTileFactory>();
+        Container.BindFactory<ITileInfo, ITile, TileFactory>().FromFactory<MockTileFactory>();
         Container.Inject(this);
 
         resourceTypes = Enum.GetValues(typeof(ResourceType)).Cast<ResourceType>();
@@ -152,7 +152,7 @@ public class BoardTests : ZenjectUnitTestFixture
         foreach (TileInfo tileInfo in tileInfos)
         {
             float expectedTileAmount = board.Tiles.Width * board.Tiles.Height * tileInfo.PercentOfBoard / 100;
-            int actualTileAmount = board.Tiles.GetEnumerable().Count(t => t.ResourceType == tileInfo.ResourceType);
+            int actualTileAmount = board.Tiles.GetEnumerable().Count(t => t.Resources == tileInfo.Resources);
 
             Assert.IsTrue(Mathf.FloorToInt(expectedTileAmount) == actualTileAmount ||
                           Mathf.CeilToInt(expectedTileAmount) == actualTileAmount);

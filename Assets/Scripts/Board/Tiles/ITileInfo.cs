@@ -1,5 +1,4 @@
-﻿using LittleKingdom.Resources;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace LittleKingdom.Board
 {
@@ -11,9 +10,9 @@ namespace LittleKingdom.Board
         public Texture Texture { get; }
 
         /// <summary>
-        /// The type of resource the tile produces.
+        /// The resources the tile produces.
         /// </summary>
-        public ResourceType ResourceType { get; }
+        public Resources.Resources Resources { get; }
 
         /// <summary>
         /// The percent of the board that will be filled with this type of tile.

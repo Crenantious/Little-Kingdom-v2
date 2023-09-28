@@ -4,7 +4,6 @@ using Zenject;
 
 namespace LittleKingdom
 {
-    // This class is loaded before the default load time, so references are ensured to be set up before being called.
     // This should only be placed on one GameObject.
     public class References : MonoBehaviour, IReferences
     {
@@ -12,6 +11,7 @@ namespace LittleKingdom
         [field: SerializeField] public int IgnoreRaycastLayer { get; private set; }
         [field: SerializeField] public int MaxResourceAmount { get; private set; }
         [field: SerializeField]  public Camera ActiveCamera { get; set; }
+        [field: SerializeField]  public int MaxPlaceablesOnATile { get; set; }
 
         public float TileWidth { get; private set; }
         public float TileHeight { get; private set; }
@@ -20,7 +20,7 @@ namespace LittleKingdom
         public GameState GameState { get; set; }
 
         [Inject]
-        public void Construct(TileMono tile)
+        public void Construct(Tile tile)
         {
             TileWidth = tile.MeshRenderer.bounds.size.x;
             TileHeight = tile.MeshRenderer.bounds.size.z;

@@ -8,18 +8,20 @@ namespace LittleKingdom.Board
     public class TileInfo : ITileInfo
     {
         [SerializeField] private Texture texture;
-        [SerializeField] private ResourceType resourceType;
+        [SerializeField] private Resources.Resources resources;
         [SerializeField] private float percentOfBoard;
 
         public Texture Texture => texture;
-        public ResourceType ResourceType => resourceType;
+        public Resources.Resources Resources => resources;
         public float PercentOfBoard => percentOfBoard;
 
         public TileInfo(Texture texture, ResourceType resourceType, float percentOfBoard)
         {
             this.texture = texture;
-            this.resourceType = resourceType;
             this.percentOfBoard = percentOfBoard;
+
+            // TODO: JR - make the resource amount configurable.
+            resources = new(resourceType, 1);
         }
     }
 }
