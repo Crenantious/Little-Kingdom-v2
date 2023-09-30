@@ -1,4 +1,5 @@
 using LittleKingdom.Resources;
+using LittleKingdom.Units;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,7 +26,8 @@ namespace LittleKingdom.Board
         /// The y position relative to the board.
         /// </summary>
         public float YPosition { get; set; }
-        public IReadOnlyList<IHoldResources> Holders { get; }
+
+        public IReadOnlyList<Unit> Units { get; }
 
 #nullable enable
         /// <summary>

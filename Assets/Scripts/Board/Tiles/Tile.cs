@@ -1,4 +1,5 @@
 using LittleKingdom.Resources;
+using LittleKingdom.Units;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -9,7 +10,7 @@ namespace LittleKingdom.Board
     public class Tile : MonoBehaviour, ITile
     {
         private readonly List<IPlaceableInTile> placeables = new();
-        private readonly List<IHoldResources> holders = new();
+        private readonly List<Unit> units = new();
 
         private IReferences references;
 
@@ -23,13 +24,13 @@ namespace LittleKingdom.Board
         public float YPosition { get => transform.position.z; set => transform.position = new(transform.position.x, transform.position.y, value); }
         public ITown Town { get; set; }
 
-        public IReadOnlyList<IHoldResources> Holders { get; private set; }
+        public IReadOnlyList<Unit> Units { get; private set; }
 
         [Inject]
         public void Construct(IReferences references)
         {
             this.references = references;
-            Holders = holders.AsReadOnly();
+            Units = units.AsReadOnly();
         }
 
         public void Initialise(Resources.Resources resources)
@@ -47,8 +48,8 @@ namespace LittleKingdom.Board
                 return false;
 
             placeables.Add(placeable);
-            if (Inherits<IHoldResources>(placeable))
-                holders.Add((IHoldResources)placeable);
+            if (Inherits<Unit>(placeable))
+                units.Add((Unit)placeable);
 
             return true;
         }
@@ -59,8 +60,8 @@ namespace LittleKingdom.Board
                 return false;
 
             placeables.Remove(placeable);
-            if (Inherits<IHoldResources>(placeable))
-                holders.Add((IHoldResources)placeable);
+            if (Inherits<Unit>(placeable))
+                units.Remove((Unit)placeable);
 
             return true;
         }

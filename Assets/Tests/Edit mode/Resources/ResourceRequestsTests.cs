@@ -12,7 +12,7 @@ namespace ResourceRequests
 {
     public class ResourceRequestsTests : ZenjectUnitTestFixture
     {
-        [Inject] private readonly ResourceRequests<IResourceRequestsTestsHandler, TestRequest> resourceRequests;
+        [Inject] private readonly RegisteredResourceRequests<IResourceRequestsTestsHandler, TestRequest> resourceRequests;
 
         private Mock<IResourceCollectionOrder> collectionOrder;
         private Mock<IPlayer> playerOne;
@@ -37,7 +37,7 @@ namespace ResourceRequests
             collectionOrder.Setup(o => o.GetOrderFor<IResourceRequestsTestsHandler>()).Returns(
                 new Type[] { typeof(TestHandlerOne), typeof(TestHandlerTwo) });
 
-            Container.Bind<ResourceRequests<IResourceRequestsTestsHandler, TestRequest>>().AsSingle();
+            Container.Bind<RegisteredResourceRequests<IResourceRequestsTestsHandler, TestRequest>>().AsSingle();
             Container.BindInstance(collectionOrder.Object).AsSingle();
             Container.Inject(this);
         }

@@ -4,14 +4,14 @@ namespace LittleKingdom.Resources
 {
     public class ResourceCollection
     {
-        private readonly ResourceRequests<IHaltResources, HaltResourcesRequest> haltResourcesRequests;
-        private readonly ResourceRequests<IMoveResources, MoveResourcesRequest> moveResourcesRequests;
+        private readonly RegisteredResourceRequests<IHaltResources, HaltResourcesRequest> haltResourcesRequests;
+        private readonly RegisteredResourceRequests<IMoveResources, MoveResourcesRequest> moveResourcesRequests;
         private readonly ResolveHaltRequests resolveHaltRequests;
         private readonly ResolveMoveRequests resolveMoveRequests;
         private readonly IResourceHandlingUtilities utilities;
 
-        public ResourceCollection(ResourceRequests<IHaltResources, HaltResourcesRequest> haltResourcesRequests,
-            ResourceRequests<IMoveResources, MoveResourcesRequest> moveResourcesRequests,
+        public ResourceCollection(RegisteredResourceRequests<IHaltResources, HaltResourcesRequest> haltResourcesRequests,
+            RegisteredResourceRequests<IMoveResources, MoveResourcesRequest> moveResourcesRequests,
             ResolveHaltRequests resolveHaltRequests, ResolveMoveRequests resolveMoveRequests,
             IResourceHandlingUtilities utilities)
         {

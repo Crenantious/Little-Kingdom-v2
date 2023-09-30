@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace LittleKingdom.Resources
 {
-    public class ResourceRequests<THandler, TRequest>
+    public class RegisteredResourceRequests<THandler, TRequest>
         where THandler : IHandleResources<TRequest>
     {
         private readonly IResourceCollectionOrder resourceCollectionOrder;
         private readonly Dictionary<Type, List<THandler>> requests = new();
 
-        public ResourceRequests(IResourceCollectionOrder collectionOrder) =>
+        public RegisteredResourceRequests(IResourceCollectionOrder collectionOrder) =>
             resourceCollectionOrder = collectionOrder;
 
         public void RegisterHandler(THandler handler) =>

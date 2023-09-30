@@ -83,7 +83,7 @@ namespace ResourceRequests
         private void SetupHolder(Resources resources, Resources capacity)
         {
             holder.Setup(h => h.Resources).Returns(resources);
-            holder.Setup(h => h.ResourcesCapactity).Returns(capacity);
+            holder.Setup(h => h.ResourcesCapacity).Returns(capacity);
         }
 
         private void CreateMoveRequest(Resources resources) =>

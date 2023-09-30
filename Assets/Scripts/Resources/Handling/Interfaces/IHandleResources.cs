@@ -4,7 +4,11 @@ namespace LittleKingdom.Resources
 {
     public interface IHandleResources
     {
-        public IPlayer Player { get; }
+
+#nullable enable
+        public IPlayer? Player { get; }
+#nullable disable
+
     }
 
     public interface IHandleResources<T> : IHandleResources
