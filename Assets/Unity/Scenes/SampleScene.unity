@@ -937,7 +937,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <UnitType>k__BackingField:
-    index: 0
+    index: 1
 --- !u!1 &1958304783
 GameObject:
   m_ObjectHideFlags: 0

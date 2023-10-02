@@ -8,6 +8,6 @@ namespace LittleKingdom.DataStructures
         /// <summary>
         /// The values are strings for the enum to be dynamic.
         /// </summary>
-        public string[] Values { get; set; } = new string[] { "No values found" };
+        [field: SerializeField] public string[] Values { get; set; } = new string[0];
     }
 }
