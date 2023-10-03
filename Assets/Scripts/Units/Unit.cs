@@ -9,6 +9,7 @@ namespace LittleKingdom.Units
     public class Unit : MonoBehaviour, IPlaceableInTile
     {
         [field: SerializeField] public UnitType UnitType { get; private set; }
+        [field: SerializeField] public UnitTypeFlags UnitTypeFlags { get; private set; }
 
         public ITile OriginTile { get; set; }
         public Grid<ITile> Tiles { get; set; }

@@ -937,7 +937,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <UnitType>k__BackingField:
-    index: 1
+    enumName: UnitType
+    value: Guard
+  <UnitTypeFlags>k__BackingField:
+    enumName: UnitType
+    values:
+    - s
+    - a
+    - Guard
+    - Worker
+    - Thief
 --- !u!1 &1958304783
 GameObject:
   m_ObjectHideFlags: 0

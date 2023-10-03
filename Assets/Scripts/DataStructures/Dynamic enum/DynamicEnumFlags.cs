@@ -1,22 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace LittleKingdom.DataStructures
 {
-    /// <summary>
-    /// Represents an enum using string values controlled by a PropertyDrawer.<br/>
-    /// Simply inherit this class to create a new enum type. No implementation is needed; the PropertyDrawer handles everything.
-    /// </summary>
+    /// <inheritdoc cref="DynamicEnum"/>
     [Serializable]
-    public abstract class DynamicEnum
+    public abstract class DynamicEnumFlags
     {
         private const string EnumNameError = "Must set an enum name";
 
         // For use in a PropertyDrawer
         [SerializeField] private string enumName;
 
-        // TODO: JR - register with a helper class that will fix the selected values when they enum values change.
-        public DynamicEnum(string enumName) =>
+        public DynamicEnumFlags(string enumName) =>
             this.enumName = enumName ?? throw new ArgumentNullException(nameof(enumName), EnumNameError);
 
         /// <summary>
@@ -25,17 +22,17 @@ namespace LittleKingdom.DataStructures
         [SerializeField] internal Type valuesType;
 
         /// <summary>
-        /// The index of the value in the associated <see cref="DynamicEnumValues"/> this class possesses.
+        /// Weather or not this class possesses the corresponding value in the associated <see cref="DynamicEnumValues"/>.
         /// </summary>
-        [SerializeField] internal string value;
+        [SerializeField] internal List<string> values;
 
-        public bool Equals(DynamicEnum other)
+        public bool Equals(DynamicEnumFlags other)
         {
             DynamicEnumCommon.CheckInitialised(this);
             if (DynamicEnumCommon.IsComparisonValid(this, other) is false)
                 return false;
 
-            return value == other.value;
+            return values == other.values;
         }
     }
 }
