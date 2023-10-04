@@ -20,7 +20,7 @@ namespace LittleKingdom.DataStructures
         /// <exception cref="DynamicEnumInitialisationException"></exception>
         public static void CheckInitialised(DynamicEnumFlags dynamicEnum)
         {
-            if (dynamicEnum.valuesType is null || dynamicEnum.values != null)
+            if (dynamicEnum.valuesType is null)
                 throw new DynamicEnumInitialisationException(NotInitialisedError);
         }
 

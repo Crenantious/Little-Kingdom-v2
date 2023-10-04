@@ -2,9 +2,9 @@ using Assets.Scripts.Exceptions;
 using UnityEditor;
 using UnityEngine;
 
-namespace LittleKingdom.Editor
+namespace LittleKingdom
 {
-    public static class EditorUtilities
+    public static class AssetUtilities
     {
         public const string UIDocumentPath = "Graphics/UI/UI toolkit/";
 

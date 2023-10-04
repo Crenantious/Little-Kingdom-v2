@@ -15,7 +15,7 @@ namespace LittleKingdom.Editor
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             this.property = property;
-            selectedValues = property.FindPropertyRelative("values");
+            selectedValues = property.FindPropertyRelative("valueIds");
 
             commonDrawer.OnGUI(position, property, label, IsValueSelected, OnValueSelected);
         }
@@ -23,7 +23,7 @@ namespace LittleKingdom.Editor
         private bool IsValueSelected(int index)
         {
             string value = commonDrawer.EnumValues.Values[index];
-            return  GetValueIndex(value) != -1;
+            return GetValueIndex(value) != -1;
         }
 
         private void OnValueSelected(int index)
@@ -44,24 +44,30 @@ namespace LittleKingdom.Editor
         private void AddSelectedValue(string value)
         {
             selectedValues.arraySize++;
-            selectedValues.GetArrayElementAtIndex(selectedValues.arraySize - 1).stringValue = value;
+            selectedValues.GetArrayElementAtIndex(selectedValues.arraySize - 1).intValue = GetId(value);
         }
-
+ 
         private void RemoveSelectedValue(int index)
         {
-            string lastElemet = selectedValues.GetArrayElementAtIndex(selectedValues.arraySize - 1).stringValue;
-            selectedValues.GetArrayElementAtIndex(index).stringValue = lastElemet;
+            int lastElemet = selectedValues.GetArrayElementAtIndex(selectedValues.arraySize - 1).intValue;
+            selectedValues.GetArrayElementAtIndex(index).intValue = lastElemet;
             selectedValues.arraySize--;
         }
 
         private int GetValueIndex(string value)
         {
+            int id = GetId(value);
+            Debug.Log(id);
             for (int i = 0; i < selectedValues.arraySize; i++)
             {
-                if (selectedValues.GetArrayElementAtIndex(i).stringValue == value)
+                Debug.Log(selectedValues.GetArrayElementAtIndex(i).intValue);
+                if (selectedValues.GetArrayElementAtIndex(i).intValue == id)
                     return i;
             }
             return -1;
         }
+
+        private int GetId(string value) =>
+            commonDrawer.EnumValues.GetId(value);
     }
 }

@@ -15,7 +15,7 @@ namespace LittleKingdom.Editor
         private const int EditButtonWidth = 25;
 
         private bool isInitialised = false;
-        private readonly Sprite icon = EditorUtilities.GetAsset<Sprite>("Free Flat Pen Icon");
+        private readonly Sprite icon = AssetUtilities.GetAsset<Sprite>("Free Flat Pen Icon");
 
         public DynamicEnumValues EnumValues { get; private set; }
 
@@ -31,7 +31,7 @@ namespace LittleKingdom.Editor
 
         private bool TryGetValues(string assetName)
         {
-            var success = EditorUtilities.TryGetAsset(assetName, out DynamicEnumValues values, ValuesFolder);
+            var success = AssetUtilities.TryGetAsset(assetName, out DynamicEnumValues values, ValuesFolder);
             EnumValues = values;
             return success;
         }
@@ -68,7 +68,7 @@ namespace LittleKingdom.Editor
         private void CreateValuesMenu(Rect position, Func<int, bool> isItemSelected, Action<int> onItemSelected)
         {
             GenericMenu menu = new();
-            for (int i = 0; i < EnumValues.Values.Length; i++)
+            for (int i = 0; i < EnumValues.Values.Count; i++)
             {
                 AddMenuItem(menu, i, isItemSelected, onItemSelected);
             }
@@ -85,6 +85,6 @@ namespace LittleKingdom.Editor
             new() { text = value };
 
         private void EditEnumValues() =>
-            EditDynamicEnumValuesEditorWindow.Show(EnumValues);
+            EditDynamicEnumValuesWindow.Show(EnumValues);
     }
 }

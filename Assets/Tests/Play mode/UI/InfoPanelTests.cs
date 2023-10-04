@@ -1,3 +1,4 @@
+using LittleKingdom;
 using LittleKingdom.Buildings;
 using LittleKingdom.UI;
 using Moq;
@@ -8,7 +9,6 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
 using Zenject;
-using LittleKingdom.Editor;
 
 namespace InfoPanelTests
 {
@@ -23,7 +23,7 @@ namespace InfoPanelTests
         {
             Mock<IVisualTreeAssets> visualTreeAssets = new();
             visualTreeAssets.Setup(v => v.BuildingInfoPanel).Returns(
-                EditorUtilities.GetAsset<VisualTreeAsset>(nameof(UIBuildingInfoPanel)));
+                AssetUtilities.GetAsset<VisualTreeAsset>(nameof(UIBuildingInfoPanel)));
 
             PlayModeInstaller.Install(Container);
 
