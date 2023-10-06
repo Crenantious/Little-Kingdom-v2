@@ -7,7 +7,7 @@ public class EditDynamicEnumValuesWindow : EditorWindow
     private bool isInitialised = false;
     //private Editor valuesEditor;
     private DynamicEnumValues values;
-    private SerializedObject serializedValues;
+    [SerializeField] private SerializedObject serializedValues;
 
     public static void Show(DynamicEnumValues values)
     {
@@ -34,7 +34,7 @@ public class EditDynamicEnumValuesWindow : EditorWindow
     {
         serializedValues.Update();
         //valuesEditor.OnInspectorGUI();
-        var v = serializedValues.FindProperty("values");
+        var v = serializedValues.FindProperty("editingValues");
         EditorGUILayout.PropertyField(v);
 
         if (GUILayout.Button("Save"))

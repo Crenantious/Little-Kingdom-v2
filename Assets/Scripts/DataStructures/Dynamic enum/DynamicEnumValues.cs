@@ -1,6 +1,6 @@
-﻿using Codice.Client.Common.Threading;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace LittleKingdom.DataStructures
@@ -17,82 +17,41 @@ namespace LittleKingdom.DataStructures
         /// The values are strings for the enum to be dynamic.
         /// </summary>
         [SerializeField, HideInInspector] private List<string> values = new();
+        [SerializeField, HideInInspector] private List<string> editingValues = null;
 
-        public IReadOnlyList<string> Values { get; private set; }
-
-        private List<string> oldValues = null;
-
-        private void Awake() =>
-            Values = values.AsReadOnly();
+        public IReadOnlyList<string> Values => values.AsReadOnly();
 
         public void BeginEdit()
         {
-            oldValues = new(values);
+            editingValues = new(values);
         }
 
         public void ApplyEdit()
         {
-            if (oldValues is null)
-                throw new InvalidOperationException($"Must call {nameof(BeginEdit)} before {nameof(ApplyEdit)}.");
+            ValidateBeganEditing(nameof(ApplyEdit));
 
-            List<string> newValues = new(values);
-            List<string> removedValues = new(oldValues);
-            values.Clear();
+            editingValues = editingValues.Distinct().ToList();
+            string[] newValues = editingValues.Where(v => values.Contains(v) is false).ToArray();
+            string[] removedValues = values.Where(v => editingValues.Contains(v) is false).ToArray();
 
             foreach (string value in newValues)
             {
-                if (IsValue(value))
-                {
-                    removedValues.Remove(value);
-                    continue;
-                }
-
-                Add(value);
+                RegisterId(value);
             }
 
             foreach (string value in removedValues)
             {
-                Remove(value);
+                UnregisterId(value);
             }
 
+            values = editingValues;
             BeginEdit();
         }
 
         public void EndEdit()
         {
-            values = oldValues;
-            oldValues = null;
-        }
-
-        /// <returns>
-        /// True: if the value was added<br/>
-        /// False: if the value was not added because it already exists.
-        /// </returns>
-        public bool Add(string value)
-        {
-            if (valueToId.ContainsKey(value))
-                return false;
-
-            values.Add(value);
-            valueIds.Add(currentId);
-            valueToId.Add(value, currentId++);
-            return true;
-        }
-
-        /// <returns>
-        /// True: if the value was removed<br/>
-        /// False: if the value was not removed because it does not exist.
-        /// </returns>
-        public bool Remove(string value)
-        {
-            if (valueToId.ContainsKey(value) is false)
-                return false;
-
-            int id = valueToId[value];
-            values.Remove(value);
-            valueIds.Remove(id);
-            valueToId.Remove(value);
-            return true;
+            ValidateBeganEditing(nameof(EndEdit));
+            editingValues = null;
         }
 
         /// <returns>The id if the value exists, -1 otherwise.</returns>
@@ -106,7 +65,25 @@ namespace LittleKingdom.DataStructures
         public bool IsValue(int id) =>
             valueIds.Contains(id);
 
+        private void RegisterId(string value)
+        {
+            valueIds.Add(currentId);
+            valueToId.Add(value, currentId++);
+        }
+
+        private void UnregisterId(string value)
+        {
+            valueIds.Remove(valueToId[value]);
+            valueToId.Remove(value);
+        }
+
         private bool IsValue(string value) =>
             valueToId.ContainsKey(value);
+
+        private void ValidateBeganEditing(string methodName)
+        {
+            if (editingValues is null)
+                throw new InvalidOperationException($"Must call {nameof(BeginEdit)} before {methodName}.");
+        }
     }
 }

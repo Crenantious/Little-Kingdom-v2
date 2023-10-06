@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12d050ff6ce4efc45903aa80d0810652, type: 3}
   m_Name: UnitType
   m_EditorClassIdentifier: 
-  <Values>k__BackingField:
+  values:
   - Worker
   - Guard
   - Thief
+  editingValues: []
