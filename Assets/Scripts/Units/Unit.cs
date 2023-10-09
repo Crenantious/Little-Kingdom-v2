@@ -10,6 +10,7 @@ namespace LittleKingdom.Units
     {
         [field: SerializeField] public UnitType UnitType { get; private set; }
         [field: SerializeField] public UnitTypeFlags UnitTypeFlags { get; private set; }
+        [field: SerializeField] public UnitTypeaFlags UnitTypeaFlags { get; private set; }
 
         public ITile OriginTile { get; set; }
         public Grid<ITile> Tiles { get; set; }

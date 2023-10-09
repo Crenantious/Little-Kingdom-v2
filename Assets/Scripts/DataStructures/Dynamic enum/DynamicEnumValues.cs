@@ -54,6 +54,9 @@ namespace LittleKingdom.DataStructures
             editingValues = null;
         }
 
+        public bool HasUnsavedChanges() =>
+            !values.SequenceEqual(editingValues);
+
         /// <returns>The id if the value exists, -1 otherwise.</returns>
         public int GetId(string value)
         {

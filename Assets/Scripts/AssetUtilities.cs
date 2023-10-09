@@ -1,4 +1,7 @@
 using Assets.Scripts.Exceptions;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -24,11 +27,13 @@ namespace LittleKingdom
                              AssetDatabase.FindAssets(name) :
                              AssetDatabase.FindAssets(name, paths);
 
-            bool wasFound = guids.Length != 0;
+            // AssetDatabase.FindAssets searches using substrings so we need to filter for the exact name.
+            IEnumerable<string> assetPaths = guids.Select(g => AssetDatabase.GUIDToAssetPath(g))
+                                                  .Where(p => Path.GetFileNameWithoutExtension(p) == name);
+            bool wasFound = assetPaths.Count() != 0;
 
             asset = wasFound ?
-                    AssetDatabase.LoadAssetAtPath<T>(
-                        AssetDatabase.GUIDToAssetPath(guids[0])) :
+                    AssetDatabase.LoadAssetAtPath<T>(assetPaths.ElementAt(0)) :
                     null;
             return wasFound;
         }
