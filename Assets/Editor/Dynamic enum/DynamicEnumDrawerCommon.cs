@@ -17,32 +17,32 @@ namespace LittleKingdom.Editor
         private bool isInitialised = false;
         private readonly Sprite icon = AssetUtilities.GetAsset<Sprite>("Free Flat Pen Icon");
 
-        public DynamicEnumValues EnumValues { get; private set; }
+        public DynamicEnumValues ValuesAsset { get; private set; }
 
         private void Initialise(SerializedProperty property)
         {
             string enumName = property.FindPropertyRelative("enumName").stringValue;
 
-            if (TryGetValues(enumName) is false)
-                CreateValues(enumName);
+            if (TryGetValuesAsset(enumName) is false)
+                CreateValuesAsset(enumName);
 
             isInitialised = true;
         }
 
-        private bool TryGetValues(string assetName)
+        private bool TryGetValuesAsset(string assetName)
         {
             var success = AssetUtilities.TryGetAsset(assetName, out DynamicEnumValues values, ValuesFolder);
-            EnumValues = values;
+            ValuesAsset = values;
             return success;
         }
 
-        private void CreateValues(string assetName)
+        private void CreateValuesAsset(string assetName)
         {
             string path = $"{ValuesFolder}/{assetName}.asset";
 
-            EnumValues = ScriptableObject.CreateInstance<DynamicEnumValues>();
-            EnumValues.name = assetName;
-            AssetDatabase.CreateAsset(EnumValues, path);
+            ValuesAsset = ScriptableObject.CreateInstance<DynamicEnumValues>();
+            ValuesAsset.name = assetName;
+            AssetDatabase.CreateAsset(ValuesAsset, path);
             AssetDatabase.SaveAssets();
         }
 
@@ -55,8 +55,7 @@ namespace LittleKingdom.Editor
             position = EditorGUI.PrefixLabel(position, label);
 
             position.width = ValuesButtonWidth;
-            if (EditorGUI.DropdownButton(position, new GUIContent("Select values"), FocusType.Passive))
-                CreateValuesMenu(position, isItemSelected, onItemSelected);
+            DrawMenuSection(position, isItemSelected, onItemSelected);
 
             position.x += position.width;
             position.width = EditButtonWidth;
@@ -65,10 +64,18 @@ namespace LittleKingdom.Editor
                 EditEnumValues();
         }
 
+        private void DrawMenuSection(Rect position, Func<int, bool> isItemSelected, Action<int> onItemSelected)
+        {
+            if (ValuesAsset.Values.Count == 0)
+                EditorGUI.LabelField(position, NoValuesFoundOption);
+            else if (EditorGUI.DropdownButton(position, new GUIContent("Select values"), FocusType.Passive))
+                CreateValuesMenu(position, isItemSelected, onItemSelected);
+        }
+
         private void CreateValuesMenu(Rect position, Func<int, bool> isItemSelected, Action<int> onItemSelected)
         {
             GenericMenu menu = new();
-            for (int i = 0; i < EnumValues.Values.Count; i++)
+            for (int i = 0; i < ValuesAsset.Values.Count; i++)
             {
                 AddMenuItem(menu, i, isItemSelected, onItemSelected);
             }
@@ -77,7 +84,7 @@ namespace LittleKingdom.Editor
         }
 
         private void AddMenuItem(GenericMenu menu, int i, Func<int, bool> isItemSelected, Action<int> onItemSelected) =>
-            menu.AddItem(CreateMenuOption(EnumValues.Values[i]),
+            menu.AddItem(CreateMenuOption(ValuesAsset.Values[i]),
                          isItemSelected(i),
                          () => onItemSelected(i));
 
@@ -85,6 +92,6 @@ namespace LittleKingdom.Editor
             new() { text = value };
 
         private void EditEnumValues() =>
-            EditDynamicEnumValuesWindow.Show(EnumValues);
+            EditDynamicEnumValuesWindow.Show(ValuesAsset);
     }
 }

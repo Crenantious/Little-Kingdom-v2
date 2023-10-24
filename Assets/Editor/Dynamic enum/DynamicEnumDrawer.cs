@@ -18,12 +18,12 @@ namespace LittleKingdom.Editor
         }
 
         private bool IsValueSelected(int index) =>
-            GetValue() == commonDrawer.EnumValues.Values[index];
+            GetValue() == commonDrawer.ValuesAsset.Values[index];
 
         private void OnValueSelected(int index)
         {
             property.serializedObject.Update();
-            SetValue(commonDrawer.EnumValues.Values[index]);
+            SetValue(commonDrawer.ValuesAsset.Values[index]);
             property.serializedObject.ApplyModifiedProperties();
         }
 

@@ -890,13 +890,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <UnitType>k__BackingField:
     enumName: UnitType
-    value: 
+    value: Worker
   <UnitTypeFlags>k__BackingField:
     enumName: UnitType
-    valueIds: 00000000
-  <UnitTypeaFlags>k__BackingField:
-    enumName: UnitTypea
-    valueIds: 
+    valueIds: 000000000300000001000000
 --- !u!1 &1728053576
 GameObject:
   m_ObjectHideFlags: 0

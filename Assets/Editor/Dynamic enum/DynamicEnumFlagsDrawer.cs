@@ -22,7 +22,7 @@ namespace LittleKingdom.Editor
 
         private bool IsValueSelected(int index)
         {
-            string value = commonDrawer.EnumValues.Values[index];
+            string value = commonDrawer.ValuesAsset.Values[index];
             return GetValueIndex(value) != -1;
         }
 
@@ -30,7 +30,7 @@ namespace LittleKingdom.Editor
         {
             property.serializedObject.Update();
 
-            string value = commonDrawer.EnumValues.Values[index];
+            string value = commonDrawer.ValuesAsset.Values[index];
             int valueIndex = GetValueIndex(value);
 
             if (valueIndex == -1)
@@ -57,10 +57,8 @@ namespace LittleKingdom.Editor
         private int GetValueIndex(string value)
         {
             int id = GetId(value);
-            Debug.Log(id);
             for (int i = 0; i < selectedValues.arraySize; i++)
             {
-                Debug.Log(selectedValues.GetArrayElementAtIndex(i).intValue);
                 if (selectedValues.GetArrayElementAtIndex(i).intValue == id)
                     return i;
             }
@@ -68,6 +66,6 @@ namespace LittleKingdom.Editor
         }
 
         private int GetId(string value) =>
-            commonDrawer.EnumValues.GetId(value);
+            commonDrawer.ValuesAsset.GetId(value);
     }
 }

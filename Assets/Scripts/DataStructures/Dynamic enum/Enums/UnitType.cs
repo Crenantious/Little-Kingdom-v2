@@ -19,22 +19,4 @@ namespace LittleKingdom.DataStructures
 
         }
     }
-
-    [Serializable]
-    public class UnitTypea : DynamicEnum
-    {
-        public UnitTypea() : base("UnitTypea")
-        {
-
-        }
-    }
-
-    [Serializable]
-    public class UnitTypeaFlags : DynamicEnumFlags
-    {
-        public UnitTypeaFlags() : base("UnitTypea")
-        {
-
-        }
-    }
 }

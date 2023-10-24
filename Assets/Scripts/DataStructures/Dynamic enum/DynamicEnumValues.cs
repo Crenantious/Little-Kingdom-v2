@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace LittleKingdom.DataStructures
 {
-    public class DynamicEnumValues : ScriptableObject
+    public class DynamicEnumValues : ScriptableObject, ISerializationCallbackReceiver
     {
         private int currentId = 0;
 
@@ -13,18 +13,15 @@ namespace LittleKingdom.DataStructures
         private readonly HashSet<int> valueIds = new();
 
         // These are controlled by an PropertyDrawer.
-        /// <summary>
-        /// The values are strings for the enum to be dynamic.
-        /// </summary>
+        // The values are strings for the enum to be dynamic.
         [SerializeField, HideInInspector] private List<string> values = new();
         [SerializeField, HideInInspector] private List<string> editingValues = null;
+        [SerializeField, HideInInspector] private List<int> serialisedIds = new();
 
         public IReadOnlyList<string> Values => values.AsReadOnly();
 
-        public void BeginEdit()
-        {
+        public void BeginEdit() =>
             editingValues = new(values);
-        }
 
         public void ApplyEdit()
         {
@@ -87,6 +84,28 @@ namespace LittleKingdom.DataStructures
         {
             if (editingValues is null)
                 throw new InvalidOperationException($"Must call {nameof(BeginEdit)} before {methodName}.");
+        }
+
+        public void OnBeforeSerialize()
+        {
+            serialisedIds.Clear();
+
+            foreach (string value in values)
+            {
+                serialisedIds.Add(valueToId[value]);
+            }
+        }
+
+        public void OnAfterDeserialize()
+        {
+            valueToId.Clear();
+            valueIds.Clear();
+
+            for (int i = 0; i < values.Count; i++)
+            {
+                valueToId.Add(values[i], serialisedIds[i]);
+                valueIds.Add(serialisedIds[i]);
+            }
         }
     }
 }
