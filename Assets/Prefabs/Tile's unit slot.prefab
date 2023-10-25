@@ -96,3 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 490a88c9c6816204dbb5d4de3f42eb1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  renderer: {fileID: 1557694196202330375}
+  neutral: {fileID: 2100000, guid: 045896b9f095db845a326ad15dbdd736, type: 2}
+  free: {fileID: 2100000, guid: e2d698e74b3b0e948bf5ac455e5b4d4a, type: 2}
+  taken: {fileID: 2100000, guid: b3085cafb6a750841974bf0befbb9d19, type: 2}

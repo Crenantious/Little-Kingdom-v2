@@ -25,7 +25,7 @@ namespace LittleKingdom.Board
         public ITown Town { get; set; }
 
         [Inject]
-        public void Construct(IReferences references, SelectedObjectTracker selection)
+        public void Construct(IReferences references)
         {
             this.references = references;
         }
