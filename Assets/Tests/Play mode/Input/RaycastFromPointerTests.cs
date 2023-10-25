@@ -19,7 +19,7 @@ public class RaycastFromPointerTests : InputTestsBase
     [UnityTest]
     public IEnumerator PositionObjectUnderPointer_RayCast_HitsObject()
     {
-        Object1.transform.position = new(0, 0, 2);
+        ObjectOne.transform.position = new(0, 0, 2);
         MoveMouseToCentreOfScreen();
         yield return null;
 
@@ -29,7 +29,7 @@ public class RaycastFromPointerTests : InputTestsBase
     [UnityTest]
     public IEnumerator PositionObjectNotUnderPointer_RayCast_DoesNotHitObject()
     {
-        Object1.transform.position = new(2, 0, 0);
+        ObjectOne.transform.position = new(2, 0, 0);
         MoveMouseToCentreOfScreen();
         yield return null;
 

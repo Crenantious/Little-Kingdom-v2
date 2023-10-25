@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static LittleKingdom.Input.Inputs;
@@ -11,6 +12,7 @@ namespace LittleKingdom.Input
         public event SimpleEventHandler PointerPressAndRelease;
         public event SimpleEventHandler PointerPress;
         public event SimpleEventHandler PointerRelease;
+        public event SimpleEventHandler PointerMoved;
 
         public StandardInput(Inputs inputs)
         {
@@ -18,6 +20,7 @@ namespace LittleKingdom.Input
             actions.PointerPressAndRelease.performed += OnPointerPressAndRelease;
             actions.PointerPress.performed += OnPointerPress;
             actions.PointerRelease.performed += OnPointerRelease;
+            actions.PointerPosition.performed += OnPointerMoved;
         }
 
         public void Enable() =>
@@ -37,5 +40,8 @@ namespace LittleKingdom.Input
 
         private void OnPointerRelease(InputAction.CallbackContext context) =>
             PointerRelease?.Invoke();
+
+        private void OnPointerMoved(InputAction.CallbackContext context) =>
+            PointerMoved?.Invoke();
     }
 }

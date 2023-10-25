@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 427f53402e848294e8e64e097a94f035, type: 3}
   m_Name: Resource collection order
   m_EditorClassIdentifier: 
-  producers: []
-  halters: []
+  producers:
+  - Tile
+  halters:
+  - HaltResources
   movers: []

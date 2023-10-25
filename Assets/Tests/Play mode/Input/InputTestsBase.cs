@@ -4,6 +4,7 @@ using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Zenject;
 
@@ -26,12 +27,12 @@ public abstract class InputTestsBase : ZenjectUnitTestFixture
     /// <summary>
     /// An empty <see cref="GameObject"/> with a 1x1x1 box <see cref="Collider"/>.
     /// </summary>
-    protected GameObject Object1 { get; set; }
+    protected GameObject ObjectOne { get; set; }
 
     /// <summary>
     /// An empty <see cref="GameObject"/> with a 1x1x1 box <see cref="Collider"/>.
     /// </summary>
-    protected GameObject Object2 { get; set; }
+    protected GameObject ObjectTwo { get; set; }
 
     /// <summary>
     /// The <see cref="UnityEngine.Camera"/> component on <see cref="CameraObject"/>.
@@ -39,6 +40,13 @@ public abstract class InputTestsBase : ZenjectUnitTestFixture
     protected Camera Camera { get; set; }
 
     protected virtual void SetupInputSystem() { }
+
+    [OneTimeSetUp]
+    public void OneTimeSetup()
+    {
+        GameObject eventSystem = new();
+        eventSystem.AddComponent<EventSystem>();
+    }
 
     [SetUp]
     protected virtual void SetUp()
@@ -83,8 +91,8 @@ public abstract class InputTestsBase : ZenjectUnitTestFixture
     {
         CameraObject = CreateTestObject(false);
         Camera = CameraObject.AddComponent<Camera>();
-        Object1 = CreateTestObject();
-        Object2 = CreateTestObject();
+        ObjectOne = CreateTestObject();
+        ObjectTwo = CreateTestObject();
     }
 
     protected GameObject CreateTestObject(bool addCollider = true)
