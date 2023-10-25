@@ -27,7 +27,7 @@ namespace LittleKingdom.Board
         /// </summary>
         public float YPosition { get; set; }
 
-        public IReadOnlyList<TileUnitSlot> UnitSlots { get; }
+        public TileUnitSlots UnitSlots { get; }
 
 #nullable enable
         /// <summary>

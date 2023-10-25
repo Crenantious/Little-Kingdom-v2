@@ -474,7 +474,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 2
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1112546081}
     m_Modifications:
     - target: {fileID: 122967996187995800, guid: 0c0ef0075b5b63b4a8b8dec4b213139f, type: 3}
       propertyPath: m_Name
@@ -482,7 +482,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 122967996187995806, guid: 0c0ef0075b5b63b4a8b8dec4b213139f, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 122967996187995806, guid: 0c0ef0075b5b63b4a8b8dec4b213139f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -502,15 +502,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 122967996187995806, guid: 0c0ef0075b5b63b4a8b8dec4b213139f, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 122967996187995806, guid: 0c0ef0075b5b63b4a8b8dec4b213139f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 122967996187995806, guid: 0c0ef0075b5b63b4a8b8dec4b213139f, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 122967996187995806, guid: 0c0ef0075b5b63b4a8b8dec4b213139f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -527,6 +527,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c0ef0075b5b63b4a8b8dec4b213139f, type: 3}
+--- !u!4 &913323777 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 122967996187995806, guid: 0c0ef0075b5b63b4a8b8dec4b213139f, type: 3}
+  m_PrefabInstance: {fileID: 913323776}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &954218344
 GameObject:
   m_ObjectHideFlags: 0
@@ -661,6 +666,7 @@ Transform:
   m_Children:
   - {fileID: 2009927610}
   - {fileID: 1658222574}
+  - {fileID: 913323777}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
