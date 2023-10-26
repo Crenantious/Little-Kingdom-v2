@@ -15,8 +15,6 @@ public abstract class InputTestsBase : ZenjectUnitTestFixture
     [Inject] protected RaycastFromPointer RaycastFromPointer { get; }
     [Inject] protected Inputs Inputs { get; }
 
-    protected InputTestFixture InputTestFixture { get; private set; }
-
     protected Mock<IReferences> References { get; set; } = new();
 
     /// <summary>
@@ -38,6 +36,8 @@ public abstract class InputTestsBase : ZenjectUnitTestFixture
     /// The <see cref="UnityEngine.Camera"/> component on <see cref="CameraObject"/>.
     /// </summary>
     protected Camera Camera { get; set; }
+
+    public InputTestFixture InputTestFixture { get; private set; }
 
     protected virtual void SetupInputSystem() { }
 

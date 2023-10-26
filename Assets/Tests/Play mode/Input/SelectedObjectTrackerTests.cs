@@ -1,6 +1,7 @@
 using InfoPanelTests;
 using LittleKingdom;
 using LittleKingdom.Input;
+using LittleKingdom.PlayModeTests.Utilities;
 using Moq;
 using NUnit.Framework;
 using System.Collections;
@@ -13,7 +14,7 @@ public class SelectedObjectTrackerTests : InputTestsBase
 {
     [Inject] private readonly SelectedObjectTracker tracker;
 
-    private Mouse mouse;
+    private MouseUtilities mouse;
     private GameObject selectableObject1;
     private GameObject selectableObject2;
     private GameObject nonSelectableObject;
@@ -60,8 +61,7 @@ public class SelectedObjectTrackerTests : InputTestsBase
 
     protected override void SetupInputSystem()
     {
-        mouse = InputSystem.AddDevice<Mouse>();
-        Inputs.Standard.Enable();
+        mouse = new(InputTestFixture, Camera, Inputs.Standard);
         base.SetupInputSystem();
     }
 
@@ -77,7 +77,7 @@ public class SelectedObjectTrackerTests : InputTestsBase
     [UnityTest]
     public IEnumerator PressOnSelectable_ReleaseOnSelectable_IsSelected()
     {
-        PressAndReleaseOn(selectableObject1);
+        mouse.PressAndReleaseOn(selectableObject1);
         yield return null;
 
         AssertIsSelected(selectable1);
@@ -89,8 +89,8 @@ public class SelectedObjectTrackerTests : InputTestsBase
     [UnityTest]
     public IEnumerator PressOnSelectable_ReleaseOnNonSelectable_IsNotSelected()
     {
-        PressOn(selectableObject1);
-        ReleaseOn(nonSelectableObject);
+        mouse.PressOn(selectableObject1);
+        mouse.ReleaseOn(nonSelectableObject);
         yield return null;
 
         AssertIsSelected(null);
@@ -101,8 +101,8 @@ public class SelectedObjectTrackerTests : InputTestsBase
     [UnityTest]
     public IEnumerator PressOnSelectable_ReleaseOnEmptySpace_IsNotSelected()
     {
-        PressOn(selectableObject1);
-        ReleaseOn(emptySpace);
+        mouse.PressOn(selectableObject1);
+        mouse.ReleaseOn(emptySpace);
         yield return null;
 
         AssertIsSelected(null);
@@ -115,7 +115,7 @@ public class SelectedObjectTrackerTests : InputTestsBase
     {
         Select(selectableObject1);
 
-        PressAndReleaseOn(selectableObject1);
+        mouse.PressAndReleaseOn(selectableObject1);
         yield return null;
 
         AssertIsSelected(selectable1);
@@ -129,8 +129,8 @@ public class SelectedObjectTrackerTests : InputTestsBase
     {
         Select(selectableObject1);
 
-        PressOn(selectableObject1);
-        ReleaseOn(nonSelectableObject);
+        mouse.PressOn(selectableObject1);
+        mouse.ReleaseOn(nonSelectableObject);
         yield return null;
 
         AssertIsSelected(selectable1);
@@ -144,8 +144,8 @@ public class SelectedObjectTrackerTests : InputTestsBase
     {
         Select(selectableObject1);
 
-        PressOn(selectableObject1);
-        ReleaseOn(emptySpace);
+        mouse.PressOn(selectableObject1);
+        mouse.ReleaseOn(emptySpace);
         yield return null;
 
         AssertIsSelected(selectable1);
@@ -159,8 +159,8 @@ public class SelectedObjectTrackerTests : InputTestsBase
     {
         Select(selectableObject1);
 
-        PressOn(nonSelectableObject);
-        ReleaseOn(selectableObject1);
+        mouse.PressOn(nonSelectableObject);
+        mouse.ReleaseOn(selectableObject1);
         yield return null;
 
         AssertIsSelected(selectable1);
@@ -174,8 +174,8 @@ public class SelectedObjectTrackerTests : InputTestsBase
     {
         Select(selectableObject1);
 
-        PressOn(emptySpace);
-        ReleaseOn(selectableObject1);
+        mouse.PressOn(emptySpace);
+        mouse.ReleaseOn(selectableObject1);
         yield return null;
 
         AssertIsSelected(selectable1);
@@ -189,7 +189,7 @@ public class SelectedObjectTrackerTests : InputTestsBase
     {
         Select(selectableObject1);
 
-        PressAndReleaseOn(nonSelectableObject);
+        mouse.PressAndReleaseOn(nonSelectableObject);
         yield return null;
 
         AssertIsSelected(null);
@@ -204,7 +204,7 @@ public class SelectedObjectTrackerTests : InputTestsBase
     {
         Select(selectableObject1);
 
-        PressAndReleaseOn(emptySpace);
+        mouse.PressAndReleaseOn(emptySpace);
         yield return null;
 
         AssertIsSelected(null);
@@ -219,8 +219,8 @@ public class SelectedObjectTrackerTests : InputTestsBase
     {
         Select(selectableObject1);
 
-        PressOn(nonSelectableObject);
-        ReleaseOn(emptySpace);
+        mouse.PressOn(nonSelectableObject);
+        mouse.ReleaseOn(emptySpace);
         yield return null;
 
         AssertIsSelected(null);
@@ -235,8 +235,8 @@ public class SelectedObjectTrackerTests : InputTestsBase
     {
         Select(selectableObject1);
 
-        PressOn(emptySpace);
-        ReleaseOn(nonSelectableObject);
+        mouse.PressOn(emptySpace);
+        mouse.ReleaseOn(nonSelectableObject);
         yield return null;
 
         AssertIsSelected(null);
@@ -251,7 +251,7 @@ public class SelectedObjectTrackerTests : InputTestsBase
     {
         Select(selectableObject1);
 
-        PressAndReleaseOn(selectableObject2);
+        mouse.PressAndReleaseOn(selectableObject2);
         yield return null;
 
         AssertIsSelected(selectable2);
@@ -267,8 +267,8 @@ public class SelectedObjectTrackerTests : InputTestsBase
     {
         Select(selectableObject1);
 
-        PressOn(selectableObject1);
-        ReleaseOn(selectableObject2);
+        mouse.PressOn(selectableObject1);
+        mouse.ReleaseOn(selectableObject2);
         yield return null;
 
         AssertIsSelected(selectable1);
@@ -282,8 +282,8 @@ public class SelectedObjectTrackerTests : InputTestsBase
     {
         Select(selectableObject1);
 
-        PressOn(selectableObject2);
-        ReleaseOn(selectableObject1);
+        mouse.PressOn(selectableObject2);
+        mouse.ReleaseOn(selectableObject1);
         yield return null;
 
         AssertIsSelected(selectable1);
@@ -297,8 +297,8 @@ public class SelectedObjectTrackerTests : InputTestsBase
     {
         Select(selectableObject1);
 
-        PressOn(selectableObject2);
-        ReleaseOn(nonSelectableObject);
+        mouse.PressOn(selectableObject2);
+        mouse.ReleaseOn(nonSelectableObject);
         yield return null;
 
         AssertIsSelected(null);
@@ -313,8 +313,8 @@ public class SelectedObjectTrackerTests : InputTestsBase
     {
         Select(selectableObject1);
 
-        PressOn(selectableObject2);
-        ReleaseOn(emptySpace);
+        mouse.PressOn(selectableObject2);
+        mouse.ReleaseOn(emptySpace);
         yield return null;
 
         AssertIsSelected(null);
@@ -329,8 +329,8 @@ public class SelectedObjectTrackerTests : InputTestsBase
     {
         Select(selectableObject1);
 
-        PressOn(nonSelectableObject);
-        ReleaseOn(selectableObject2);
+        mouse.PressOn(nonSelectableObject);
+        mouse.ReleaseOn(selectableObject2);
         yield return null;
 
         AssertIsSelected(null);
@@ -345,8 +345,8 @@ public class SelectedObjectTrackerTests : InputTestsBase
     {
         Select(selectableObject1);
 
-        PressOn(emptySpace);
-        ReleaseOn(selectableObject2);
+        mouse.PressOn(emptySpace);
+        mouse.ReleaseOn(selectableObject2);
         yield return null;
 
         AssertIsSelected(null);
@@ -359,10 +359,10 @@ public class SelectedObjectTrackerTests : InputTestsBase
     [UnityTest]
     public IEnumerator PressOnSelectable_PressOnSelectableAgain_ReleaseOnNonSelectable_NothingWasSelected()
     {
-        PressOn(selectableObject1);
-        ReleaseOffScreen();
-        PressOn(selectableObject1);
-        ReleaseOn(nonSelectableObject);
+        mouse.PressOn(selectableObject1);
+        mouse.ReleaseOffScreen();
+        mouse.PressOn(selectableObject1);
+        mouse.ReleaseOn(nonSelectableObject);
         yield return null;
 
         AssertIsSelected(null);
@@ -373,10 +373,10 @@ public class SelectedObjectTrackerTests : InputTestsBase
     [UnityTest]
     public IEnumerator PressOnSelectable_ReleaseOnNonSelectable_ReleaseOnSelectable_NothingWasSelected()
     {
-        PressOn(selectableObject1);
-        ReleaseOn(nonSelectableObject);
-        PressOffScreen();
-        ReleaseOn(selectableObject1);
+        mouse.PressOn(selectableObject1);
+        mouse.ReleaseOn(nonSelectableObject);
+        mouse.PressOffScreen();
+        mouse.ReleaseOn(selectableObject1);
         yield return null;
 
         AssertIsSelected(null);
@@ -387,10 +387,10 @@ public class SelectedObjectTrackerTests : InputTestsBase
     [UnityTest]
     public IEnumerator PressOnSelectable_PressOnNonSelectable_ReleaseOnSelectable_NothingWasSelected()
     {
-        PressOn(selectableObject1);
-        ReleaseOffScreen();
-        PressOn(nonSelectableObject);
-        ReleaseOn(selectableObject1);
+        mouse.PressOn(selectableObject1);
+        mouse.ReleaseOffScreen();
+        mouse.PressOn(nonSelectableObject);
+        mouse.ReleaseOn(selectableObject1);
         yield return null;
 
         AssertIsSelected(null);
@@ -401,10 +401,10 @@ public class SelectedObjectTrackerTests : InputTestsBase
     [UnityTest]
     public IEnumerator PressOnNonSelectable_PressOnSelectable_ReleaseOnSelectable_SelectableWasSelected()
     {
-        PressOn(nonSelectableObject);
-        ReleaseOffScreen();
-        PressOn(selectableObject1);
-        ReleaseOn(selectableObject1);
+        mouse.PressOn(nonSelectableObject);
+        mouse.ReleaseOffScreen();
+        mouse.PressOn(selectableObject1);
+        mouse.ReleaseOn(selectableObject1);
         yield return null;
 
         AssertIsSelected(selectable1);
@@ -416,9 +416,9 @@ public class SelectedObjectTrackerTests : InputTestsBase
     [UnityTest]
     public IEnumerator ReleaseOnSelectable_PressOnSelectable_NothingWasSelected()
     {
-        PressOffScreen();
-        ReleaseOn(selectableObject1);
-        PressOn(selectableObject1);
+        mouse.PressOffScreen();
+        mouse.ReleaseOn(selectableObject1);
+        mouse.PressOn(selectableObject1);
         yield return null;
 
         AssertIsSelected(null);
@@ -427,56 +427,7 @@ public class SelectedObjectTrackerTests : InputTestsBase
     }
 
     private void Select(GameObject gameObject) =>
-        PressAndReleaseOn(gameObject);
-
-    private void MoveMouseTo(Vector3 position) =>
-        InputTestFixture.Move(mouse.position, position);
-
-    private void MoveMouseTo(GameObject gameObject) =>
-        MoveMouseTo(Camera.WorldToScreenPoint(gameObject.transform.position));
-
-    private void PressOffScreen()
-    {
-        // Must be disabled to avoid notifying the object tracker that the mouse was released.
-        // It would not get this notification at runtime.
-        Inputs.Standard.Disable();
-        MoveMouseTo(new Vector3(-1, -1, -1));
-        Press();
-        Inputs.Standard.Enable();
-    }
-
-    private void ReleaseOffScreen()
-    {
-        // Must be disabled to avoid notifying the object tracker that the mouse was released.
-        // It would not get this notification at runtime.
-        Inputs.Standard.Disable();
-        MoveMouseTo(new Vector3(-1, -1, -1));
-        Release();
-        Inputs.Standard.Enable();
-    }
-
-    private void Press() => InputTestFixture.Press(mouse.leftButton);
-
-    private void Release() => InputTestFixture.Release(mouse.leftButton);
-
-    private void PressOn(GameObject gameObject)
-    {
-        MoveMouseTo(gameObject);
-        Press();
-    }
-
-    private void ReleaseOn(GameObject gameObject)
-    {
-        MoveMouseTo(gameObject);
-        Release();
-    }
-
-    private void PressAndReleaseOn(GameObject gameObject)
-    {
-        MoveMouseTo(gameObject);
-        Press();
-        Release();
-    }
+        mouse.PressAndReleaseOn(gameObject);
 
     private void VerifyOnSelectedEvent(Selectable selectable, Times timesCalled) =>
         onSelected.Verify(x => x.Callback(It.Is<Selectable>(s => s == selectable)), timesCalled);
