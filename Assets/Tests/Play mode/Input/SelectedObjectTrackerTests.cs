@@ -35,19 +35,18 @@ public class SelectedObjectTrackerTests : InputTestsBase
         base.PostInstall();
 
         // Z of 10 is needed so everything fits in the camera's view
-        selectableObject1 = CreateTestObject();
+        selectableObject1 = CreateTestObject("SelectableObject1");
         selectable1 = selectableObject1.AddComponent<Selectable>();
         selectableObject1.transform.position = new(2, 0, 10);
 
-        selectableObject2 = CreateTestObject();
+        selectableObject2 = CreateTestObject("SelectableObject2");
         selectable2 = selectableObject2.AddComponent<Selectable>();
         selectableObject2.transform.position = new(0, 0, 10);
 
-        nonSelectableObject = CreateTestObject();
+        nonSelectableObject = CreateTestObject("NonSelectableObject");
         nonSelectableObject.transform.position = new(-2, 0, 10);
 
-        emptySpace = CreateTestObject(false);
-        emptySpace.transform.position = new(0, 2, 10);
+        EmptySpace.transform.position = new(0, 2, 10);
 
         onSelected = new();
         onDeselected = new();

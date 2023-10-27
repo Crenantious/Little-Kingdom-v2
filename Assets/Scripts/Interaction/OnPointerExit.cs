@@ -10,7 +10,7 @@ namespace LittleKingdom.Interactions
     public class OnPointerExit : Interaction
     {
         [Inject]
-        public void Construct(PointerObjectHoverTracker tracker)
+        public void Construct(PointerOverObjectTracker tracker)
         {
             tracker.ObjectExited += OnObjectExit;
         }

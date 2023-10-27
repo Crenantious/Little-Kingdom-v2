@@ -1,26 +1,25 @@
 using InfoPanelTests;
-using LittleKingdom;
 using LittleKingdom.Input;
+using LittleKingdom.PlayModeTests.Utilities;
 using Moq;
 using NUnit.Framework;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.TestTools;
 using Zenject;
 
-public class PointerObjectOverTrackerTests : InputTestsBase
+public class PointerOverObjectTrackerFirstObjectModeTests : InputTestsBase
 {
-    [Inject] private readonly PointerObjectHoverTracker tracker;
+    [Inject] private readonly PointerOverObjectTracker tracker;
 
-    private Mouse mouse;
+    private MouseUtilities mouse;
     private GameObject emptySpace;
     private Mock<ITestCallback<GameObject>> onPointerEnter;
     private Mock<ITestCallback<GameObject>> onPointerExit;
 
     protected override void Install()
     {
-        Container.Bind<PointerObjectHoverTracker>().AsSingle();
+        Container.Bind<PointerOverObjectTracker>().AsSingle();
         base.Install();
     }
 
@@ -28,12 +27,12 @@ public class PointerObjectOverTrackerTests : InputTestsBase
     {
         base.PostInstall();
 
+        tracker.SetMode(PointerOverObjectTracker.Mode.TrackFirst);
+
         // Z of 10 is needed so everything fits in the camera's view
         ObjectOne.transform.position = new(2, 0, 10);
         ObjectTwo.transform.position = new(0, 0, 10);
-
-        emptySpace = CreateTestObject(false);
-        emptySpace.transform.position = new(0, 2, 10);
+        EmptySpace.transform.position = new(0, 2, 10);
 
         onPointerEnter = new();
         onPointerExit = new();
@@ -47,8 +46,7 @@ public class PointerObjectOverTrackerTests : InputTestsBase
 
     protected override void SetupInputSystem()
     {
-        mouse = InputSystem.AddDevice<Mouse>();
-        Inputs.Standard.Enable();
+        mouse = new(InputTestFixture, Camera, Inputs.Standard);
         base.SetupInputSystem();
     }
 
@@ -71,7 +69,7 @@ public class PointerObjectOverTrackerTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOne()
     {
-        MoveMouseTo(ObjectOne);
+        mouse.MoveTo(ObjectOne);
         yield return null;
 
         AssertHoveredObject(ObjectOne);
@@ -83,8 +81,8 @@ public class PointerObjectOverTrackerTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOneThenObjectTwo()
     {
-        MoveMouseTo(ObjectOne);
-        MoveMouseTo(ObjectTwo);
+        mouse.MoveTo(ObjectOne);
+        mouse.MoveTo(ObjectTwo);
         yield return null;
 
         AssertHoveredObject(ObjectTwo);
@@ -98,8 +96,8 @@ public class PointerObjectOverTrackerTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOneThenEmptySpace()
     {
-        MoveMouseTo(ObjectOne);
-        MoveMouseTo(emptySpace);
+        mouse.MoveTo(ObjectOne);
+        mouse.MoveTo(emptySpace);
         yield return null;
 
         AssertHoveredObject(null);
@@ -112,25 +110,14 @@ public class PointerObjectOverTrackerTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOneThenMoveInsideObjectOne()
     {
-        MoveMouseTo(ObjectOne);
-        MoveMouseTo(ObjectOne, true);
+        mouse.MoveTo(ObjectOne);
+        mouse.MoveTo(ObjectOne, new Vector3(0.1f, 0, 0));
         yield return null;
 
         AssertHoveredObject(ObjectOne);
         VerifyOnEnterEvent(ObjectOne, Times.Once());
         VerifyOnEnterEvent(Times.Once());
         VerifyOnExitEvent(Times.Never());
-    }
-
-    private void MoveMouseTo(Vector3 position) =>
-        InputTestFixture.Move(mouse.position, position);
-
-    private void MoveMouseTo(GameObject gameObject, bool addSmallOffset = false)
-    {
-        Vector3 position = Camera.WorldToScreenPoint(gameObject.transform.position);
-        if (addSmallOffset)
-            position += new Vector3(0, 0, 0.01f);
-        MoveMouseTo(position);
     }
 
     private void AssertHoveredObject(GameObject gameObject) =>

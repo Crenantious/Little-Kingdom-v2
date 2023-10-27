@@ -12,7 +12,7 @@ namespace LittleKingdom.Units
         private Unit selectedUnit;
 
         [Inject]
-        public void Construct(SelectedObjectTracker selectionTracker, PointerObjectHoverTracker hoverTracker)
+        public void Construct(SelectedObjectTracker selectionTracker, PointerOverObjectTracker hoverTracker)
         {
             selectionTracker.ObjectSelected += OnObjectSelected;
             selectionTracker.ObjectDeselected += OnObjectDeselected;

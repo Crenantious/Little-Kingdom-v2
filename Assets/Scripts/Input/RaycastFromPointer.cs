@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Linq;
+using System;
 
 namespace LittleKingdom.Input
 {
@@ -34,6 +36,26 @@ namespace LittleKingdom.Input
 
             Ray ray = references.ActiveCamera.ScreenPointToRay(input.GetPointerPosition());
             return Physics.Raycast(ray, out hit, maxDistance);
+        }
+
+        /// <summary>
+        /// Raycasts from the pointer position.
+        /// </summary>
+        /// <param name="hits">The collision result, if any.</param>
+        /// <param name="ignoreUI">If true, UI elements are ignored. Thus <see cref="GameObject"/>s can be selected through UI elements.<br/>
+        /// If false and the pointer is over a UI element, a collision will not occur.</param>
+        /// <returns>The number of collisions that occurred.</returns>
+        public int CastAllTo3D(RaycastHit[] hits, bool ignoreUI = false, float maxDistance = 100)
+        {
+            // This means the pointer is over a UI element.
+            if (ignoreUI is false && IsPointerOverUIElement())
+            {
+                Array.ForEach(hits, h => h = new());
+                return 0;
+            }
+
+            Ray ray = references.ActiveCamera.ScreenPointToRay(input.GetPointerPosition());
+            return Physics.RaycastNonAlloc(ray, hits, maxDistance);
         }
 
         /// <summary>

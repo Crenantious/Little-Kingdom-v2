@@ -33,10 +33,26 @@ public abstract class InputTestsBase : ZenjectUnitTestFixture
     protected GameObject ObjectTwo { get; set; }
 
     /// <summary>
-    /// The <see cref="UnityEngine.Camera"/> component on <see cref="CameraObject"/>.
+    /// An empty <see cref="GameObject"/> with a 1x1x1 box <see cref="Collider"/>.
+    /// </summary>
+    protected GameObject ObjectThree { get; set; }
+
+    /// <summary>
+    /// An empty <see cref="GameObject"/> with a 1x1x1 box <see cref="Collider"/>.
+    /// </summary>
+    protected GameObject ObjectFour { get; set; }
+
+    /// <summary>
+    /// An empty <see cref="GameObject"/> with no <see cref="Collider"/> that should be positioned away from all
+    /// <see cref="GameObject"/>s with <see cref="Collider"/>s to mimic a point in empty space.
+    /// </summary>
+    protected GameObject EmptySpace { get; set; }
+
+    /// <summary>
+    /// A <see cref="GameObject"/> with the <see cref="UnityEngine.Camera"/> component.
     /// </summary>
     protected Camera Camera { get; set; }
-
+    
     public InputTestFixture InputTestFixture { get; private set; }
 
     protected virtual void SetupInputSystem() { }
@@ -89,15 +105,21 @@ public abstract class InputTestsBase : ZenjectUnitTestFixture
 
     private void CreateTestObjects()
     {
-        CameraObject = CreateTestObject(false);
+        CameraObject = CreateTestObject("Camera", false);
         Camera = CameraObject.AddComponent<Camera>();
-        ObjectOne = CreateTestObject();
-        ObjectTwo = CreateTestObject();
+        ObjectOne = CreateTestObject("ObjectOne");
+        ObjectTwo = CreateTestObject("ObjectTwo");
+        ObjectThree = CreateTestObject("ObjectThree");
+        ObjectFour = CreateTestObject("ObjectFour");
+        EmptySpace = CreateTestObject("EmptySpace", false);
     }
 
-    protected GameObject CreateTestObject(bool addCollider = true)
+    protected GameObject CreateTestObject(string name, bool addCollider = true)
     {
-        GameObject TestObject = new();
+        GameObject TestObject = new()
+        {
+            name = name
+        };
         gameObjects.Add(TestObject);
 
         if (addCollider)

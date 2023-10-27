@@ -25,8 +25,11 @@ namespace LittleKingdom.PlayModeTests.Utilities
         public void MoveTo(Vector3 position) =>
             inputTestFixture.Move(mouse.position, position);
 
-        public void MoveTo(GameObject gameObject) =>
-            MoveTo(camera.WorldToScreenPoint(gameObject.transform.position));
+        public void MoveTo(GameObject gameObject, Vector3? offset = null)
+        {
+            offset ??= Vector3.zero;
+            MoveTo(camera.WorldToScreenPoint(gameObject.transform.position + (Vector3)offset));
+        }
 
         public void Press() =>
             inputTestFixture.Press(mouse.leftButton);
