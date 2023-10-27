@@ -20,7 +20,7 @@ public class PointerOverObjectTrackerManyObjectsModeTests : InputTestsBase
 
     protected override void Install()
     {
-        Container.Bind<PointerOverObjectTracker>().AsSingle();
+        Container.BindInterfacesAndSelfTo<PointerOverObjectTracker>().AsSingle();
         base.Install();
     }
 
@@ -78,7 +78,7 @@ public class PointerOverObjectTrackerManyObjectsModeTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOne()
     {
-        mouse.MoveTo(ObjectOne);
+        MoveMouseTo(ObjectOne);
         yield return null;
 
         AssertHoveredObjects(ObjectOne);
@@ -90,7 +90,7 @@ public class PointerOverObjectTrackerManyObjectsModeTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOneAndTwo()
     {
-        mouse.MoveTo(objectOneAndTwo);
+        MoveMouseTo(objectOneAndTwo);
         yield return null;
 
         AssertHoveredObjects(ObjectOne, ObjectTwo);
@@ -103,8 +103,8 @@ public class PointerOverObjectTrackerManyObjectsModeTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOneAndTwo_MouseOverEmptySpace()
     {
-        mouse.MoveTo(objectOneAndTwo);
-        mouse.MoveTo(EmptySpace);
+        MoveMouseTo(objectOneAndTwo);
+        MoveMouseTo(EmptySpace);
         yield return null;
 
         AssertHoveredObjects();
@@ -119,8 +119,8 @@ public class PointerOverObjectTrackerManyObjectsModeTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOneAndTwo_MouseOverObjectOne()
     {
-        mouse.MoveTo(objectOneAndTwo);
-        mouse.MoveTo(ObjectOne);
+        MoveMouseTo(objectOneAndTwo);
+        MoveMouseTo(ObjectOne);
         yield return null;
 
         AssertHoveredObjects(ObjectOne);
@@ -134,8 +134,8 @@ public class PointerOverObjectTrackerManyObjectsModeTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOne_MouseOverObjectOneAndTwo()
     {
-        mouse.MoveTo(ObjectOne);
-        mouse.MoveTo(objectOneAndTwo);
+        MoveMouseTo(ObjectOne);
+        MoveMouseTo(objectOneAndTwo);
         yield return null;
 
         AssertHoveredObjects(ObjectOne, ObjectTwo);
@@ -148,8 +148,8 @@ public class PointerOverObjectTrackerManyObjectsModeTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOne_MouseOverObjectTwo()
     {
-        mouse.MoveTo(ObjectOne);
-        mouse.MoveTo(ObjectTwo);
+        MoveMouseTo(ObjectOne);
+        MoveMouseTo(ObjectTwo);
         yield return null;
 
         AssertHoveredObjects(ObjectTwo);
@@ -163,9 +163,9 @@ public class PointerOverObjectTrackerManyObjectsModeTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOne_MouseOverEmptySpace_MouseOverObjectOne()
     {
-        mouse.MoveTo(ObjectOne);
-        mouse.MoveTo(EmptySpace);
-        mouse.MoveTo(ObjectOne);
+        MoveMouseTo(ObjectOne);
+        MoveMouseTo(EmptySpace);
+        MoveMouseTo(ObjectOne);
         yield return null;
 
         AssertHoveredObjects(ObjectOne);
@@ -178,9 +178,9 @@ public class PointerOverObjectTrackerManyObjectsModeTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOne_MouseOverEmptySpace_MouseOverObjectOneAndTwo()
     {
-        mouse.MoveTo(ObjectOne);
-        mouse.MoveTo(EmptySpace);
-        mouse.MoveTo(objectOneAndTwo);
+        MoveMouseTo(ObjectOne);
+        MoveMouseTo(EmptySpace);
+        MoveMouseTo(objectOneAndTwo);
         yield return null;
 
         AssertHoveredObjects(ObjectOne, ObjectTwo);
@@ -194,9 +194,9 @@ public class PointerOverObjectTrackerManyObjectsModeTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOneAndTwo_MouseOverEmptySpace_MouseOverObjectOneAndTwo()
     {
-        mouse.MoveTo(objectOneAndTwo);
-        mouse.MoveTo(EmptySpace);
-        mouse.MoveTo(objectOneAndTwo);
+        MoveMouseTo(objectOneAndTwo);
+        MoveMouseTo(EmptySpace);
+        MoveMouseTo(objectOneAndTwo);
         yield return null;
 
         AssertHoveredObjects(ObjectOne, ObjectTwo);
@@ -211,8 +211,8 @@ public class PointerOverObjectTrackerManyObjectsModeTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOneAndTwo_MouseOverObjectThreeAndFour()
     {
-        mouse.MoveTo(objectOneAndTwo);
-        mouse.MoveTo(objectThreeAndFour);
+        MoveMouseTo(objectOneAndTwo);
+        MoveMouseTo(objectThreeAndFour);
         yield return null;
 
         AssertHoveredObjects(ObjectThree, ObjectFour);
@@ -229,8 +229,10 @@ public class PointerOverObjectTrackerManyObjectsModeTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOne_MoveObjectTwoToObjectOne()
     {
-        mouse.MoveTo(ObjectOne);
+        MoveMouseTo(ObjectOne);
         ObjectTwo.transform.position = ObjectOne.transform.position;
+        yield return null;
+        tracker.FixedTick();
         yield return null;
 
         AssertHoveredObjects(ObjectOne, ObjectTwo);
@@ -238,6 +240,28 @@ public class PointerOverObjectTrackerManyObjectsModeTests : InputTestsBase
         VerifyOnEnterEvent(ObjectTwo, Times.Once());
         VerifyOnEnterEvent(Times.Exactly(2));
         VerifyOnExitEvent(Times.Never());
+    }
+
+    [UnityTest]
+    public IEnumerator MouseOverObjectOne_ObjectOneToObjectTwo()
+    {
+        MoveMouseTo(ObjectOne);
+        ObjectOne.transform.position = ObjectTwo.transform.position;
+        yield return null;
+        tracker.FixedTick();
+        yield return null;
+
+        AssertHoveredObjects();
+        VerifyOnEnterEvent(ObjectOne, Times.Once());
+        VerifyOnEnterEvent(Times.Once());
+        VerifyOnExitEvent(ObjectOne, Times.Once());
+        VerifyOnExitEvent(Times.Once());
+    }
+
+    private void MoveMouseTo(GameObject gameObject)
+    {
+        mouse.MoveTo(gameObject);
+        tracker.FixedTick();
     }
 
     private void AssertHoveredObject(GameObject gameObject) =>

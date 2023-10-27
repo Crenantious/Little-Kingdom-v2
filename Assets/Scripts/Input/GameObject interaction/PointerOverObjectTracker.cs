@@ -2,10 +2,11 @@ using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem.Utilities;
+using Zenject;
 
 namespace LittleKingdom.Input
 {
-    public class PointerOverObjectTracker
+    public class PointerOverObjectTracker : IFixedTickable
     {
         public const int MaxObjects = 10;
 
@@ -66,12 +67,17 @@ namespace LittleKingdom.Input
                 HoveredObject = null;
         }
 
-        private void OnPointerMoved()
+        public void FixedTick()
         {
             if (mode == Mode.TrackFirst)
                 TrackFirstObject();
             else
                 TrackManyObjects();
+        }
+
+        private void OnPointerMoved()
+        {
+
         }
 
         private void TrackFirstObject()
