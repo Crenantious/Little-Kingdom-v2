@@ -62,6 +62,10 @@ public abstract class InputTestsBase : ZenjectUnitTestFixture
     {
         GameObject eventSystem = new();
         eventSystem.AddComponent<EventSystem>();
+
+        // Required to produce consistent results when using physics (i.e. raycasts and moving GameObjects).
+        // The values don't matter as long as they're the same. Not sure why.
+        Time.fixedDeltaTime = Time.captureDeltaTime = 1;
     }
 
     [SetUp]

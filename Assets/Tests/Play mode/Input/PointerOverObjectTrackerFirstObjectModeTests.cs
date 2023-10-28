@@ -13,13 +13,12 @@ public class PointerOverObjectTrackerFirstObjectModeTests : InputTestsBase
     [Inject] private readonly PointerOverObjectTracker tracker;
 
     private MouseUtilities mouse;
-    private GameObject emptySpace;
     private Mock<ITestCallback<GameObject>> onPointerEnter;
     private Mock<ITestCallback<GameObject>> onPointerExit;
 
     protected override void Install()
     {
-        Container.Bind<PointerOverObjectTracker>().AsSingle();
+        Container.BindInterfacesAndSelfTo<PointerOverObjectTracker>().AsSingle();
         base.Install();
     }
 
@@ -69,7 +68,7 @@ public class PointerOverObjectTrackerFirstObjectModeTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOne()
     {
-        mouse.MoveTo(ObjectOne);
+        MoveMouseTo(ObjectOne);
         yield return null;
 
         AssertHoveredObject(ObjectOne);
@@ -81,8 +80,8 @@ public class PointerOverObjectTrackerFirstObjectModeTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOneThenObjectTwo()
     {
-        mouse.MoveTo(ObjectOne);
-        mouse.MoveTo(ObjectTwo);
+        MoveMouseTo(ObjectOne);
+        MoveMouseTo(ObjectTwo);
         yield return null;
 
         AssertHoveredObject(ObjectTwo);
@@ -96,8 +95,8 @@ public class PointerOverObjectTrackerFirstObjectModeTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOneThenEmptySpace()
     {
-        mouse.MoveTo(ObjectOne);
-        mouse.MoveTo(emptySpace);
+        MoveMouseTo(ObjectOne);
+        MoveMouseTo(EmptySpace);
         yield return null;
 
         AssertHoveredObject(null);
@@ -110,14 +109,20 @@ public class PointerOverObjectTrackerFirstObjectModeTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOneThenMoveInsideObjectOne()
     {
-        mouse.MoveTo(ObjectOne);
-        mouse.MoveTo(ObjectOne, new Vector3(0.1f, 0, 0));
+        MoveMouseTo(ObjectOne);
+        MoveMouseTo(ObjectOne, new Vector3(0.1f, 0, 0));
         yield return null;
 
         AssertHoveredObject(ObjectOne);
         VerifyOnEnterEvent(ObjectOne, Times.Once());
         VerifyOnEnterEvent(Times.Once());
         VerifyOnExitEvent(Times.Never());
+    }
+
+    private void MoveMouseTo(GameObject gameObject, Vector3? offset = null)
+    {
+        mouse.MoveTo(gameObject, offset);
+        tracker.FixedTick();
     }
 
     private void AssertHoveredObject(GameObject gameObject) =>

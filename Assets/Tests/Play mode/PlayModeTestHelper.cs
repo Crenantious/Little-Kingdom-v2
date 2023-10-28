@@ -49,8 +49,8 @@ namespace PlayModeTests
         {
             CreateCamera();
 
-            (string, Action) verifyButton = concludeAfterVerify ? 
-                ("Verify and conclude", () => { ConcludeTest(); verifyCallback(); }) :
+            (string, Action) verifyButton = concludeAfterVerify ?
+                ("Verify and conclude", () => { ConcludeTest(); verifyCallback(); } ) :
                 ("Verify", verifyCallback);
 
             dialogBox.Open("Test helper", false,
@@ -62,6 +62,17 @@ namespace PlayModeTests
         public bool MoveNext() => !isTestFinished;
 
         public void Reset() { }
+
+        /// <summary>
+        /// Pauses the test to allow for scene inspection.
+        /// </summary>
+        public static IEnumerator Pause()
+        {
+            while (true)
+            {
+                yield return null;
+            }
+        }
 
         private void CreateCamera() =>
             new GameObject().AddComponent<Camera>();

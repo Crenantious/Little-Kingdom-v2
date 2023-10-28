@@ -44,6 +44,7 @@ namespace LittleKingdom.Input
 
             /// <summary>
             /// Tracks all objects under the pointer up to the specified amount.
+            /// Note that the order is not guaranteed nor is it guaranteed to return the closest <see cref="GameObjects"/>.
             /// </summary>
             TrackMany
         }
@@ -52,17 +53,21 @@ namespace LittleKingdom.Input
         {
             this.input = input;
             this.raycastFromPointer = raycastFromPointer;
-            this.input.PointerMoved += OnPointerMoved;
 
             HoveredObjects = new ReadOnlyArray<GameObject>(currentHoveredObjects);
         }
 
+        /// <summary>
+        /// Changing mode will clear all tracked objects. Meaning, a <see cref="GameObject"/>
+        /// could be immediately tracked by the new mode and fire events for it.
+        /// </summary>
+        /// <param name="mode"></param>
         public void SetMode(Mode mode)
         {
             this.mode = mode;
 
             if (mode == Mode.TrackFirst)
-                Array.Clear(newHoveredObjects, 0, MaxObjects);
+                Array.Clear(currentHoveredObjects, 0, MaxObjects);
             else
                 HoveredObject = null;
         }
@@ -73,11 +78,6 @@ namespace LittleKingdom.Input
                 TrackFirstObject();
             else
                 TrackManyObjects();
-        }
-
-        private void OnPointerMoved()
-        {
-
         }
 
         private void TrackFirstObject()
@@ -114,13 +114,13 @@ namespace LittleKingdom.Input
         {
             foreach (GameObject gameObject in newHoveredObjects)
             {
-                if (!currentHoveredObjects.Contains(gameObject))
+                if (gameObject && !currentHoveredObjects.Contains(gameObject))
                     ObjectEntered.Invoke(gameObject);
             }
 
             foreach (GameObject gameObject in currentHoveredObjects)
             {
-                if (!newHoveredObjects.Contains(gameObject))
+                if (gameObject && !newHoveredObjects.Contains(gameObject))
                     ObjectExited.Invoke(gameObject);
             }
         }
