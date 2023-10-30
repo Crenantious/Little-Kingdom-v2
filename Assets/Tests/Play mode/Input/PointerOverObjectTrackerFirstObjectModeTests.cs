@@ -62,6 +62,17 @@ public class PointerOverObjectTrackerFirstObjectModeTests : InputTestsBase
     public IEnumerator DoNothing_NoObjectHovered()
     {
         yield return null;
+
+        AssertHoveredObject(null);
+    }
+
+    [UnityTest]
+    public IEnumerator MouseOverEmptySpace_NoObjectHovered()
+    {
+        MoveMouseTo(EmptySpace);
+
+        yield return null;
+
         AssertHoveredObject(null);
     }
 
@@ -107,7 +118,7 @@ public class PointerOverObjectTrackerFirstObjectModeTests : InputTestsBase
     }
 
     [UnityTest]
-    public IEnumerator MouseOverObjectOneThenMoveInsideObjectOne()
+    public IEnumerator MouseOverObjectOneThenMoveWhileStillInsideObjectOne()
     {
         MoveMouseTo(ObjectOne);
         MoveMouseTo(ObjectOne, new Vector3(0.1f, 0, 0));
@@ -116,6 +127,74 @@ public class PointerOverObjectTrackerFirstObjectModeTests : InputTestsBase
         AssertHoveredObject(ObjectOne);
         VerifyOnEnterEvent(ObjectOne, Times.Once());
         VerifyOnEnterEvent(Times.Once());
+        VerifyOnExitEvent(Times.Never());
+    }
+
+    [UnityTest]
+    public IEnumerator MouseOverObjectOneAndTwo_ObjectOneIsAlwaysHovered()
+    {
+        int count = 10000;
+        ObjectTwo.transform.position = ObjectOne.transform.position + Vector3.forward;
+        yield return null;
+        mouse.MoveTo(ObjectOne);
+
+        // Eliminating possible selection randomness.
+        for (int i = 0; i < count; i++)
+        {
+            tracker.FixedTick();
+        }
+        yield return null;
+
+        AssertHoveredObject(ObjectOne);
+        VerifyOnEnterEvent(ObjectOne, Times.Once());
+        VerifyOnEnterEvent(Times.Once());
+        VerifyOnExitEvent(Times.Never());
+    }
+
+    [UnityTest]
+    public IEnumerator MouseOverObjectOne_MoveObjectTwoInFrontOfObjectOne()
+    {
+        MoveMouseTo(ObjectOne);
+        ObjectTwo.transform.position = ObjectOne.transform.position - Vector3.forward;
+        yield return null;
+
+        tracker.FixedTick();
+
+        AssertHoveredObject(ObjectTwo);
+        VerifyOnEnterEvent(ObjectOne, Times.Once());
+        VerifyOnEnterEvent(ObjectTwo, Times.Once());
+        VerifyOnEnterEvent(Times.Exactly(2));
+        VerifyOnExitEvent(ObjectOne, Times.Once());
+        VerifyOnExitEvent(Times.Once());
+    }
+
+    [UnityTest]
+    public IEnumerator MouseOverObjectOne_MoveObjectOneAwayFromMouse()
+    {
+        MoveMouseTo(ObjectOne);
+        ObjectOne.transform.position = EmptySpace.transform.position;
+        yield return null;
+
+        tracker.FixedTick();
+
+        AssertHoveredObject(null);
+        VerifyOnEnterEvent(ObjectOne, Times.Once());
+        VerifyOnEnterEvent(Times.Once());
+        VerifyOnExitEvent(ObjectOne, Times.Once());
+        VerifyOnExitEvent(Times.Once());
+    }
+
+    [UnityTest]
+    public IEnumerator MouseOverObjectOne_DestroyObjectOneBeforeTrackerUpdates()
+    {
+        mouse.MoveTo(ObjectOne);
+        Object.Destroy(ObjectOne);
+        yield return null;
+
+        tracker.FixedTick();
+
+        AssertHoveredObject(null);
+        VerifyOnEnterEvent(Times.Never());
         VerifyOnExitEvent(Times.Never());
     }
 
