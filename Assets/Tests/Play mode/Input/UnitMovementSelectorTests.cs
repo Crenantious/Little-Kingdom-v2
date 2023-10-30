@@ -12,9 +12,9 @@ using UnityEngine.InputSystem;
 using UnityEngine.TestTools;
 using Zenject;
 
-public class UnitMovementTests : InputTestsBase
+public class UnitMovementSelectorTests : InputTestsBase
 {
-    [Inject] private readonly UnitMovement movement;
+    [Inject] private readonly UnitMovementSelector movement;
 
     private MouseUtilities mouse;
     private GameObject unit;
@@ -35,7 +35,7 @@ public class UnitMovementTests : InputTestsBase
 
     protected override void Install()
     {
-        Container.Bind<UnitMovement>().AsSingle();
+        Container.Bind<UnitMovementSelector>().AsSingle();
         tile = Container.InstantiatePrefab(tilePrefab);
         base.Install();
     }

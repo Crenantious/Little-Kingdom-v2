@@ -6,7 +6,7 @@ using Zenject;
 
 namespace LittleKingdom.Units
 {
-    public class UnitMovement : MonoBehaviour
+    public class UnitMovementSelector : MonoBehaviour
     {
         private Tile hoveredTile;
         private Unit selectedUnit;
