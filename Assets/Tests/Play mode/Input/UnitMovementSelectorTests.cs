@@ -1,4 +1,5 @@
 using InfoPanelTests;
+using LittleKingdom;
 using LittleKingdom.Board;
 using LittleKingdom.Input;
 using LittleKingdom.PlayModeTests.Utilities;
@@ -7,20 +8,24 @@ using Moq;
 using NUnit.Framework;
 using PlayModeTests;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.TestTools;
 using Zenject;
 
 public class UnitMovementSelectorTests : InputTestsBase
 {
-    [Inject] private readonly UnitMovementSelector movement;
+    [Inject] private readonly PointerOverObjectTracker pointerHover;
 
     private MouseUtilities mouse;
     private GameObject unit;
     private GameObject tilePrefab;
-    private GameObject tile;
-    private GameObject unitSlots;
+    private GameObject tileOne;
+    private GameObject tileTwo;
+    private TileUnitSlots unitSlotsOne;
+    private TileUnitSlots unitSlotsTwo;
+    private List<TileUnitSlots> allUnitSlots;
     private Mock<ITestCallback<GameObject>> onPointerEnter;
     private Mock<ITestCallback<GameObject>> onPointerExit;
 
@@ -28,15 +33,17 @@ public class UnitMovementSelectorTests : InputTestsBase
     {
         base.PreInstall();
 
-        unit = new GameObject();
+        unit = CreateTestObject("Unit");
         unit.AddComponent<Unit>();
+        unit.AddComponent<Selectable>();
         tilePrefab = TestUtilities.LoadPrefab("Tile");
     }
 
     protected override void Install()
     {
         Container.Bind<UnitMovementSelector>().AsSingle();
-        tile = Container.InstantiatePrefab(tilePrefab);
+        Container.Bind<SelectedObjectTracker>().AsSingle();
+        Container.Bind<PointerOverObjectTracker>().AsSingle();
         base.Install();
     }
 
@@ -44,11 +51,16 @@ public class UnitMovementSelectorTests : InputTestsBase
     {
         base.PostInstall();
 
-        // Z of 10 is needed so everything fits in the camera's view
-        unit.transform.position = new(2, 0, 10);
-        tile.transform.position = new(0, 0, 10);
+        (tileOne, unitSlotsOne) = CreateTile("Tile one");
+        (tileTwo, unitSlotsTwo) = CreateTile("Tile two");
+        allUnitSlots = new() { unitSlotsOne, unitSlotsTwo };
 
-        unitSlots = tile.GetComponent<Tile>().UnitSlots.gameObject;
+        Camera.transform.SetPositionAndRotation(new(0, 0, 0), Quaternion.Euler(90, 0, 0));
+        unit.transform.position = new(0, -10, 0);
+        tileOne.transform.position = new(0, -10, 0);
+        tileTwo.transform.position = new(2, -10, 0);
+
+        pointerHover.SetMode(PointerOverObjectTracker.Mode.TrackMany);
 
         onPointerEnter = new();
         onPointerExit = new();
@@ -60,7 +72,7 @@ public class UnitMovementSelectorTests : InputTestsBase
 
     protected override void SetupInputSystem()
     {
-        mouse = new(InputTestFixture, Camera, Inputs.Standard);
+        mouse = new(InputTestFixture, Camera, Inputs.Standard, pointerHover);
         base.SetupInputSystem();
     }
 
@@ -68,45 +80,72 @@ public class UnitMovementSelectorTests : InputTestsBase
     public override void TearDown()
     {
         Inputs.Standard.Disable();
+        Object.Destroy(tileOne);
+        Object.Destroy(tileTwo);
         base.TearDown();
     }
 
     [UnityTest]
-    public IEnumerator ClickOnUnit_UnitSlotsNotShown()
+    public IEnumerator ClickOnUnit_UnitSlotsOneShown()
     {
-        mouse.PressOn(unit);
+        mouse.PressAndReleaseOn(unit);
         yield return null;
-        AssertSlotsActive(false);
+        pointerHover.FixedTick();
+        yield return null;
+
+        AssertSlotsActive(unitSlotsOne);
+    }
+
+    [UnityTest]
+    public IEnumerator MoveTileOneAway_ClickOnUnit_UnitSlotsOneNotShown()
+    {
+        tileOne.transform.position += Vector3.left * 2;
+
+        mouse.PressOn(unit);
+        pointerHover.FixedTick();
+        yield return null;
+
+        AssertSlotsActive();
     }
 
     [UnityTest]
     public IEnumerator HoverOverTile_UnitSlotsNotShown()
     {
-        mouse.MoveTo(tile);
+        mouse.MoveTo(tileOne);
         yield return null;
-        AssertSlotsActive(false);
+
+        AssertSlotsActive();
     }
 
     [UnityTest]
-    public IEnumerator ClickOnUnit_HoverOverTile_UnitSlotsShown()
+    public IEnumerator ClickOnUnit_HoverOverTileTwo_UnitSlotsShown()
     {
-        mouse.PressOn(unit);
-        mouse.MoveTo(tile);
+        mouse.PressAndReleaseOn(unit);
         yield return null;
-        AssertSlotsActive(true);
+
+        mouse.MoveTo(tileTwo);
+        yield return null;
+
+        AssertSlotsActive(unitSlotsTwo);
     }
 
-    [UnityTest]
-    public IEnumerator HoverOverTile_ClickOnUnit_UnitSlotsShown()
+    private (GameObject tile, TileUnitSlots slots) CreateTile(string name)
     {
-        mouse.MoveTo(tile);
-        mouse.PressOn(unit);
-        yield return null;
-        AssertSlotsActive(true);
+        Tile tile = Container.InstantiatePrefab(tilePrefab).GetComponent<Tile>();
+        tile.name = name;
+        tile.Initialise(new());
+
+        TileUnitSlots slots = tile.GetComponent<Tile>().UnitSlots;
+        slots.name = name + " unit slots";
+
+        return (tile.gameObject, slots);
     }
 
-    // TODO: JR - add more tests once the hover tracker gets updated.
-
-    private void AssertSlotsActive(bool active) =>
-        Assert.AreEqual(active, unitSlots.activeInHierarchy);
+    private void AssertSlotsActive(params TileUnitSlots[] slots)
+    {
+        foreach (TileUnitSlots slot in allUnitSlots)
+        {
+            Assert.AreEqual(slots.Contains(slot), slot.gameObject.activeInHierarchy, $"{slot.name} is active.");
+        }
+    }
 }

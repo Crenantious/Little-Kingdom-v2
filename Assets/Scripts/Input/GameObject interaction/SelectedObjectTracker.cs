@@ -30,9 +30,6 @@ namespace LittleKingdom.Input
 
         private void OnPointerPress()
         {
-            if (raycastFromPointer.IsPointerOverUIElement())
-                return;
-
             objectPressedOn = GetSelectableUnderPointer();
             isPointerPressed = true;
         }
@@ -85,7 +82,6 @@ namespace LittleKingdom.Input
         {
             Selected = objectPressedOn;
             ObjectSelected?.Invoke(Selected);
-            Debug.Log("Selected: " + Selected.name);
         }
 
         private void DeselectObject()

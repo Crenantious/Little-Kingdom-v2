@@ -1,47 +1,61 @@
 using LittleKingdom.Board;
 using LittleKingdom.Input;
-using System;
 using UnityEngine;
 using Zenject;
 
 namespace LittleKingdom.Units
 {
-    public class UnitMovementSelector : MonoBehaviour
+    public class UnitMovementSelector
     {
-        private Tile hoveredTile;
-        private Unit selectedUnit;
+        private PointerOverObjectTracker pointerHover;
+        private Tile tile;
+        private TileUnitSlot unitSlot;
 
         [Inject]
-        public void Construct(SelectedObjectTracker selectionTracker, PointerOverObjectTracker hoverTracker)
+        public void Construct(SelectedObjectTracker pointerSelection, PointerOverObjectTracker pointerHover)
         {
-            selectionTracker.ObjectSelected += OnObjectSelected;
-            selectionTracker.ObjectDeselected += OnObjectDeselected;
-            hoverTracker.ObjectEntered += ObjectEntered;
-            hoverTracker.ObjectExited += ObjectExited;
+            this.pointerHover = pointerHover;
+
+            pointerSelection.ObjectSelected += OnObjectSelected;
+            pointerSelection.ObjectDeselected += OnObjectDeselected;
         }
 
         private void OnObjectSelected(Selectable selectable)
         {
-            if (selectable.TryGetComponent(out Unit unit))
-                selectedUnit = unit;
+            if (selectable.TryGetComponent(out Unit _))
+            {
+                pointerHover.ObjectEntered += OnObjectEnter;
+                pointerHover.ObjectExited += OnObjectExit;
+                pointerHover.SetMode(PointerOverObjectTracker.Mode.TrackMany);
+            }
         }
 
         private void OnObjectDeselected(Selectable selectable)
         {
             if (selectable.TryGetComponent(out Unit _))
-                selectedUnit = null;
+            {
+                pointerHover.ObjectEntered -= OnObjectEnter;
+                pointerHover.ObjectExited -= OnObjectExit;
+                pointerHover.SetMode(PointerOverObjectTracker.Mode.TrackFirst);
+            }
         }
 
-        private void ObjectEntered(GameObject gameObject)
+        private void OnObjectEnter(GameObject gameObject)
         {
-            if (selectedUnit != null && gameObject.TryGetComponent(out TileUnitSlots slots))
-                slots.gameObject.SetActive(true);
+            if (tile && gameObject.TryGetComponent(out unitSlot))
+                unitSlot.ShowAvailability();
+
+            else if (gameObject.TryGetComponent(out tile))
+                tile.UnitSlots.gameObject.SetActive(true);
         }
 
-        private void ObjectExited(GameObject args)
+        private void OnObjectExit(GameObject gameObject)
         {
-            if (selectedUnit != null && gameObject.TryGetComponent(out TileUnitSlots slots))
-                slots.gameObject.SetActive(false);
+            if (gameObject == unitSlot)
+                unitSlot.HideAvailability();
+
+            else if (gameObject == tile)
+                tile.UnitSlots.gameObject.SetActive(false);
         }
     }
 }

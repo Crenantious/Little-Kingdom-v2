@@ -11,9 +11,9 @@ namespace LittleKingdom
     {
         public const string UIDocumentPath = "Graphics/UI/UI toolkit/";
 
-        public static T GetAsset<T>(string name, params string[] paths) where T : Object
+        public static T GetAsset<T>(string name, string selectionParameters = "", params string[] paths) where T : Object
         {
-            bool wasFound = TryGetAsset<T>(name, out T asset, paths);
+            bool wasFound = TryGetAsset<T>(name, out T asset, selectionParameters, paths);
 
             if (wasFound is false)
                 throw new AssetFoundException(typeof(T), name);
@@ -21,11 +21,11 @@ namespace LittleKingdom
             return asset;
         }
 
-        public static bool TryGetAsset<T>(string name, out T asset, params string[] paths) where T : Object
+        public static bool TryGetAsset<T>(string name, out T asset, string selectionParameters = "", params string[] paths) where T : Object
         {
             string[] guids = paths.Length == 0 ?
-                             AssetDatabase.FindAssets(name) :
-                             AssetDatabase.FindAssets(name, paths);
+                             AssetDatabase.FindAssets($"{name} {selectionParameters}") :
+                             AssetDatabase.FindAssets($"{name} {selectionParameters}", paths);
 
             // AssetDatabase.FindAssets searches using substrings so we need to filter for the exact name.
             IEnumerable<string> assetPaths = guids.Select(g => AssetDatabase.GUIDToAssetPath(g))

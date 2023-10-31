@@ -1,8 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using System.Linq;
-using System;
 
 namespace LittleKingdom.Input
 {
@@ -50,10 +49,9 @@ namespace LittleKingdom.Input
             // This means the pointer is over a UI element.
             if (ignoreUI is false && IsPointerOverUIElement())
             {
-                Array.ForEach(hits, h => h = new());
+                Array.ForEach(hits, h => h = default);
                 return 0;
             }
-
             Ray ray = references.ActiveCamera.ScreenPointToRay(input.GetPointerPosition());
             return Physics.RaycastNonAlloc(ray, hits, maxDistance);
         }

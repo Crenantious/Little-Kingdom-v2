@@ -70,6 +70,8 @@ namespace PlayModeTests
         {
             while (true)
             {
+                // TODO: JR - this causes recursive errors once the test is canceled that
+                // requires Unity to be restarted. Fix.
                 yield return null;
             }
         }

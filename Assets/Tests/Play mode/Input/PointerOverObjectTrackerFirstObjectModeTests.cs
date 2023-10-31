@@ -45,7 +45,7 @@ public class PointerOverObjectTrackerFirstObjectModeTests : InputTestsBase
 
     protected override void SetupInputSystem()
     {
-        mouse = new(InputTestFixture, Camera, Inputs.Standard);
+        mouse = new(InputTestFixture, Camera, Inputs.Standard, tracker);
         base.SetupInputSystem();
     }
 
@@ -69,7 +69,7 @@ public class PointerOverObjectTrackerFirstObjectModeTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverEmptySpace_NoObjectHovered()
     {
-        MoveMouseTo(EmptySpace);
+        mouse.MoveTo(EmptySpace);
 
         yield return null;
 
@@ -79,7 +79,7 @@ public class PointerOverObjectTrackerFirstObjectModeTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOne()
     {
-        MoveMouseTo(ObjectOne);
+        mouse.MoveTo(ObjectOne);
         yield return null;
 
         AssertHoveredObject(ObjectOne);
@@ -91,8 +91,8 @@ public class PointerOverObjectTrackerFirstObjectModeTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOneThenObjectTwo()
     {
-        MoveMouseTo(ObjectOne);
-        MoveMouseTo(ObjectTwo);
+        mouse.MoveTo(ObjectOne);
+        mouse.MoveTo(ObjectTwo);
         yield return null;
 
         AssertHoveredObject(ObjectTwo);
@@ -106,8 +106,8 @@ public class PointerOverObjectTrackerFirstObjectModeTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOneThenEmptySpace()
     {
-        MoveMouseTo(ObjectOne);
-        MoveMouseTo(EmptySpace);
+        mouse.MoveTo(ObjectOne);
+        mouse.MoveTo(EmptySpace);
         yield return null;
 
         AssertHoveredObject(null);
@@ -120,8 +120,8 @@ public class PointerOverObjectTrackerFirstObjectModeTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOneThenMoveWhileStillInsideObjectOne()
     {
-        MoveMouseTo(ObjectOne);
-        MoveMouseTo(ObjectOne, new Vector3(0.1f, 0, 0));
+        mouse.MoveTo(ObjectOne);
+        mouse.MoveTo(ObjectOne, new Vector3(0.1f, 0, 0));
         yield return null;
 
         AssertHoveredObject(ObjectOne);
@@ -136,7 +136,7 @@ public class PointerOverObjectTrackerFirstObjectModeTests : InputTestsBase
         int count = 10000;
         ObjectTwo.transform.position = ObjectOne.transform.position + Vector3.forward;
         yield return null;
-        mouse.MoveTo(ObjectOne);
+        mouse.MoveTo(ObjectOne, tickTracker: false);
 
         // Eliminating possible selection randomness.
         for (int i = 0; i < count; i++)
@@ -154,7 +154,7 @@ public class PointerOverObjectTrackerFirstObjectModeTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOne_MoveObjectTwoInFrontOfObjectOne()
     {
-        MoveMouseTo(ObjectOne);
+        mouse.MoveTo(ObjectOne);
         ObjectTwo.transform.position = ObjectOne.transform.position - Vector3.forward;
         yield return null;
 
@@ -171,7 +171,7 @@ public class PointerOverObjectTrackerFirstObjectModeTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOne_MoveObjectOneAwayFromMouse()
     {
-        MoveMouseTo(ObjectOne);
+        mouse.MoveTo(ObjectOne);
         ObjectOne.transform.position = EmptySpace.transform.position;
         yield return null;
 
@@ -187,7 +187,7 @@ public class PointerOverObjectTrackerFirstObjectModeTests : InputTestsBase
     [UnityTest]
     public IEnumerator MouseOverObjectOne_DestroyObjectOneBeforeTrackerUpdates()
     {
-        mouse.MoveTo(ObjectOne);
+        mouse.MoveTo(ObjectOne, tickTracker: false);
         Object.Destroy(ObjectOne);
         yield return null;
 
@@ -196,12 +196,6 @@ public class PointerOverObjectTrackerFirstObjectModeTests : InputTestsBase
         AssertHoveredObject(null);
         VerifyOnEnterEvent(Times.Never());
         VerifyOnExitEvent(Times.Never());
-    }
-
-    private void MoveMouseTo(GameObject gameObject, Vector3? offset = null)
-    {
-        mouse.MoveTo(gameObject, offset);
-        tracker.FixedTick();
     }
 
     private void AssertHoveredObject(GameObject gameObject) =>

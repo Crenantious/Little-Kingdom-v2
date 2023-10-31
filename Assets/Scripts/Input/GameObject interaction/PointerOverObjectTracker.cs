@@ -10,7 +10,6 @@ namespace LittleKingdom.Input
     {
         public const int MaxObjects = 10;
 
-        private readonly StandardInput input;
         private readonly RaycastFromPointer raycastFromPointer;
         private readonly RaycastHit[] raycastHits = new RaycastHit[MaxObjects];
         private readonly GameObject[] currentHoveredObjects = new GameObject[MaxObjects];
@@ -49,9 +48,8 @@ namespace LittleKingdom.Input
             TrackMany
         }
 
-        public PointerOverObjectTracker(StandardInput input, RaycastFromPointer raycastFromPointer)
+        public PointerOverObjectTracker(RaycastFromPointer raycastFromPointer)
         {
-            this.input = input;
             this.raycastFromPointer = raycastFromPointer;
 
             HoveredObjects = new ReadOnlyArray<GameObject>(currentHoveredObjects);
@@ -93,10 +91,10 @@ namespace LittleKingdom.Input
                 return;
 
             if (currentObjectUnderPointer != null)
-                ObjectExited.Invoke(currentObjectUnderPointer);
+                ObjectExited?.Invoke(currentObjectUnderPointer);
 
             if (newObjectUnderPointer != null)
-                ObjectEntered.Invoke(newObjectUnderPointer);
+                ObjectEntered?.Invoke(newObjectUnderPointer);
         }
 
         private void TrackManyObjects()
@@ -115,13 +113,13 @@ namespace LittleKingdom.Input
             foreach (GameObject gameObject in newHoveredObjects)
             {
                 if (gameObject && !currentHoveredObjects.Contains(gameObject))
-                    ObjectEntered.Invoke(gameObject);
+                    ObjectEntered?.Invoke(gameObject);
             }
 
             foreach (GameObject gameObject in currentHoveredObjects)
             {
                 if (gameObject && !newHoveredObjects.Contains(gameObject))
-                    ObjectExited.Invoke(gameObject);
+                    ObjectExited?.Invoke(gameObject);
             }
         }
 
@@ -129,9 +127,6 @@ namespace LittleKingdom.Input
         {
             Array.Clear(newHoveredObjects, 0, MaxObjects);
             Array.Clear(raycastHits, 0, MaxObjects);
-
-            if (raycastFromPointer.IsPointerOverUIElement())
-                return;
 
             raycastFromPointer.CastAllTo3D(raycastHits);
 
