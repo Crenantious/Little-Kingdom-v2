@@ -56,7 +56,7 @@ namespace IntegrationTests
         [UnityTest]
         public IEnumerator BeginFirstTurn_VerifyHUDContentsForPlayerOne()
         {
-            testHelper.Initialise();
+            testHelper.OpenDialogBox();
 
             turnTransitions.BeginFirstTurn();
 
@@ -66,7 +66,7 @@ namespace IntegrationTests
         [UnityTest]
         public IEnumerator BeginFirstTurn_EndTurn_VerifyHUDContentsForPlayerTwo()
         {
-            testHelper.Initialise();
+            testHelper.OpenDialogBox();
 
             turnTransitions.BeginFirstTurn();
 

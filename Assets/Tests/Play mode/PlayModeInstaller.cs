@@ -1,6 +1,4 @@
 ﻿using LittleKingdom;
-using LittleKingdom.Buildings;
-using LittleKingdom.UI;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -12,7 +10,7 @@ namespace PlayModeTests
 {
     public class PlayModeInstaller : Installer<PlayModeInstaller>
     {
-        private HashSet<BindType> excludeBinds = new();
+        private static HashSet<BindType> excludeBinds = new();
 
         public enum BindType
         {
@@ -23,7 +21,7 @@ namespace PlayModeTests
             PlayModeTestHelper,
         }
 
-        public void ExcludeFromInstall(params BindType[] exclude) =>
+        public static void ExcludeFromInstall(params BindType[] exclude) =>
             excludeBinds = exclude.ToHashSet();
 
         public override void InstallBindings()

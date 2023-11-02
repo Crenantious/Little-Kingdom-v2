@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1557694196202330375}
   - component: {fileID: 6572735202645569742}
   m_Layer: 0
-  m_Name: Tile's unit slot
+  m_Name: Tile unit slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3637498752056634829
 MeshFilter:

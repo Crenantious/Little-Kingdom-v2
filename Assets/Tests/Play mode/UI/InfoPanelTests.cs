@@ -42,7 +42,7 @@ namespace InfoPanelTests
         public IEnumerator OpenBuildingInfoDisplay_VerifyContent()
         {
             (Mock<ITestCallback> _, Building building) = CreateObjects();
-            testHelper.Initialise();
+            testHelper.OpenDialogBox();
 
             ShowPanel(building);
 
@@ -53,7 +53,7 @@ namespace InfoPanelTests
         public IEnumerator OpenBuildingInfoDisplay_DoNotPressUpgrade_WasNotUpgraded()
         {
             (Mock<ITestCallback> testCallback, Building building) = CreateObjects();
-            testHelper.Initialise(() => testCallback.Verify(t => t.Callback(), Times.Never()), true);
+            testHelper.OpenDialogBox(() => testCallback.Verify(t => t.Callback(), Times.Never()), true);
 
             ShowPanel(building);
 
@@ -64,7 +64,7 @@ namespace InfoPanelTests
         public IEnumerator OpenBuildingInfoDisplay_PressUpgrade_WasUpgraded()
         {
             (Mock<ITestCallback> testCallback, Building building) = CreateObjects();
-            testHelper.Initialise(() => testCallback.Verify(t => t.Callback(), Times.Once()), true);
+            testHelper.OpenDialogBox(() => testCallback.Verify(t => t.Callback(), Times.Once()), true);
 
             ShowPanel(building);
 

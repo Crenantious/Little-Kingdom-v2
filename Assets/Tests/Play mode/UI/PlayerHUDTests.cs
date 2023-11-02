@@ -49,7 +49,7 @@ namespace PlayModeTests
         public IEnumerator OpenHUD_VerifyContentWithUniqueValues()
         {
             Mock<ICharacter> character = CreateCharacter(uniqueResourceAmounts, 6, 7, 8);
-            testHelper.Initialise();
+            testHelper.OpenDialogBox();
 
             playerHUD.Show(character.Object);
 
@@ -61,7 +61,7 @@ namespace PlayModeTests
         public IEnumerator OpenHUD_VerifyContentWithMaxValues()
         {
             Mock<ICharacter> character = CreateCharacter(maxResourceAmounts, maxValue, maxValue, maxValue);
-            testHelper.Initialise();
+            testHelper.OpenDialogBox();
 
             playerHUD.Show(character.Object);
 
@@ -72,7 +72,7 @@ namespace PlayModeTests
         public IEnumerator OpenHUD_ChangeCharacterData_UpdateHUD_VerifyContentUpdatedCorrectly()
         {
             Mock<ICharacter> character = CreateCharacter(uniqueResourceAmounts, 6, 7, 8);
-            testHelper.Initialise(("Modify character", () => ModifyCharacterAndUpdateHUD(character.Object)));
+            testHelper.OpenDialogBox(("Modify character", () => ModifyCharacterAndUpdateHUD(character.Object)));
 
             playerHUD.Show(character.Object);
 
@@ -84,7 +84,7 @@ namespace PlayModeTests
         {
             Mock<ICharacter> characterOne = CreateCharacter(uniqueResourceAmounts, 6, 7, 8);
             Mock<ICharacter> characterTwo = CreateCharacter(maxResourceAmounts, 1, 2, 3);
-            testHelper.Initialise();
+            testHelper.OpenDialogBox();
 
             playerHUD.Show(characterOne.Object);
             playerHUD.Hide();
@@ -98,7 +98,7 @@ namespace PlayModeTests
         {
             Mock<ICharacter> characterOne = CreateCharacter(uniqueResourceAmounts, 6, 7, 8);
             Mock<ICharacter> characterTwo = CreateCharacter(maxResourceAmounts, 1, 2, 3);
-            testHelper.Initialise();
+            testHelper.OpenDialogBox();
 
             playerHUD.Show(characterOne.Object);
             playerHUD.Show(characterTwo.Object);
@@ -113,7 +113,7 @@ namespace PlayModeTests
             Mock<ICharacter> character = CreateCharacter(uniqueResourceAmounts, 6, 7, 8);
             Mock<ICharacterTurn> turn = new();
             character.Setup(c => c.Turn).Returns(turn.Object);
-            testHelper.Initialise(() => turn.Verify(t => t.End(), Times.Once()), true);
+            testHelper.OpenDialogBox(() => turn.Verify(t => t.End(), Times.Once()), true);
 
             playerHUD.Show(character.Object);
 

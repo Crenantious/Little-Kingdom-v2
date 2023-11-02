@@ -1,7 +1,9 @@
 using LittleKingdom;
 using LittleKingdom.Input;
+using LittleKingdom.UI;
 using Moq;
 using NUnit.Framework;
+using PlayModeTests;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -14,6 +16,7 @@ public abstract class InputTestsBase : ZenjectUnitTestFixture
 
     [Inject] protected RaycastFromPointer RaycastFromPointer { get; }
     [Inject] protected Inputs Inputs { get; }
+    [Inject] protected PlayModeTestHelper TestHelper { get; }
 
     protected Mock<IReferences> References { get; set; } = new();
 
@@ -60,8 +63,8 @@ public abstract class InputTestsBase : ZenjectUnitTestFixture
     [OneTimeSetUp]
     public void OneTimeSetup()
     {
-        GameObject eventSystem = new();
-        eventSystem.AddComponent<EventSystem>();
+        // TODO: JR - fix this regarding the DialogBox.
+        Object.Instantiate(TestUtilities.LoadPrefab("Test EventSystem"));
 
         // Required to produce consistent results when using physics (i.e. raycasts and moving GameObjects).
         // The values don't matter as long as they're the same. Not sure why.
@@ -85,12 +88,19 @@ public abstract class InputTestsBase : ZenjectUnitTestFixture
 
     protected virtual void Install()
     {
+        // TODO: JR - ensure the PlayModeInstaller meets all needs then cleanup the binds (from here) it installs.
         References.Setup(r => r.ActiveCamera).Returns(Camera);
-
-        Container.Bind<IReferences>().FromInstance(References.Object).AsSingle();
-        Container.Bind<Inputs>().AsSingle();
-        Container.Bind<StandardInput>().AsSingle();
-        Container.Bind<RaycastFromPointer>().AsSingle();
+        //playModeInstaller.ExcludeFromInstall( PlayModeInstaller.BindType.);
+        UIInstaller.ExcludeFromInstall(UIInstaller.BindType.PlayerHUD);
+        PlayModeInstaller.Install(Container);
+        //UIInstaller.InstallFromResource(Container);
+        //Container.Bind<IReferences>().FromInstance(References.Object).AsSingle();
+        //Container.Bind<Inputs>().AsSingle();
+        //Container.Bind<StandardInput>().AsSingle();
+        //Container.Bind<RaycastFromPointer>().AsSingle();
+        //var dialogBox = Container.InstantiatePrefabForComponent<DialogBox>(TestUtilities.LoadPrefab("Dialog box"));
+        //Container.BindInstance(dialogBox).AsSingle();
+        //Container.Bind<PlayModeTestHelper>().AsSingle();
         Container.Inject(this);
     }
 

@@ -33,7 +33,7 @@ namespace LittleKingdom.Input
                 return false;
             }
 
-            Ray ray = references.ActiveCamera.ScreenPointToRay(input.GetPointerPosition());
+            Ray ray = GetRay();
             return Physics.Raycast(ray, out hit, maxDistance);
         }
 
@@ -52,7 +52,7 @@ namespace LittleKingdom.Input
                 Array.ForEach(hits, h => h = default);
                 return 0;
             }
-            Ray ray = references.ActiveCamera.ScreenPointToRay(input.GetPointerPosition());
+            Ray ray = GetRay();
             return Physics.RaycastNonAlloc(ray, hits, maxDistance);
         }
 
@@ -71,6 +71,16 @@ namespace LittleKingdom.Input
             return results.Count > 0;
         }
 
+        public void DrawDebugRay(float distance, Color? colour = null, float duration = 5)
+        {
+            Ray ray = GetRay();
+            colour ??= Color.white;
+            Debug.DrawRay(ray.origin, ray.direction * distance, (Color)colour, duration);
+        }
+
         public bool IsPointerOverUIElement() => CastToUI(new());
+
+        private Ray GetRay() =>
+            references.ActiveCamera.ScreenPointToRay(input.GetPointerPosition());
     }
 }

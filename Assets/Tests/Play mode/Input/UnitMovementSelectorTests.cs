@@ -1,7 +1,9 @@
 using InfoPanelTests;
 using LittleKingdom;
 using LittleKingdom.Board;
+using LittleKingdom.Factories;
 using LittleKingdom.Input;
+using LittleKingdom.PlayModeTests.Factories;
 using LittleKingdom.PlayModeTests.Utilities;
 using LittleKingdom.Units;
 using Moq;
@@ -21,11 +23,13 @@ public class UnitMovementSelectorTests : InputTestsBase
     private MouseUtilities mouse;
     private GameObject unit;
     private GameObject tilePrefab;
+    private TileUnitSlot tileUnitSlotPrefab;
     private GameObject tileOne;
     private GameObject tileTwo;
     private TileUnitSlots unitSlotsOne;
     private TileUnitSlots unitSlotsTwo;
     private List<TileUnitSlots> allUnitSlots;
+    private List<(ITileUnitSlot, bool)> unitSlotAvailabilities;
     private Mock<ITestCallback<GameObject>> onPointerEnter;
     private Mock<ITestCallback<GameObject>> onPointerExit;
 
@@ -37,13 +41,20 @@ public class UnitMovementSelectorTests : InputTestsBase
         unit.AddComponent<Unit>();
         unit.AddComponent<Selectable>();
         tilePrefab = TestUtilities.LoadPrefab("Tile");
+        tileUnitSlotPrefab = TestUtilities.LoadPrefab("Tile unit slot").GetComponent<TileUnitSlot>();
+
+        MockTileUnitSlotFactory.ShowAvailabilityCallback = ShowAvailabilityCallback;
+        MockTileUnitSlotFactory.HideAvailabilityCallback = HideAvailabilityCallback;
+        unitSlotAvailabilities = new();
     }
 
     protected override void Install()
     {
-        Container.Bind<UnitMovementSelector>().AsSingle();
+        Container.Bind<UnitMovementSelector>().AsSingle().NonLazy();
         Container.Bind<SelectedObjectTracker>().AsSingle();
         Container.Bind<PointerOverObjectTracker>().AsSingle();
+        Container.BindInstance(tileUnitSlotPrefab).AsSingle();
+        Container.BindFactory<ITileUnitSlot, TileUnitSlotFactory>().FromFactory<MockTileUnitSlotFactory>();
         base.Install();
     }
 
@@ -85,11 +96,14 @@ public class UnitMovementSelectorTests : InputTestsBase
         base.TearDown();
     }
 
+    #region Unit slots active
+
     [UnityTest]
     public IEnumerator ClickOnUnit_UnitSlotsOneShown()
     {
         mouse.PressAndReleaseOn(unit);
         yield return null;
+
         pointerHover.FixedTick();
         yield return null;
 
@@ -118,7 +132,7 @@ public class UnitMovementSelectorTests : InputTestsBase
     }
 
     [UnityTest]
-    public IEnumerator ClickOnUnit_HoverOverTileTwo_UnitSlotsShown()
+    public IEnumerator ClickOnUnit_HoverOverTileTwo_OnlyUnitSlotsTwoShown()
     {
         mouse.PressAndReleaseOn(unit);
         yield return null;
@@ -128,6 +142,51 @@ public class UnitMovementSelectorTests : InputTestsBase
 
         AssertSlotsActive(unitSlotsTwo);
     }
+
+    [UnityTest]
+    public IEnumerator ClickOnUnit_HoverOverEmptySpace_NoUnitSlotsShows()
+    {
+        mouse.PressAndReleaseOn(unit);
+        yield return null;
+
+        mouse.MoveTo(EmptySpace);
+        yield return null;
+
+        AssertSlotsActive();
+    }
+
+    [UnityTest]
+    public IEnumerator ClickOnUnit_HoverOverTileTwo_HoverOverTileOne_OnlyUnitSlotsOneShown()
+    {
+        mouse.PressAndReleaseOn(unit);
+        yield return null;
+        mouse.MoveTo(tileTwo);
+        yield return null;
+
+        mouse.MoveTo(tileOne);
+        yield return null;
+
+        AssertSlotsActive(unitSlotsOne);
+    }
+    #endregion
+
+    #region Unit slot availability
+
+    [UnityTest]
+    public IEnumerator ClickOnUnit_HoverOverUnitSlot_AvailabilityShown()
+    {
+        mouse.PressAndReleaseOn(unit);
+        yield return null;
+        MoveMouseToUnitSlot(unitSlotsOne, 0);
+
+        // TODO: JR - fix this once the tests overhaul and input event system fixes have been completed.
+        yield return TestHelper.Pause(() => RaycastFromPointer.DrawDebugRay(10, duration: 100));
+        yield return null;
+
+        AssertUnitSlotAvailabilities((unitSlotsOne.Slots[0], true));
+    }
+
+    #endregion
 
     private (GameObject tile, TileUnitSlots slots) CreateTile(string name)
     {
@@ -139,6 +198,48 @@ public class UnitMovementSelectorTests : InputTestsBase
         slots.name = name + " unit slots";
 
         return (tile.gameObject, slots);
+    }
+
+    private void ShowAvailabilityCallback(ITileUnitSlot unitSlot) =>
+        unitSlotAvailabilities.Add((unitSlot, true));
+
+    private void HideAvailabilityCallback(ITileUnitSlot unitSlot) =>
+        unitSlotAvailabilities.Add((unitSlot, false));
+
+    private void MoveMouseToUnitSlot(TileUnitSlots slots, int slotNumber) =>
+        mouse.MoveTo(slots.Slots[slotNumber].Transform.position, false);
+
+    private void AssertUnitSlotAvailabilities(params (ITileUnitSlot, bool)[] unitSlots)
+    {
+        string expected = GetReadableUnitSlotAvailabilities(unitSlots, "Expected: ");
+        string actual = GetReadableUnitSlotAvailabilities(unitSlotAvailabilities, "Actual: ");
+
+        CollectionAssert.AreEqual(unitSlots, unitSlotAvailabilities, $"{expected}\n{actual}");
+    }
+
+    private static string GetReadableUnitSlotAvailabilities(IEnumerable<(ITileUnitSlot, bool)> tuples, string prefix)
+    {
+        string arrayString = prefix;
+
+        for (int i = 0; i < tuples.Count(); i++)
+        {
+            (ITileUnitSlot slot, bool available) = tuples.ElementAt(i);
+
+            if (i != 0)
+            {
+                arrayString += ", ";
+            }
+
+            string name = string.Join(": ", slot.Transform.parent.parent.name, slot.Transform.gameObject.name);
+            arrayString += $"({name}, {available})";
+        }
+
+        if (arrayString == prefix)
+        {
+            arrayString += "empty.";
+        }
+
+        return arrayString;
     }
 
     private void AssertSlotsActive(params TileUnitSlots[] slots)

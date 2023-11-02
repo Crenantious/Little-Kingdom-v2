@@ -9,6 +9,7 @@ namespace LittleKingdom
         {
             Container.Bind<Inputs>().AsSingle();
             Container.Bind<StandardInput>().AsSingle();
+            Container.Bind<RaycastFromPointer>().AsSingle();
         }
     }
 }
