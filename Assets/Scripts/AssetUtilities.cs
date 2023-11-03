@@ -37,5 +37,19 @@ namespace LittleKingdom
                     null;
             return wasFound;
         }
+
+        /// <summary>
+        /// Loads the first prefab with <paramref name="name"/> from assets. This is not an instance of the object.
+        /// </summary>
+        /// <exception cref="ArgumentException"></exception>
+        public static GameObject LoadPrefab(string name, params string[] paths) =>
+            GetAsset<GameObject>(name, "t: prefab", paths);
+
+        /// <summary>
+        /// Tries to load the first prefab with <paramref name="name"/> from assets. This is not an instance of the object.
+        /// </summary>
+        /// <exception cref="ArgumentException"></exception>
+        public static bool TryLoadPrefab(string name, out GameObject asset, params string[] paths) =>
+            TryGetAsset(name, out asset, "t: prefab", paths);
     }
 }

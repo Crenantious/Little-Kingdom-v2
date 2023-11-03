@@ -1,17 +1,12 @@
 using LittleKingdom.Buildings;
 using LittleKingdom.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using Zenject;
+using static LittleKingdom.InstallerUtilities;
 
 namespace LittleKingdom
 {
-    public class UIInstaller : MonoInstaller<UIInstaller>
+    public class UIInstaller : MonoInstaller<UIInstaller.BindType>
     {
-        private static HashSet<BindType> excludeBinds = new();
-
         /// <summary>
         /// The prefab.
         /// </summary>
@@ -37,25 +32,16 @@ namespace LittleKingdom
             InfoPanelForUIBuildingInfoPanel
         }
 
-        public static void ExcludeFromInstall(params BindType[] exclude) =>
-            excludeBinds = exclude.ToHashSet();
-
         public override void InstallBindings()
         {
-            Dictionary<BindType, Action> installActions = new()
-            {
-                { BindType.DialogBox, () => Container.BindInstance(Container.InstantiatePrefabForComponent<DialogBox>(DialogBox)) },
-                { BindType.PlayerHUD, () => Container.BindInstance(Container.InstantiatePrefabForComponent<PlayerHUD>(PlayerHUD)) },
-                { BindType.VisualTreeAssets,() => Container.BindInstance<IVisualTreeAssets>(VisualTreeAssets).AsSingle() },
-                // TODO: JR - find a nicer way to do this.
-                { BindType.InfoPanelForUIBuildingInfoPanel, () => Container.BindInstance(Instantiate(InfoPanel)).AsSingle().WhenInjectedInto<UIBuildingInfoPanel>() },
-            };
+            base.InstallBindings();
 
-            foreach (BindType bindType in Enum.GetValues(typeof(BindType)))
-            {
-                if (excludeBinds.Contains(bindType) is false)
-                    installActions[bindType]();
-            }
+            Install(BindType.DialogBox, () => InstallPrefab<DialogBox>(DialogBox.gameObject).AsSingle().NonLazy());
+            Install(BindType.PlayerHUD, () => InstallPrefab<PlayerHUD>(PlayerHUD.gameObject).AsSingle().NonLazy());
+            Install(BindType.VisualTreeAssets, () => Container.BindInstance<IVisualTreeAssets>(VisualTreeAssets).AsSingle());
+            // TODO: JR - find a nicer way to do this.
+            Install(BindType.InfoPanelForUIBuildingInfoPanel,
+                    () => Container.BindInstance(Instantiate(InfoPanel)).AsSingle().WhenInjectedInto<UIBuildingInfoPanel>());
         }
     }
 }

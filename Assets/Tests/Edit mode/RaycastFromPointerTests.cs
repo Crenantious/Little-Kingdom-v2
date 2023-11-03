@@ -2,7 +2,6 @@ using LittleKingdom;
 using LittleKingdom.Input;
 using Moq;
 using NUnit.Framework;
-using PlayModeTests;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -28,7 +27,7 @@ public class RaycastFromPointerTests : ZenjectUnitTestFixture
         Container.Inject(this);
 
         // TODO: JR - figure out how to do this.
-        EventSystem.current = Object.Instantiate(TestUtilities.LoadPrefab("Test EventSystem")).GetComponent<EventSystem>();
+        EventSystem.current = Object.Instantiate(AssetUtilities.LoadPrefab("Test EventSystem")).GetComponent<EventSystem>();
 
         mouse = InputSystem.AddDevice<Mouse>();
         var action2 = new InputAction("action2", binding: "<Mouse>/leftButton");

@@ -1,17 +1,24 @@
 using LittleKingdom.Input;
 using LittleKingdom.Interactions;
-using Zenject;
 
 namespace LittleKingdom
 {
-    public class InteractionInstaller : Installer<InteractionInstaller>
+    public class InteractionInstaller : Installer<InteractionInstaller.BindType, InteractionInstaller>
     {
+        public enum BindType
+        {
+            ObjectClickthrough,
+            RaycastFromPointer,
+            InteractionUtilities,
+            SelectedObjectTracker
+        }
+
         public override void InstallBindings()
         {
-            Container.Bind<ObjectClickthrough>().AsSingle();
-            Container.Bind<RaycastFromPointer>().AsSingle();
-            Container.Bind<InteractionUtilities>().AsSingle();
-            Container.Bind<SelectedObjectTracker>().AsSingle();
+            Install(BindType.ObjectClickthrough, () => Container.Bind<ObjectClickthrough>().AsSingle());
+            Install(BindType.RaycastFromPointer, () => Container.Bind<RaycastFromPointer>().AsSingle());
+            Install(BindType.InteractionUtilities, () => Container.Bind<InteractionUtilities>().AsSingle());
+            Install(BindType.SelectedObjectTracker, () => Container.Bind<SelectedObjectTracker>().AsSingle());
         }
     }
 }

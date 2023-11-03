@@ -1,16 +1,21 @@
 using LittleKingdom.Factories;
-using Zenject;
 
 namespace LittleKingdom
 {
-    public class PlayerInstaller : Installer<PlayerInstaller>
+    public class PlayerInstaller : Installer<PlayerInstaller.BindType, PlayerInstaller>
     {
         public static Player Player { get; set; }
 
+        public enum BindType
+        {
+            Player,
+            PlayerFactory
+        }
+
         public override void InstallBindings()
         {
-            Container.BindInstance(Player).AsSingle();
-            Container.BindFactory<string, IPlayer, PlayerFactory>().FromFactory<PlayerFactory>();
+            Install(BindType.Player, () => Container.BindInstance(Player).AsSingle());
+            Install(BindType.PlayerFactory, () => Container.BindFactory<string, IPlayer, PlayerFactory>().FromFactory<PlayerFactory>());
         }
     }
 }

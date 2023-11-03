@@ -1,15 +1,21 @@
 using LittleKingdom.Input;
-using Zenject;
 
 namespace LittleKingdom
 {
-    public class InputInstaller : Installer<InputInstaller>
+    public class InputInstaller : Installer<InputInstaller.BindType, InputInstaller>
     {
+        public enum BindType
+        {
+            Inputs,
+            StandardInput,
+            RaycastFromPointer
+        }
+
         public override void InstallBindings()
         {
-            Container.Bind<Inputs>().AsSingle();
-            Container.Bind<StandardInput>().AsSingle();
-            Container.Bind<RaycastFromPointer>().AsSingle();
+            Install(BindType.Inputs, () => Container.Bind<Inputs>().AsSingle());
+            Install(BindType.StandardInput, () => Container.Bind<StandardInput>().AsSingle());
+            Install(BindType.RaycastFromPointer, () => Container.Bind<RaycastFromPointer>().AsSingle());
         }
     }
 }

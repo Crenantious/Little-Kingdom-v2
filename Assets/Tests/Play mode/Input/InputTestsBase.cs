@@ -64,7 +64,7 @@ public abstract class InputTestsBase : ZenjectUnitTestFixture
     public void OneTimeSetup()
     {
         // TODO: JR - fix this regarding the DialogBox.
-        Object.Instantiate(TestUtilities.LoadPrefab("Test EventSystem"));
+        Object.Instantiate(AssetUtilities.LoadPrefab("Test EventSystem"));
 
         // Required to produce consistent results when using physics (i.e. raycasts and moving GameObjects).
         // The values don't matter as long as they're the same. Not sure why.

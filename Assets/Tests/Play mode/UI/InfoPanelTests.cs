@@ -28,13 +28,13 @@ namespace InfoPanelTests
             PlayModeInstaller.Install(Container);
 
             Container.Bind<UIContainer>()
-                .FromComponentInNewPrefab(TestUtilities.LoadPrefab("Info panel"))
+                .FromComponentInNewPrefab(AssetUtilities.LoadPrefab("Info panel"))
                 .WhenInjectedInto<UIBuildingInfoPanel>();
             Container.BindInstance(visualTreeAssets.Object).AsSingle();
 
             Container.Inject(this);
 
-            infoPanel = Object.Instantiate(TestUtilities.LoadPrefab("Info panel"));
+            infoPanel = Object.Instantiate(AssetUtilities.LoadPrefab("Info panel"));
             buildingInfoPanel = Container.InstantiateComponent<UIBuildingInfoPanel>(new GameObject());
         }
 

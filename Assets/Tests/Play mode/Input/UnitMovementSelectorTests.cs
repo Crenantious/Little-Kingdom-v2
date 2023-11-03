@@ -40,8 +40,8 @@ public class UnitMovementSelectorTests : InputTestsBase
         unit = CreateTestObject("Unit");
         unit.AddComponent<Unit>();
         unit.AddComponent<Selectable>();
-        tilePrefab = TestUtilities.LoadPrefab("Tile");
-        tileUnitSlotPrefab = TestUtilities.LoadPrefab("Tile unit slot").GetComponent<TileUnitSlot>();
+        tilePrefab = AssetUtilities.LoadPrefab("Tile");
+        tileUnitSlotPrefab = AssetUtilities.LoadPrefab("Tile unit slot").GetComponent<TileUnitSlot>();
 
         MockTileUnitSlotFactory.ShowAvailabilityCallback = ShowAvailabilityCallback;
         MockTileUnitSlotFactory.HideAvailabilityCallback = HideAvailabilityCallback;
